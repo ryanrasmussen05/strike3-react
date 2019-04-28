@@ -1,8 +1,7 @@
 import React from 'react';
-import { Modal } from 'antd';
+import { Button, Form, Input, Modal } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { selectShowLoginModal } from '../../../redux/selectors/modal.selectors';
 import { showLoginModalAction } from '../../../redux/actions/modal.actions';
 
 class LoginModal extends React.Component {
@@ -11,31 +10,69 @@ class LoginModal extends React.Component {
     this.props.closeModal();
   };
 
+  hasErrors = fieldsError => {
+    return Object.keys(fieldsError).some(field => fieldsError[field]);
+  };
+
+  handleSubmit = event => {
+    event.preventDefault();
+
+    this.props.form.validateFields((errors, values) => {
+      if (!errors) {
+        console.log(values);
+        // TODO submit here
+      }
+    });
+  };
+
+  renderLoginForm = () => {
+    const { getFieldDecorator, getFieldsError } = this.props.form;
+
+    return (
+      <Form colon={ false } layout="vertical" onSubmit={ this.handleSubmit }>
+        <Form.Item label="Email">
+          {getFieldDecorator('email', { rules: [{ required: true, message: 'Email is required' }, { type: 'email', message: 'Email not valid' }] })(
+            <Input placeholder="Email" />
+          )}
+        </Form.Item>
+
+        <Form.Item label="Password">
+          {getFieldDecorator('password', { rules: [{ required: true, message: 'Password is required' }] })(
+            <Input type="password" placeholder="Password" />
+          )}
+        </Form.Item>
+
+        <Button type="primary" htmlType="submit" disabled={ this.hasErrors(getFieldsError()) } block>Sign In</Button>
+      </Form>
+    );
+  };
+
   render() {
     return (
       <Modal
-        title="Log In"
-        visible={ this.props.shouldShowModal }
+        title="Sign In"
+        visible={ true }
         onCancel={ this.closeModal }
         footer={ null }
       >
-        <p>This is the modal</p>
+        { this.renderLoginForm() }
       </Modal>
     );
   }
 }
 
 LoginModal.propTypes = {
-  shouldShowModal: PropTypes.bool,
+  form: PropTypes.object,
   closeModal: PropTypes.func,
 };
 
-const mapStateToProps = state => ({
-  shouldShowModal: selectShowLoginModal(state),
+const mapStateToProps = () => ({
 });
 
 const mapDispatchToProps = dispatch => ({
   closeModal: () => dispatch(showLoginModalAction(false)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginModal);
+const ConnectedLoginModal = connect(mapStateToProps, mapDispatchToProps)(LoginModal);
+
+export default Form.create({ name: 'loginForm' })(ConnectedLoginModal);
