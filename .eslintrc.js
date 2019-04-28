@@ -28,5 +28,7 @@ module.exports = {
     "babel/no-invalid-this": 1,
     "react/prefer-stateless-function": 0,
     "no-console": 0,
+    "react/jsx-boolean-value": 0,
+    "react/jsx-closing-bracket-location": 0,
   }
 };

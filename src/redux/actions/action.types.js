@@ -2,6 +2,9 @@ export const ActionTypes = {
   GLOBAL: {
     ERROR: 'GLOBAL_ERROR',
   },
+  MODAL: {
+    SHOW_LOGIN_MODAL: 'SHOW_LOGIN_MODAL',
+  },
   SAMPLE: {
     SAMPLE_ACTION: 'SAMPLE_ACTION',
     SAMPLE_SAGA_ACTION: 'SAMPLE_SAGA_ACTION',

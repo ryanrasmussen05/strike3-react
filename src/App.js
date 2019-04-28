@@ -1,8 +1,8 @@
 import React from 'react';
-import './App.css';
+import './App.scss';
 import configureStore from './redux/store/store';
 import { Provider } from 'react-redux';
-import SampleComponent from './components/SampleComponent';
+import Header from './components/header/Header';
 
 const reduxStore = configureStore();
 
@@ -10,8 +10,8 @@ class App extends React.Component {
   render() {
     return (
       <Provider store={ reduxStore }>
-        <div className="App">
-          <SampleComponent />
+        <div>
+          <Header />
         </div>
       </Provider>
     );

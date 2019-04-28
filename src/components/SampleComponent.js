@@ -15,7 +15,7 @@ class SampleComponent extends React.Component {
     }
 
     this.props.updateSample(nextValue);
-  }
+  };
 
   render() {
     return (

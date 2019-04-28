@@ -1,0 +1,12 @@
+@import '../../theme';
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $header-color;
+  color: $header-text-color;
+  font-size: 24px;
+  font-weight: bold;
+  padding: 10px;
+}
