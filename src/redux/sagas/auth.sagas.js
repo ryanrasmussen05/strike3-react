@@ -4,14 +4,46 @@ import { ActionTypes } from '../actions/action.types';
 import { authErrorAction, authLoadingAction } from '../actions/auth.actions';
 import { AUTH_ERROR_TYPES } from '../reducers/auth.reducer';
 import { message } from 'antd';
-import { showCreateAccountModalAction } from '../actions/modal.actions';
+import {
+  showCreateAccountModalAction,
+  showLoginModalAction,
+  showResetPasswordModalAction,
+} from '../actions/modal.actions';
+
+function* signInSaga(action) {
+  try {
+    const auth = firebase.auth();
+
+    yield put(authErrorAction(null));
+    yield put(authLoadingAction(true));
+
+    yield call([auth, auth.signInWithEmailAndPassword], action.payload.email, action.payload.password);
+
+    yield put(showLoginModalAction(false));
+    yield put(authLoadingAction(false));
+  } catch (error) {
+    console.error(error);
+    let errorType = AUTH_ERROR_TYPES.UNKNOWN;
+
+    if (error.code === 'auth/user-not-found') {
+      errorType = AUTH_ERROR_TYPES.USER_NOT_FOUND;
+    }
+
+    if (error.code === 'auth/wrong-password') {
+      errorType = AUTH_ERROR_TYPES.WRONG_PASSWORD;
+    }
+
+    yield put(authErrorAction(errorType));
+    yield put(authLoadingAction(false));
+  }
+}
 
 function* signOutSaga() {
   try {
     const auth = firebase.auth();
 
     yield call([auth, auth.signOut]);
-    yield call(message.success, 'You have signed out');
+    yield call(message.info, 'You have signed out');
   } catch (error) {
     console.error(error);
   }
@@ -49,7 +81,34 @@ function* createAccountSaga(action) {
   }
 }
 
+function* resetPasswordSaga(action) {
+  try {
+    const auth = firebase.auth();
+
+    yield put(authErrorAction(null));
+    yield put(authLoadingAction(true));
+
+    yield call([auth, auth.sendPasswordResetEmail], action.payload.email);
+
+    yield put(showResetPasswordModalAction(false));
+    yield call(message.info, 'Instructions to reset your password have been sent to your email address', 10);
+    yield put(authLoadingAction(false));
+  } catch (error) {
+    console.error(error);
+    let errorType = AUTH_ERROR_TYPES.UNKNOWN;
+
+    if (error.code === 'auth/user-not-found') {
+      errorType = AUTH_ERROR_TYPES.USER_NOT_FOUND;
+    }
+
+    yield put(authErrorAction(errorType));
+    yield put(authLoadingAction(false));
+  }
+}
+
 export default [
+  takeLatest(ActionTypes.AUTH.SIGN_IN, signInSaga),
   takeLatest(ActionTypes.AUTH.SIGN_OUT, signOutSaga),
   takeLatest(ActionTypes.AUTH.CREATE_ACCOUNT, createAccountSaga),
+  takeLatest(ActionTypes.AUTH.RESET_PASSWORD, resetPasswordSaga),
 ];

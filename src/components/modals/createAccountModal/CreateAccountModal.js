@@ -3,7 +3,7 @@ import './CreateAccountModal.scss';
 import { Alert, Button, Form, Input, Modal } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { showCreateAccountModalAction } from '../../../redux/actions/modal.actions';
+import { showCreateAccountModalAction, showResetPasswordModalAction } from '../../../redux/actions/modal.actions';
 import { authErrorAction, createAccountAction } from '../../../redux/actions/auth.actions';
 import { selectAuthError, selectAuthLoading } from '../../../redux/selectors/auth.selectors';
 import { AUTH_ERROR_TYPES } from '../../../redux/reducers/auth.reducer';
@@ -33,8 +33,8 @@ class CreateAccountModal extends React.Component {
   };
 
   resetPassword = () => {
-    // TODO
-    console.log('reset password clicked');
+    this.closeModal();
+    this.props.showResetPasswordModal();
   };
 
   renderCreateAccountForm = () => {
@@ -140,6 +140,7 @@ CreateAccountModal.propTypes = {
   error: PropTypes.string,
   closeModal: PropTypes.func,
   createAccount: PropTypes.func,
+  showResetPasswordModal: PropTypes.func,
   clearErrors: PropTypes.func,
 };
 
@@ -151,6 +152,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   closeModal: () => dispatch(showCreateAccountModalAction(false)),
   createAccount: userInfo => dispatch(createAccountAction(userInfo)),
+  showResetPasswordModal: () => dispatch(showResetPasswordModalAction(true)),
   clearErrors: () => dispatch(authErrorAction(null)),
 });
 

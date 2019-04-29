@@ -11,3 +11,8 @@ export const selectShowCreateAccountModal = createSelector(
   [selectModalState],
   modal => modal.showCreateAccountModal
 );
+
+export const selectShowResetPasswordModal = createSelector(
+  [selectModalState],
+  modal => modal.showResetPasswordModal
+);

@@ -20,6 +20,16 @@ export const createAccountAction = user => ({
   payload: user,
 });
 
+export const signInAction = user => ({
+  type: ActionTypes.AUTH.SIGN_IN,
+  payload: user,
+});
+
 export const signOutAction = () => ({
   type: ActionTypes.AUTH.SIGN_OUT,
+});
+
+export const resetPasswordAction = user => ({
+  type: ActionTypes.AUTH.RESET_PASSWORD,
+  payload: user,
 });

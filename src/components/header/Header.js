@@ -5,8 +5,13 @@ import PropTypes from 'prop-types';
 import { Button, Dropdown, Icon, Menu } from 'antd';
 import LoginModal from '../modals/loginModal/LoginModal';
 import CreateAccountModal from '../modals/createAccountModal/CreateAccountModal';
+import ResetPasswordModal from '../modals/resetPasswordModal/ResetPasswordModal';
 import { showLoginModalAction } from '../../redux/actions/modal.actions';
-import { selectShowCreateAccountModal, selectShowLoginModal } from '../../redux/selectors/modal.selectors';
+import {
+  selectShowCreateAccountModal,
+  selectShowLoginModal,
+  selectShowResetPasswordModal,
+} from '../../redux/selectors/modal.selectors';
 import { selectLoggedInUser } from '../../redux/selectors/auth.selectors';
 import { signOutAction } from '../../redux/actions/auth.actions';
 
@@ -55,6 +60,12 @@ class Header extends React.Component {
     }
   };
 
+  renderResetPasswordModal = () => {
+    if (this.props.shouldShowResetPasswordModal) {
+      return <ResetPasswordModal />;
+    }
+  };
+
   render() {
     return (
       <div className="header">
@@ -62,6 +73,7 @@ class Header extends React.Component {
         { this.renderAuthButton() }
         { this.renderLoginModal() }
         { this.renderCreateAccountModal() }
+        { this.renderResetPasswordModal() }
       </div>
     );
   }
@@ -71,6 +83,7 @@ Header.propTypes = {
   loggedInUser: PropTypes.object,
   shouldShowLoginModal: PropTypes.bool,
   shouldShowCreateAccountModal: PropTypes.bool,
+  shouldShowResetPasswordModal: PropTypes.bool,
   signOut: PropTypes.func,
   showLoginModal: PropTypes.func,
 };
@@ -79,6 +92,7 @@ const mapStateToProps = state => ({
   loggedInUser: selectLoggedInUser(state),
   shouldShowLoginModal: selectShowLoginModal(state),
   shouldShowCreateAccountModal: selectShowCreateAccountModal(state),
+  shouldShowResetPasswordModal: selectShowResetPasswordModal(state),
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -4,11 +4,13 @@ import _ from 'lodash';
 export const AUTH_ERROR_TYPES = {
   UNKNOWN: 'auth_error_generic',
   EMAIL_ALREADY_USED: 'auth_error_email_used',
+  USER_NOT_FOUND: 'auth_error_user_not_found',
+  WRONG_PASSWORD: 'auth_error_wrong_password',
 };
 
 const INITIAL_STATE = {
-  loading: false,
   loggedInUser: null,
+  loading: false,
   error: null,
 };
 

@@ -1,18 +1,17 @@
 import React from 'react';
-import './LoginModal.scss';
+import './ResetPasswordModal.scss';
 import { Alert, Button, Form, Input, Modal } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   showCreateAccountModalAction,
-  showLoginModalAction,
   showResetPasswordModalAction,
 } from '../../../redux/actions/modal.actions';
-import { authErrorAction, signInAction } from '../../../redux/actions/auth.actions';
+import { authErrorAction, resetPasswordAction } from '../../../redux/actions/auth.actions';
 import { selectAuthError, selectAuthLoading } from '../../../redux/selectors/auth.selectors';
 import { AUTH_ERROR_TYPES } from '../../../redux/reducers/auth.reducer';
 
-class LoginModal extends React.Component {
+class ResetPasswordModal extends React.Component {
 
   componentWillUnmount() {
     this.props.clearErrors();
@@ -31,7 +30,7 @@ class LoginModal extends React.Component {
 
     this.props.form.validateFields((errors, values) => {
       if (!errors) {
-        this.props.signIn(values);
+        this.props.resetPassword(values);
       }
     });
   };
@@ -39,11 +38,6 @@ class LoginModal extends React.Component {
   showCreateAccount = () => {
     this.closeModal();
     this.props.showCreateAccountModal();
-  };
-
-  showResetPassword = () => {
-    this.closeModal();
-    this.props.showResetPasswordModal();
   };
 
   renderErrorMessage = () => {
@@ -65,30 +59,12 @@ class LoginModal extends React.Component {
       );
     }
 
-    if (this.props.error === AUTH_ERROR_TYPES.WRONG_PASSWORD) {
-      const message = (
-        <div>
-          The password given is incorrect. <span className="error-link" onClick={ this.showResetPassword }>Reset Password?</span>
-        </div>
-      );
-
-      return (
-        <div className="error-message">
-          <Alert
-            message="Incorrect Password"
-            description={ message }
-            type="error"
-          />
-        </div>
-      );
-    }
-
     if (this.props.error === AUTH_ERROR_TYPES.UNKNOWN) {
       return (
         <div className="error-message">
           <Alert
             message="An Error Occurred"
-            description="An error occurred while signing in, please try again later"
+            description="An error occurred while resetting password, please try again later"
             type="error"
           />
         </div>
@@ -96,7 +72,7 @@ class LoginModal extends React.Component {
     }
   };
 
-  renderLoginForm = () => {
+  renderResetPasswordForm = () => {
     const { getFieldDecorator, getFieldsError } = this.props.form;
 
     return (
@@ -107,17 +83,7 @@ class LoginModal extends React.Component {
           )}
         </Form.Item>
 
-        <Form.Item label="Password">
-          {getFieldDecorator('password', { rules: [{ required: true, message: 'Password is required' }] })(
-            <Input type="password" placeholder="Password" />
-          )}
-        </Form.Item>
-
-        <Button type="primary" htmlType="submit" disabled={ this.hasErrors(getFieldsError()) } block loading={ this.props.loading }>Sign In</Button>
-
-        <div className="create-account-link">
-          <span className="link" onClick={ this.showCreateAccount }>Create Account</span>
-        </div>
+        <Button type="primary" htmlType="submit" disabled={ this.hasErrors(getFieldsError()) } block loading={ this.props.loading }>Reset Password</Button>
       </Form>
     );
   };
@@ -125,28 +91,27 @@ class LoginModal extends React.Component {
   render() {
     return (
       <Modal
-        className="login-modal"
-        title="Sign In"
+        className="reset-password-modal"
+        title="Reset Password"
         visible={ true }
         maskClosable={ false }
         onCancel={ this.closeModal }
         footer={ null }
       >
         { this.renderErrorMessage() }
-        { this.renderLoginForm() }
+        { this.renderResetPasswordForm() }
       </Modal>
     );
   }
 }
 
-LoginModal.propTypes = {
+ResetPasswordModal.propTypes = {
   form: PropTypes.object,
   loading: PropTypes.bool,
   error: PropTypes.string,
   closeModal: PropTypes.func,
   showCreateAccountModal: PropTypes.func,
-  showResetPasswordModal: PropTypes.func,
-  signIn: PropTypes.func,
+  resetPassword: PropTypes.func,
   clearErrors: PropTypes.func,
 };
 
@@ -156,13 +121,12 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  closeModal: () => dispatch(showLoginModalAction(false)),
+  closeModal: () => dispatch(showResetPasswordModalAction(false)),
   showCreateAccountModal: () => dispatch(showCreateAccountModalAction(true)),
-  showResetPasswordModal: () => dispatch(showResetPasswordModalAction(true)),
-  signIn: userInfo => dispatch(signInAction(userInfo)),
+  resetPassword: userInfo => dispatch(resetPasswordAction(userInfo)),
   clearErrors: () => dispatch(authErrorAction(null)),
 });
 
-const ConnectedLoginModal = connect(mapStateToProps, mapDispatchToProps)(LoginModal);
+const ConnectedResetPasswordModal = connect(mapStateToProps, mapDispatchToProps)(ResetPasswordModal);
 
-export default Form.create({ name: 'loginForm' })(ConnectedLoginModal);
+export default Form.create({ name: 'resetPasswordForm' })(ConnectedResetPasswordModal);
