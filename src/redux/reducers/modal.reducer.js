@@ -3,6 +3,7 @@ import _ from 'lodash';
 
 const INITIAL_STATE = {
   showLoginModal: false,
+  showCreateAccountModal: false,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -10,6 +11,12 @@ export default (state = INITIAL_STATE, action) => {
     case ActionTypes.MODAL.SHOW_LOGIN_MODAL: {
       const newState = _.cloneDeep(state);
       newState.showLoginModal = action.payload;
+      return newState;
+    }
+
+    case ActionTypes.MODAL.SHOW_CREATE_ACCOUNT_MODAL: {
+      const newState = _.cloneDeep(state);
+      newState.showCreateAccountModal = action.payload;
       return newState;
     }
 

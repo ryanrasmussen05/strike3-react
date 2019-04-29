@@ -1,8 +1,9 @@
 import React from 'react';
+import './LoginModal.scss';
 import { Button, Form, Input, Modal } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { showLoginModalAction } from '../../../redux/actions/modal.actions';
+import { showCreateAccountModalAction, showLoginModalAction } from '../../../redux/actions/modal.actions';
 
 class LoginModal extends React.Component {
 
@@ -25,6 +26,11 @@ class LoginModal extends React.Component {
     });
   };
 
+  showCreateAccount = () => {
+    this.closeModal();
+    this.props.showCreateAccountModal();
+  };
+
   renderLoginForm = () => {
     const { getFieldDecorator, getFieldsError } = this.props.form;
 
@@ -43,6 +49,10 @@ class LoginModal extends React.Component {
         </Form.Item>
 
         <Button type="primary" htmlType="submit" disabled={ this.hasErrors(getFieldsError()) } block>Sign In</Button>
+
+        <div className="create-account-link">
+          <span className="link" onClick={ this.showCreateAccount }>Create Account</span>
+        </div>
       </Form>
     );
   };
@@ -50,6 +60,7 @@ class LoginModal extends React.Component {
   render() {
     return (
       <Modal
+        className="login-modal"
         title="Sign In"
         visible={ true }
         onCancel={ this.closeModal }
@@ -64,6 +75,7 @@ class LoginModal extends React.Component {
 LoginModal.propTypes = {
   form: PropTypes.object,
   closeModal: PropTypes.func,
+  showCreateAccountModal: PropTypes.func,
 };
 
 const mapStateToProps = () => ({
@@ -71,6 +83,7 @@ const mapStateToProps = () => ({
 
 const mapDispatchToProps = dispatch => ({
   closeModal: () => dispatch(showLoginModalAction(false)),
+  showCreateAccountModal: () => dispatch(showCreateAccountModalAction(true)),
 });
 
 const ConnectedLoginModal = connect(mapStateToProps, mapDispatchToProps)(LoginModal);
