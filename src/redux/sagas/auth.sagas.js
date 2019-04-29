@@ -6,6 +6,17 @@ import { AUTH_ERROR_TYPES } from '../reducers/auth.reducer';
 import { message } from 'antd';
 import { showCreateAccountModalAction } from '../actions/modal.actions';
 
+function* signOutSaga() {
+  try {
+    const auth = firebase.auth();
+
+    yield call([auth, auth.signOut]);
+    yield call(message.success, 'You have signed out');
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 function* createAccountSaga(action) {
   try {
     const auth = firebase.auth();
@@ -39,5 +50,6 @@ function* createAccountSaga(action) {
 }
 
 export default [
+  takeLatest(ActionTypes.AUTH.SIGN_OUT, signOutSaga),
   takeLatest(ActionTypes.AUTH.CREATE_ACCOUNT, createAccountSaga),
 ];

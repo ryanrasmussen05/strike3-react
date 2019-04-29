@@ -7,6 +7,23 @@
   background-color: $header-color;
   color: $header-text-color;
   font-size: 24px;
-  font-weight: bold;
+  font-weight: 700;
   padding: 10px;
+
+  .user-dropdown {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 500;
+    color: $header-text-color;
+    cursor: pointer;
+
+    &:hover {
+      color: $link-color;
+    }
+
+    span {
+      margin-right: 5px;
+    }
+  }
 }

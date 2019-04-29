@@ -10,7 +10,16 @@ export const authErrorAction = errorType => ({
   payload: errorType,
 });
 
+export const setLoggedInUserAction = user => ({
+  type: ActionTypes.AUTH.SET_LOGGED_IN_USER,
+  payload: user,
+});
+
 export const createAccountAction = user => ({
   type: ActionTypes.AUTH.CREATE_ACCOUNT,
   payload: user,
+});
+
+export const signOutAction = () => ({
+  type: ActionTypes.AUTH.SIGN_OUT,
 });

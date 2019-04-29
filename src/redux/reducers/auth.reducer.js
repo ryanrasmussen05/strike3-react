@@ -26,6 +26,12 @@ export default (state = INITIAL_STATE, action) => {
       return newState;
     }
 
+    case ActionTypes.AUTH.SET_LOGGED_IN_USER: {
+      const newState = _.cloneDeep(state);
+      newState.loggedInUser = action.payload;
+      return newState;
+    }
+
     default:
       return state;
   }
