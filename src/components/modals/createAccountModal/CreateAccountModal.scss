@@ -1,3 +1,18 @@
+@import '../../../theme';
+
 .create-account-modal {
 
+  .error-message {
+    margin-bottom: 10px;
+  }
+
+  .error-link {
+    text-decoration: underline;
+    cursor: pointer;
+    color: $link-color;
+
+    &:hover {
+      color: $link-hover-color;
+    }
+  }
 }

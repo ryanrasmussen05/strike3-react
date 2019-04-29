@@ -63,6 +63,7 @@ class LoginModal extends React.Component {
         className="login-modal"
         title="Sign In"
         visible={ true }
+        maskClosable={ false }
         onCancel={ this.closeModal }
         footer={ null }
       >

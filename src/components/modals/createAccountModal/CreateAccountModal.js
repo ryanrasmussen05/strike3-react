@@ -1,10 +1,18 @@
 import React from 'react';
-import { Button, Form, Input, Modal } from 'antd';
+import './CreateAccountModal.scss';
+import { Alert, Button, Form, Input, Modal } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { showCreateAccountModalAction } from '../../../redux/actions/modal.actions';
+import { authErrorAction, createAccountAction } from '../../../redux/actions/auth.actions';
+import { selectAuthError, selectAuthLoading } from '../../../redux/selectors/auth.selectors';
+import { AUTH_ERROR_TYPES } from '../../../redux/reducers/auth.reducer';
 
 class CreateAccountModal extends React.Component {
+
+  componentWillUnmount() {
+    this.props.clearErrors();
+  }
 
   closeModal = () => {
     this.props.closeModal();
@@ -19,10 +27,14 @@ class CreateAccountModal extends React.Component {
 
     this.props.form.validateFields((errors, values) => {
       if (!errors && values.password === values.confirmPassword) {
-        console.log(values);
-        // TODO submit here
+        this.props.createAccount(values);
       }
     });
+  };
+
+  resetPassword = () => {
+    // TODO
+    console.log('reset password clicked');
   };
 
   renderCreateAccountForm = () => {
@@ -53,7 +65,7 @@ class CreateAccountModal extends React.Component {
         </Form.Item>
 
         <Form.Item label="Password">
-          {getFieldDecorator('password', { rules: [{ required: true, message: 'Password is required' }] })(
+          {getFieldDecorator('password', { rules: [{ required: true, message: 'Password is required' }, { min: 6, message: 'Password must be at least 6 characters' }] })(
             <Input type="password" placeholder="Password" />
           )}
         </Form.Item>
@@ -68,19 +80,54 @@ class CreateAccountModal extends React.Component {
           )}
         </Form.Item>
 
-        <Button type="primary" htmlType="submit" disabled={ this.hasErrors(getFieldsError()) } block>Create Account</Button>
+        <Button type="primary" htmlType="submit" disabled={ this.hasErrors(getFieldsError()) } block loading={ this.props.loading }>Create Account</Button>
       </Form>
     );
+  };
+
+  renderErrorMessage = () => {
+    if (this.props.error === AUTH_ERROR_TYPES.EMAIL_ALREADY_USED) {
+      const message = (
+        <div>
+          That email address is already in use. <span className="error-link" onClick={ this.resetPassword }>Reset Password?</span>
+        </div>
+      );
+
+      return (
+        <div className="error-message">
+          <Alert
+            message="Email In Use"
+            description={ message }
+            type="error"
+          />
+        </div>
+      );
+    }
+
+    if (this.props.error === AUTH_ERROR_TYPES.UNKNOWN) {
+      return (
+        <div className="error-message">
+          <Alert
+            message="An Error Occurred"
+            description="An error occurred while creating the account, please try again later"
+            type="error"
+          />
+        </div>
+      );
+    }
   };
 
   render() {
     return (
       <Modal
+        className="create-account-modal"
         title="Create Account"
         visible={ true }
+        maskClosable={ false }
         onCancel={ this.closeModal }
         footer={ null }
       >
+        { this.renderErrorMessage() }
         { this.renderCreateAccountForm() }
       </Modal>
     );
@@ -89,16 +136,24 @@ class CreateAccountModal extends React.Component {
 
 CreateAccountModal.propTypes = {
   form: PropTypes.object,
+  loading: PropTypes.bool,
+  error: PropTypes.string,
   closeModal: PropTypes.func,
+  createAccount: PropTypes.func,
+  clearErrors: PropTypes.func,
 };
 
-const mapStateToProps = () => ({
+const mapStateToProps = state => ({
+  loading: selectAuthLoading(state),
+  error: selectAuthError(state),
 });
 
 const mapDispatchToProps = dispatch => ({
   closeModal: () => dispatch(showCreateAccountModalAction(false)),
+  createAccount: userInfo => dispatch(createAccountAction(userInfo)),
+  clearErrors: () => dispatch(authErrorAction(null)),
 });
 
 const ConnectedCreateAccountModal = connect(mapStateToProps, mapDispatchToProps)(CreateAccountModal);
 
-export default Form.create({ name: 'loginForm' })(ConnectedCreateAccountModal);
+export default Form.create({ name: 'createAccountForm' })(ConnectedCreateAccountModal);
