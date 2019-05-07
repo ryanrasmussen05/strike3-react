@@ -16,3 +16,8 @@ export const selectShowResetPasswordModal = createSelector(
   [selectModalState],
   modal => modal.showResetPasswordModal
 );
+
+export const selectShowPlayerPickModal = createSelector(
+  [selectModalState],
+  modal => modal.showPlayerPickModal
+);

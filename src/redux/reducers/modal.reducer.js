@@ -5,6 +5,7 @@ const INITIAL_STATE = {
   showLoginModal: false,
   showCreateAccountModal: false,
   showResetPasswordModal: false,
+  showPlayerPickModal: false,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -24,6 +25,12 @@ export default (state = INITIAL_STATE, action) => {
     case ActionTypes.MODAL.SHOW_RESET_PASSWORD_MODAL: {
       const newState = _.cloneDeep(state);
       newState.showResetPasswordModal = action.payload;
+      return newState;
+    }
+
+    case ActionTypes.MODAL.SHOW_PLAYER_PICK_MODAL: {
+      const newState = _.cloneDeep(state);
+      newState.showPlayerPickModal = action.payload;
       return newState;
     }
 
