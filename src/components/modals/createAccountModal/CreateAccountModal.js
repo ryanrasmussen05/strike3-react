@@ -80,7 +80,7 @@ class CreateAccountModal extends React.Component {
           )}
         </Form.Item>
 
-        <Button type="primary" htmlType="submit" disabled={ this.hasErrors(getFieldsError()) } block loading={ this.props.loading }>Create Account</Button>
+        <Button className="submit-button" type="primary" htmlType="submit" disabled={ this.hasErrors(getFieldsError()) } block loading={ this.props.loading }>Create Account</Button>
       </Form>
     );
   };

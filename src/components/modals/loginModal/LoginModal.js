@@ -113,11 +113,13 @@ class LoginModal extends React.Component {
           )}
         </Form.Item>
 
-        <Button type="primary" htmlType="submit" disabled={ this.hasErrors(getFieldsError()) } block loading={ this.props.loading }>Sign In</Button>
+        <Button className="submit-button" type="primary" size="large" htmlType="submit" disabled={ this.hasErrors(getFieldsError()) } block loading={ this.props.loading }>
+          Sign In
+        </Button>
 
-        <div className="create-account-link">
-          <span className="link" onClick={ this.showCreateAccount }>Create Account</span>
-        </div>
+        <Button className="create-account-link" type="link" block onClick={ this.showCreateAccount }>
+          Create Account
+        </Button>
       </Form>
     );
   };

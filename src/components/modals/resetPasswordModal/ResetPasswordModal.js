@@ -83,7 +83,7 @@ class ResetPasswordModal extends React.Component {
           )}
         </Form.Item>
 
-        <Button type="primary" htmlType="submit" disabled={ this.hasErrors(getFieldsError()) } block loading={ this.props.loading }>Reset Password</Button>
+        <Button className="submit-button" type="primary" htmlType="submit" disabled={ this.hasErrors(getFieldsError()) } block loading={ this.props.loading }>Reset Password</Button>
       </Form>
     );
   };

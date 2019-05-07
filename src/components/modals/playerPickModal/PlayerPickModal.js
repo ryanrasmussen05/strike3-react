@@ -1,4 +1,5 @@
 import React from 'react';
+import './PlayerPickModal.scss';
 import { Alert, Button, Form, Modal, Select } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -54,7 +55,11 @@ class PlayerPickModal extends React.Component {
 
         <Form.Item label="Team">
           { getFieldDecorator('team', { rules: [{ required: true, message: 'Team is required' }] })(
-            <Select placeholder="Select Team">
+            <Select
+              showSearch
+              placeholder="Select Team"
+              filterOption={ (input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0 }
+            >
               { AllTeams.map(team => (
                 <Select.Option key={ team.name } value={ team.abbreviation }>{ team.name }</Select.Option>
               )) }
@@ -62,7 +67,11 @@ class PlayerPickModal extends React.Component {
           ) }
         </Form.Item>
 
-        <Button type="primary" htmlType="submit" disabled={ this.hasErrors(getFieldsError()) } block loading={ this.props.loading }>Submit Pick</Button>
+        <div className="note">
+          *You can change your pick until the game starts, or the admin locks the week
+        </div>
+
+        <Button className="submit-button" type="primary" htmlType="submit" disabled={ this.hasErrors(getFieldsError()) } block loading={ this.props.loading }>Submit Pick</Button>
       </Form>
     );
   };

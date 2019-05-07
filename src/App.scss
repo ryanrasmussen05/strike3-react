@@ -27,9 +27,13 @@ body {
 }
 
 // ant design customizations
+.ant-btn {
+  font-weight: 500;
+}
+
 .ant-modal-title {
   text-align: center;
-  font-size: 18px;
+  font-size: 20px;
 }
 
 .ant-form-vertical .ant-form-item-label {
