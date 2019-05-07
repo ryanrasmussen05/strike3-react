@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Placeholder from '../../Placeholder';
 
 class PlayerPage extends React.Component {
   componentDidMount() {
@@ -9,7 +10,7 @@ class PlayerPage extends React.Component {
   render() {
     return (
       <div>
-        This is the player page
+        <Placeholder />
       </div>
     );
   }

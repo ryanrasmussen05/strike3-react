@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "antd": "^3.16.6",
+    "antd": "^3.17.0",
     "eslint-config-bmcallis": "^3.0.0",
     "eslint-plugin-redux-saga": "^1.0.0",
     "firebase": "^5.10.1",

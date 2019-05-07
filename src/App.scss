@@ -9,6 +9,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+// custom global classes
+.invisible {
+  visibility: hidden;
+}
+
 // custom "components"
 .link {
   font-size: 14px;

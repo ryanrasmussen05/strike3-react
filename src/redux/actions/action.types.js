@@ -16,4 +16,7 @@ export const ActionTypes = {
     SIGN_OUT: 'SIGN_OUT',
     RESET_PASSWORD: 'RESET_PASSWORD',
   },
+  GAME: {
+    SET_SELECTED_WEEK: 'GAME_SET_SELECTED_WEEK',
+  },
 };
