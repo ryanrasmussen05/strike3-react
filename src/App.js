@@ -8,6 +8,8 @@ import Header from './components/header/Header';
 import { setLoggedInUserAction } from './redux/actions/auth.actions';
 import PlayerPage from './components/pages/player/PlayerPage';
 import AdminPage from './components/pages/admin/AdminPage';
+import LoadingIndicator from './components/loading/LoadingIndicator';
+import { selectGlobalLoading } from './redux/selectors/global.selectors';
 
 class App extends React.Component {
   componentDidMount() {
@@ -19,6 +21,7 @@ class App extends React.Component {
   render() {
     return (
       <BrowserRouter>
+        { this.props.globalLoading && <LoadingIndicator /> }
         <Header />
         <Switch>
           <Route path="/player" component={ PlayerPage } />
@@ -31,10 +34,12 @@ class App extends React.Component {
 }
 
 App.propTypes = {
+  globalLoading: PropTypes.bool,
   setLoggedInUser: PropTypes.func,
 };
 
-const mapStateToProps = () => ({
+const mapStateToProps = state => ({
+  globalLoading: selectGlobalLoading(state),
 });
 
 const mapDispatchToProps = dispatch => ({

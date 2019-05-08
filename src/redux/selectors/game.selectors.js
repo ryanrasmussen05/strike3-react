@@ -16,3 +16,8 @@ export const selectGameError = createSelector(
   [selectGameState],
   game => game.error
 );
+
+export const selectGameData = createSelector(
+  [selectGameState],
+  game => game.gameData,
+);

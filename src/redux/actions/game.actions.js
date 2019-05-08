@@ -1,5 +1,14 @@
 import { ActionTypes } from './action.types';
 
+export const getGameDataAction = () => ({
+  type: ActionTypes.GAME.GET_GAME_DATA,
+});
+
+export const setGameDataAction = gameData => ({
+  type: ActionTypes.GAME.SET_GAME_DATA,
+  payload: gameData,
+});
+
 export const setSelectedWeekAction = weekNumber => ({
   type: ActionTypes.GAME.SET_SELECTED_WEEK,
   payload: weekNumber,
