@@ -1,12 +1,11 @@
+const createUserFunction = require('./createUser');
 const functions = require('firebase-functions');
-
 const admin = require('firebase-admin');
+
 admin.initializeApp();
 
-exports.addUser = functions.https.onCall((data, context) => {
+const database = admin.database();
 
-  console.log('data', data);
-  console.log('context.auth', context.auth);
-
-  return { fromServer: 'it worked' };
+exports.createUser = functions.https.onCall(async(data, context) => {
+  return createUserFunction.handler(data, context, database);
 });

@@ -30,6 +30,6 @@ module.exports = {
     "no-console": 0,
     "react/jsx-boolean-value": 0,
     "react/jsx-closing-bracket-location": 0,
-    'max-len': ['error', 200, 2],
+    "max-len": ['error', 200, 2],
   }
 };

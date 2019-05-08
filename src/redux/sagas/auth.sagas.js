@@ -52,10 +52,12 @@ function* signOutSaga() {
 function* createAccountSaga(action) {
   try {
     const auth = firebase.auth();
+    const functions = firebase.functions();
 
     yield put(authErrorAction(null));
     yield put(authLoadingAction(true));
 
+    // create user in firebase auth
     const userCredential = yield call([auth, auth.createUserWithEmailAndPassword], action.payload.email, action.payload.password);
     const user = userCredential.user;
 
@@ -63,7 +65,12 @@ function* createAccountSaga(action) {
     const capitalizedLastName = action.payload.lastName.charAt(0).toUpperCase() + action.payload.lastName.slice(1);
     const userDisplayName = `${capitalizedFirstName} ${capitalizedLastName}`;
 
+    // set user display name
     yield call([user, user.updateProfile], { displayName: userDisplayName });
+
+    // add user to strike3 database
+    const createUserFunction = yield call([functions, functions.httpsCallable], 'createUser');
+    yield call(createUserFunction, { id: user.uid, name: userDisplayName, email: user.email });
 
     yield put(showCreateAccountModalAction(false));
     yield call(message.success, 'Your account has been created');
