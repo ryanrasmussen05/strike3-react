@@ -1,5 +1,5 @@
 import * as firebase from 'firebase/app';
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, fork, put, takeLatest } from 'redux-saga/effects';
 import { ActionTypes } from '../actions/action.types';
 import { authErrorAction, authLoadingAction } from '../actions/auth.actions';
 import { AUTH_ERROR_TYPES } from '../reducers/auth.reducer';
@@ -43,7 +43,7 @@ function* signOutSaga() {
     const auth = firebase.auth();
 
     yield call([auth, auth.signOut]);
-    yield call(message.info, 'You have signed out');
+    yield fork(message.info, 'You have signed out');
   } catch (error) {
     console.error(error);
   }
@@ -73,7 +73,7 @@ function* createAccountSaga(action) {
     yield call(createUserFunction, { id: user.uid, name: userDisplayName, email: user.email });
 
     yield put(showCreateAccountModalAction(false));
-    yield call(message.success, 'Your account has been created');
+    yield fork(message.success, 'Your account has been created');
     yield put(authLoadingAction(false));
   } catch (error) {
     console.error(error);
@@ -98,7 +98,7 @@ function* resetPasswordSaga(action) {
     yield call([auth, auth.sendPasswordResetEmail], action.payload.email);
 
     yield put(showResetPasswordModalAction(false));
-    yield call(message.info, 'Instructions to reset your password have been sent to your email address', 10);
+    yield fork(message.info, 'Instructions to reset your password have been sent to your email address', 10);
     yield put(authLoadingAction(false));
   } catch (error) {
     console.error(error);

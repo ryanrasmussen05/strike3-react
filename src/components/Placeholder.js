@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import WeekSelector from './weekSelector/WeekSelector';
 import { showPlayerPickModalAction } from '../redux/actions/modal.actions';
 import { Button } from 'antd';
+import WeekSelectorAdmin from './weekSelector/WeekSelectorAdmin';
 
 class Placeholder extends React.Component {
   componentDidMount() {
@@ -14,6 +15,7 @@ class Placeholder extends React.Component {
       <div>
         <WeekSelector />
         <Button onClick={ this.props.showPlayerPickModal }>Show Player Pick Modal</Button>
+        <WeekSelectorAdmin />
       </div>
     );
   }

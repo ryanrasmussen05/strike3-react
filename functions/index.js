@@ -1,5 +1,6 @@
-const createUserFunction = require('./createUser');
-const getGameDataFunction = require('./getGameData');
+const createUserFunction = require('./handlers/createUser');
+const getGameDataFunction = require('./handlers/getGameData');
+const setWeekFunction = require('./handlers/setWeek');
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 
@@ -13,4 +14,8 @@ exports.createUser = functions.https.onCall(async(data, context) => {
 
 exports.getGameData = functions.https.onCall(async(data, context) => {
   return getGameDataFunction.handler(context, database);
+});
+
+exports.setWeek = functions.https.onCall(async(data, context) => {
+  return setWeekFunction.handler(data, context, database);
 });

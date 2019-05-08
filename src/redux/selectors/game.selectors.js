@@ -2,11 +2,6 @@ import { createSelector } from 'reselect';
 
 export const selectGameState = ({ game }) => game;
 
-export const selectSelectedWeek = createSelector(
-  [selectGameState],
-  game => game.selectedWeek
-);
-
 export const selectIsSubmitting = createSelector(
   [selectGameState],
   game => game.submitInProgress
@@ -20,4 +15,19 @@ export const selectGameError = createSelector(
 export const selectGameData = createSelector(
   [selectGameState],
   game => game.gameData,
+);
+
+export const selectSelectedWeek = createSelector(
+  [selectGameState],
+  game => game.selectedWeek
+);
+
+export const selectCurrentWeek = createSelector(
+  [selectGameData],
+  gameData => {
+    if (gameData) {
+      return gameData.week;
+    }
+    return null;
+  }
 );

@@ -1,10 +1,16 @@
 import * as firebase from 'firebase/app';
-import { call, delay, put, takeLatest } from 'redux-saga/effects';
+import { call, delay, fork, put, takeLatest } from 'redux-saga/effects';
 import { ActionTypes } from '../actions/action.types';
-import { gameErrorAction, setGameDataAction, submitInProgressAction } from '../actions/game.actions';
+import {
+  gameErrorAction,
+  getGameDataSuccessAction,
+  setCurrentWeekSuccessAction,
+  submitInProgressAction
+} from '../actions/game.actions';
 import { GAME_ERROR_TYPES } from '../reducers/game.reducer';
 import { showPlayerPickModalAction } from '../actions/modal.actions';
 import { globalLoadingAction } from '../actions/global.actions';
+import { message } from 'antd';
 
 function* getGameDataSaga() {
   try {
@@ -16,7 +22,7 @@ function* getGameDataSaga() {
     const getGameDataFunction = yield call([functions, functions.httpsCallable], 'getGameData');
     const gameData = yield call(getGameDataFunction);
 
-    yield put(setGameDataAction(gameData.data));
+    yield put(getGameDataSuccessAction(gameData.data));
     yield put(globalLoadingAction(false));
   } catch (error) {
     console.error(error);
@@ -43,7 +49,29 @@ function* submitPickPlayerSaga(action) {
   }
 }
 
+function* setCurrentWeekSaga(action) {
+  try {
+    const functions = firebase.functions();
+
+    yield put(submitInProgressAction(true));
+
+    const setWeekFunction = yield call([functions, functions.httpsCallable], 'setWeek');
+    yield call(setWeekFunction, action.payload);
+
+    yield put(setCurrentWeekSuccessAction(action.payload));
+
+    yield fork(message.success, 'Week Saved');
+
+    yield put(submitInProgressAction(false));
+  } catch (error) {
+    console.error(error);
+    yield fork(message.error, 'An error occurred, week not saved');
+    yield put(submitInProgressAction(false));
+  }
+}
+
 export default [
   takeLatest(ActionTypes.GAME.GET_GAME_DATA, getGameDataSaga),
   takeLatest(ActionTypes.GAME.SUBMIT_PICK_PLAYER, submitPickPlayerSaga),
+  takeLatest(ActionTypes.GAME.SET_CURRENT_WEEK, setCurrentWeekSaga),
 ];

@@ -4,9 +4,19 @@ export const getGameDataAction = () => ({
   type: ActionTypes.GAME.GET_GAME_DATA,
 });
 
-export const setGameDataAction = gameData => ({
-  type: ActionTypes.GAME.SET_GAME_DATA,
+export const getGameDataSuccessAction = gameData => ({
+  type: ActionTypes.GAME.GET_GAME_DATA_SUCCESS,
   payload: gameData,
+});
+
+export const setCurrentWeekAction = weekNumber => ({
+  type: ActionTypes.GAME.SET_CURRENT_WEEK,
+  payload: weekNumber,
+});
+
+export const setCurrentWeekSuccessAction = weekNumber => ({
+  type: ActionTypes.GAME.SET_CURRENT_WEEK_SUCCESS,
+  payload: weekNumber,
 });
 
 export const setSelectedWeekAction = weekNumber => ({
