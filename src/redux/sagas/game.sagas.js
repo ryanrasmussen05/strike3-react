@@ -1,16 +1,18 @@
 import * as firebase from 'firebase/app';
-import { call, delay, fork, put, takeLatest } from 'redux-saga/effects';
+import { call, fork, put, select, takeLatest } from 'redux-saga/effects';
 import { ActionTypes } from '../actions/action.types';
 import {
   gameErrorAction,
   getGameDataSuccessAction,
   setCurrentWeekSuccessAction,
-  submitInProgressAction
+  submitInProgressAction,
 } from '../actions/game.actions';
 import { GAME_ERROR_TYPES } from '../reducers/game.reducer';
 import { showPlayerPickModalAction } from '../actions/modal.actions';
 import { globalLoadingAction } from '../actions/global.actions';
 import { message } from 'antd';
+import { selectSelectedWeek } from '../selectors/game.selectors';
+import { selectLoggedInUserId } from '../selectors/auth.selectors';
 
 function* getGameDataSaga() {
   try {
@@ -33,18 +35,32 @@ function* getGameDataSaga() {
 
 function* submitPickPlayerSaga(action) {
   try {
+    const functions = firebase.functions();
+
     yield put(gameErrorAction(null));
     yield put(submitInProgressAction(true));
 
-    console.log(action);
-    yield delay(1000);
-    // call the api here
+    const week = yield select(selectSelectedWeek);
+    const userId = yield select(selectLoggedInUserId);
+    const payload = { week, userId, team: action.payload };
+
+    const setPickFunction = yield call([functions, functions.httpsCallable], 'setPick');
+    yield call(setPickFunction, payload);
+
+    yield fork(message.success, 'Pick Submitted');
 
     yield put(submitInProgressAction(false));
     yield put(showPlayerPickModalAction(false));
   } catch (error) {
     console.error(error);
-    yield put(gameErrorAction(GAME_ERROR_TYPES.SUBMIT));
+
+    // TODO eventually add error type for week locked / game started
+    if (error.code === 'already-exists') {
+      yield put(gameErrorAction(GAME_ERROR_TYPES.DUPLICATE_PICK));
+    } else {
+      yield put(gameErrorAction(GAME_ERROR_TYPES.SUBMIT));
+    }
+
     yield put(submitInProgressAction(false));
   }
 }

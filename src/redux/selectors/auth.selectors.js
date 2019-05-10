@@ -16,3 +16,8 @@ export const selectLoggedInUser = createSelector(
   [selectAuthState],
   auth => auth.loggedInUser
 );
+
+export const selectLoggedInUserId = createSelector(
+  [selectLoggedInUser],
+  user => user ? user.uid : null
+);

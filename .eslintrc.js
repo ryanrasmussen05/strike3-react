@@ -31,5 +31,6 @@ module.exports = {
     "react/jsx-boolean-value": 0,
     "react/jsx-closing-bracket-location": 0,
     "max-len": ['error', 200, 2],
+    "no-confusing-arrow": 0,
   }
 };

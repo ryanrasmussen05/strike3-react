@@ -3,7 +3,7 @@ import './PlayerPickModal.scss';
 import { Alert, Button, Form, Modal, Select } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { selectGameError, selectIsSubmitting } from '../../../redux/selectors/game.selectors';
+import { selectGameError, selectIsSubmitting, selectSelectedWeek } from '../../../redux/selectors/game.selectors';
 import { showPlayerPickModalAction } from '../../../redux/actions/modal.actions';
 import { gameErrorAction, submitPickPlayerAction } from '../../../redux/actions/game.actions';
 import { GAME_ERROR_TYPES } from '../../../redux/reducers/game.reducer';
@@ -45,6 +45,18 @@ class PlayerPickModal extends React.Component {
         </div>
       );
     }
+
+    if (this.props.error === GAME_ERROR_TYPES.DUPLICATE_PICK) {
+      return (
+        <div className="error-message">
+          <Alert
+            message="Repeat Pick"
+            description="You have already picked this team in another week, you can't use this team again"
+            type="error"
+          />
+        </div>
+      );
+    }
   };
 
   renderPlayerPickForm = () => {
@@ -80,7 +92,7 @@ class PlayerPickModal extends React.Component {
     return (
       <Modal
         className="player-pick-modal"
-        title="Week X Pick"
+        title={ `Week ${this.props.selectedWeek} Pick` }
         visible={ true }
         maskClosable={ false }
         onCancel={ this.closeModal }
@@ -95,6 +107,7 @@ class PlayerPickModal extends React.Component {
 
 PlayerPickModal.propTypes = {
   form: PropTypes.object,
+  selectedWeek: PropTypes.number,
   loading: PropTypes.bool,
   error: PropTypes.string,
   closeModal: PropTypes.func,
@@ -103,6 +116,7 @@ PlayerPickModal.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  selectedWeek: selectSelectedWeek(state),
   loading: selectIsSubmitting(state),
   error: selectGameError(state),
 });

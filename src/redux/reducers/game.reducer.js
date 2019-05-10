@@ -4,6 +4,7 @@ import _ from 'lodash';
 export const GAME_ERROR_TYPES = {
   SUBMIT: 'game_error_submit',
   GAME_DATA: 'game_error_game_data',
+  DUPLICATE_PICK: 'game_duplicate_pick',
 };
 
 const INITIAL_STATE = {
