@@ -2,13 +2,14 @@ import React from 'react';
 import './PlayerPage.scss';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Placeholder from '../../Placeholder';
 import { selectShowPlayerPickModal } from '../../../redux/selectors/modal.selectors';
 import PlayerPickModal from '../../modals/playerPickModal/PlayerPickModal';
 import { getGameDataAction } from '../../../redux/actions/game.actions';
 import { selectGameData, selectGameError } from '../../../redux/selectors/game.selectors';
 import { GAME_ERROR_TYPES } from '../../../redux/reducers/game.reducer';
-import { Alert } from 'antd';
+import { Alert, Button } from 'antd';
+import WeekSelector from '../../weekSelector/WeekSelector';
+import { showPlayerPickModalAction } from '../../../redux/actions/modal.actions';
 
 class PlayerPage extends React.Component {
 
@@ -38,7 +39,8 @@ class PlayerPage extends React.Component {
     return (
       <div className="player-page">
         { this.renderPlayerPickModal() }
-        <Placeholder />
+        <WeekSelector />
+        <Button onClick={ this.props.showPlayerPickModal }>Show Player Pick Modal</Button>
       </div>
     );
   };
@@ -61,6 +63,7 @@ PlayerPage.propTypes = {
   error: PropTypes.any,
   shouldShowPlayerPickModal: PropTypes.bool,
   getGameData: PropTypes.func,
+  showPlayerPickModal: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -71,6 +74,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getGameData: () => dispatch(getGameDataAction()),
+  showPlayerPickModal: () => dispatch(showPlayerPickModalAction(true)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlayerPage);

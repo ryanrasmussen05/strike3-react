@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import WeekSelectorAdmin from '../../weekSelector/WeekSelectorAdmin';
 
 class AdminPage extends React.Component {
   componentDidMount() {
@@ -9,7 +10,7 @@ class AdminPage extends React.Component {
   render() {
     return (
       <div>
-        This is the admin page
+        <WeekSelectorAdmin />
       </div>
     );
   }
