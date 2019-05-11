@@ -14,6 +14,7 @@ import {
 } from '../../redux/selectors/modal.selectors';
 import { selectLoggedInUser } from '../../redux/selectors/auth.selectors';
 import { signOutAction } from '../../redux/actions/auth.actions';
+import { Link, withRouter } from 'react-router-dom';
 
 class Header extends React.Component {
 
@@ -26,9 +27,18 @@ class Header extends React.Component {
   };
 
   renderAuthButton = () => {
+    let routeLink; // TODO only admins should see this
+
+    if (this.props.location && this.props.location.pathname === '/player') {
+      routeLink = <Menu.Item><Link to="/admin">Admin</Link></Menu.Item>;
+    } else {
+      routeLink = <Menu.Item><Link to="/player">Home</Link></Menu.Item>;
+    }
+
     if (this.props.loggedInUser) {
       const menu = (
         <Menu>
+          { routeLink }
           <Menu.Item onClick={ this.signOut }>Sign Out</Menu.Item>
         </Menu>
       );
@@ -80,6 +90,7 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
+  location: PropTypes.object,
   loggedInUser: PropTypes.object,
   shouldShowLoginModal: PropTypes.bool,
   shouldShowCreateAccountModal: PropTypes.bool,
@@ -100,4 +111,4 @@ const mapDispatchToProps = dispatch => ({
   showLoginModal: shouldShow => dispatch(showLoginModalAction(shouldShow)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Header));
