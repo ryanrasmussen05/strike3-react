@@ -1,5 +1,5 @@
 exports.handler = async(user, context, database) => {
-  const path = `users/${user.id}`;
+  const path = `players/${user.id}`;
 
   await database.ref(path).set(user);
 

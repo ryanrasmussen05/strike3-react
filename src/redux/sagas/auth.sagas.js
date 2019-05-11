@@ -69,8 +69,8 @@ function* createAccountSaga(action) {
     yield call([user, user.updateProfile], { displayName: userDisplayName });
 
     // add user to strike3 database
-    const createUserFunction = yield call([functions, functions.httpsCallable], 'createUser');
-    yield call(createUserFunction, { id: user.uid, name: userDisplayName, email: user.email });
+    const createPlayerFunction = yield call([functions, functions.httpsCallable], 'createPlayer');
+    yield call(createPlayerFunction, { id: user.uid, name: userDisplayName, email: user.email });
 
     yield put(showCreateAccountModalAction(false));
     yield fork(message.success, 'Your account has been created');

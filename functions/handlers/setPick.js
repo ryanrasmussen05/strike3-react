@@ -36,7 +36,7 @@ exports.handler = async(pick, context, database) => {
   }
 
   // submit pick
-  await database.ref(pickPath).update({ team });
+  await database.ref(pickPath).update({ team, status: 'open' });
 
   return { pick };
 };

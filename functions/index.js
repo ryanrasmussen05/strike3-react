@@ -1,4 +1,4 @@
-const createUserFunction = require('./handlers/createUser');
+const createPlayerFunction = require('./handlers/createPlayer');
 const getGameDataFunction = require('./handlers/getGameData');
 const setWeekFunction = require('./handlers/setWeek');
 const setPickFunction = require('./handlers/setPick');
@@ -9,8 +9,8 @@ admin.initializeApp();
 
 const database = admin.database();
 
-exports.createUser = functions.https.onCall(async(data, context) => {
-  return createUserFunction.handler(data, context, database);
+exports.createPlayer = functions.https.onCall(async(data, context) => {
+  return createPlayerFunction.handler(data, context, database);
 });
 
 exports.getGameData = functions.https.onCall(async(data, context) => {
