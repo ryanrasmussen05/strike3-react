@@ -10,6 +10,7 @@ import { GAME_ERROR_TYPES } from '../../../redux/reducers/game.reducer';
 import { Alert, Button } from 'antd';
 import WeekSelector from '../../weekSelector/WeekSelector';
 import { showPlayerPickModalAction } from '../../../redux/actions/modal.actions';
+import WeekTable from '../../weekTable/WeekTable';
 
 class PlayerPage extends React.Component {
 
@@ -41,6 +42,7 @@ class PlayerPage extends React.Component {
         { this.renderPlayerPickModal() }
         <WeekSelector />
         <Button onClick={ this.props.showPlayerPickModal }>Show Player Pick Modal</Button>
+        <WeekTable />
       </div>
     );
   };

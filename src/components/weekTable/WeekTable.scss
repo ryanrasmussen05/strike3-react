@@ -1,0 +1,23 @@
+.week-table {
+
+  .table {
+    width: 300px;
+  }
+
+  .ant-table-tbody > tr > td {
+    padding: 5px 16px;
+  }
+
+  .week-table-logo {
+    font-size: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .week-table-team {
+    margin-left: 5px;
+    font-size: 18px;
+    font-weight: 600;
+  }
+}

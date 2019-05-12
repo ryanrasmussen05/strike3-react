@@ -31,3 +31,26 @@ export const selectCurrentWeek = createSelector(
     return null;
   }
 );
+
+export const selectPlayersForSelectedWeek = createSelector(
+  [selectSelectedWeek, selectGameData],
+  (week, gameData) => {
+    if (!!week && !!gameData) {
+      const players = [];
+
+      // don't show null picks in the week table
+      for (const player of gameData.players) {
+        if (player.picks && player.picks[week - 1] && player.picks[week - 1].team !== null) {
+          players.push({
+            name: player.name,
+            pick: player.picks[week - 1],
+          });
+        }
+      }
+
+      return players;
+    }
+
+    return [];
+  }
+);
