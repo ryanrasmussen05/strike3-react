@@ -1,8 +1,10 @@
-.week-table {
+@import '../../theme';
 
-  .table {
-    width: 300px;
-  }
+.week-table {
+  border: 1px solid rgba(60, 60, 60, 0.2);
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
 
   .ant-table-tbody > tr > td {
     padding: 5px 16px;

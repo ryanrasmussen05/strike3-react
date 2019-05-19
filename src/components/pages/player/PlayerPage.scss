@@ -1,5 +1,15 @@
 .player-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
+  .week-selector-container {
+    margin: 20px;
+  }
+
+  .week-table-container {
+
+  }
 }
 
 .player-page-error {

@@ -40,9 +40,16 @@ class PlayerPage extends React.Component {
     return (
       <div className="player-page">
         { this.renderPlayerPickModal() }
-        <WeekSelector />
+
+        <div className="week-selector-container">
+          <WeekSelector />
+        </div>
+
         <Button onClick={ this.props.showPlayerPickModal }>Show Player Pick Modal</Button>
-        <WeekTable />
+
+        <div className="week-table-container">
+          <WeekTable />
+        </div>
       </div>
     );
   };
