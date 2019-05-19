@@ -29,6 +29,7 @@ exports.handler = async(context, database) => {
 
 const buildPlayerModel = async(dbPlayer, database) => {
   const player = {};
+  player.id = dbPlayer.id;
   player.name = dbPlayer.name;
   player.picks = [];
 

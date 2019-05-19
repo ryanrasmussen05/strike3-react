@@ -1,0 +1,31 @@
+.week-display {
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 20px;
+  border: 1px solid rgba(60, 60, 60, 0.2);
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+
+  .display-header {
+    font-size: 18px
+  }
+
+  .display-pick {
+    display: flex;
+    align-items: center;
+    font-size: 60px;
+  }
+
+  .display-team {
+    margin-left: 5px;
+    margin-right: 5px;
+    font-size: 28px;
+    font-weight: 600;
+  }
+
+  .make-pick-button {
+    margin: 20px;
+  }
+}

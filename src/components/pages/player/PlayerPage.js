@@ -7,10 +7,11 @@ import PlayerPickModal from '../../modals/playerPickModal/PlayerPickModal';
 import { getGameDataAction } from '../../../redux/actions/game.actions';
 import { selectGameData, selectGameError } from '../../../redux/selectors/game.selectors';
 import { GAME_ERROR_TYPES } from '../../../redux/reducers/game.reducer';
-import { Alert, Button } from 'antd';
+import { Alert } from 'antd';
 import WeekSelector from '../../weekSelector/WeekSelector';
-import { showPlayerPickModalAction } from '../../../redux/actions/modal.actions';
 import WeekTable from '../../weekTable/WeekTable';
+import WeekDisplay from '../../weekDisplay/WeekDisplay';
+import { selectLoggedInUser } from '../../../redux/selectors/auth.selectors';
 
 class PlayerPage extends React.Component {
 
@@ -45,7 +46,11 @@ class PlayerPage extends React.Component {
           <WeekSelector />
         </div>
 
-        <Button onClick={ this.props.showPlayerPickModal }>Show Player Pick Modal</Button>
+        { this.props.loggedInUser &&
+        <div className="week-display-container">
+          <WeekDisplay />
+        </div>
+        }
 
         <div className="week-table-container">
           <WeekTable />
@@ -68,14 +73,15 @@ class PlayerPage extends React.Component {
 }
 
 PlayerPage.propTypes = {
+  loggedInUser: PropTypes.object,
   gameData: PropTypes.object,
   error: PropTypes.any,
   shouldShowPlayerPickModal: PropTypes.bool,
   getGameData: PropTypes.func,
-  showPlayerPickModal: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
+  loggedInUser: selectLoggedInUser(state),
   gameData: selectGameData(state),
   error: selectGameError(state),
   shouldShowPlayerPickModal: selectShowPlayerPickModal(state),
@@ -83,7 +89,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getGameData: () => dispatch(getGameDataAction()),
-  showPlayerPickModal: () => dispatch(showPlayerPickModalAction(true)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlayerPage);

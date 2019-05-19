@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { selectLoggedInUserId } from './auth.selectors';
 
 export const selectGameState = ({ game }) => game;
 
@@ -32,15 +33,26 @@ export const selectCurrentWeek = createSelector(
   }
 );
 
+export const selectPickForSelectedWeek = createSelector(
+  [selectLoggedInUserId, selectSelectedWeek, selectGameData],
+  (loggedInUserId, week, gameData) => {
+    if (!loggedInUserId || !week || !gameData) {
+      return null;
+    }
+
+    const player = gameData.players.find(currentPlayer => currentPlayer.id === loggedInUserId);
+    return player.picks[week - 1];
+  }
+);
+
 export const selectPlayersForSelectedWeek = createSelector(
   [selectSelectedWeek, selectGameData],
   (week, gameData) => {
     if (!!week && !!gameData) {
       const players = [];
 
-      // don't show null picks in the week table
       for (const player of gameData.players) {
-        if (player.picks && player.picks[week - 1] && player.picks[week - 1].team !== null) {
+        if (player.picks && player.picks[week - 1]) {
           players.push({
             name: player.name,
             pick: player.picks[week - 1],

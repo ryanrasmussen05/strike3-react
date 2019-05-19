@@ -15,11 +15,18 @@ export const columns = [
     key: 'pick',
     width: 112,
     align: 'center',
-    render: pick => (
-      <div className="week-table-logo">
-        { getSvgForTeam(pick.team) }
-        <span className="week-table-team">{ pick.team }</span>
-      </div>
-    ),
+    render: pick => {
+      if (pick.team) {
+        return (
+          <div className="week-table-logo">
+            { getSvgForTeam(pick.team) }
+            <span className="week-table-team">{ pick.team }</span>
+          </div>
+        );
+      }
+      return (
+        <div className="week-table-no-pick">- - - - -</div>
+      );
+    },
   },
 ];

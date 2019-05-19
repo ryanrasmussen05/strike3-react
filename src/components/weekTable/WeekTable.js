@@ -9,8 +9,6 @@ import { columns } from './table.columns';
 class WeekTable extends React.Component {
 
   render() {
-    console.log(this.props.players);
-
     return (
       <div className="week-table">
         <Table columns={ columns } dataSource={ this.props.players } pagination={ false } className="table" />

@@ -6,6 +6,9 @@ import { Button, Select } from 'antd';
 import { selectCurrentWeek, selectIsSubmitting } from '../../redux/selectors/game.selectors';
 import { setCurrentWeekAction } from '../../redux/actions/game.actions';
 
+// TODO, won't do this anymore, just show the current week and automatically update when all pick results set
+// can probably also get rid of currentWeek selector
+
 class WeekSelectorAdmin extends React.Component {
 
   state = {

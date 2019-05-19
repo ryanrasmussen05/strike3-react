@@ -80,7 +80,7 @@ class PlayerPickModal extends React.Component {
         </Form.Item>
 
         <div className="note">
-          *You can change your pick until the game starts, or the admin locks the week
+          *You can change your pick until the game starts
         </div>
 
         <Button className="submit-button" type="primary" htmlType="submit" disabled={ this.hasErrors(getFieldsError()) } block loading={ this.props.loading }>Submit Pick</Button>
