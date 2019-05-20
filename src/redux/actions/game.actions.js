@@ -38,3 +38,8 @@ export const submitPickPlayerAction = team => ({
   type: ActionTypes.GAME.SUBMIT_PICK_PLAYER,
   payload: team,
 });
+
+export const submitPickPlayerSuccessAction = pickDetails => ({
+  type: ActionTypes.GAME.SUBMIT_PICK_PLAYER_SUCCESS,
+  payload: pickDetails,
+});

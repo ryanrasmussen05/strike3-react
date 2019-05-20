@@ -11,7 +11,7 @@ class WeekTable extends React.Component {
   render() {
     return (
       <div className="week-table">
-        <Table columns={ columns } dataSource={ this.props.players } pagination={ false } className="table" />
+        <Table columns={ columns } dataSource={ this.props.players } pagination={ false } rowKey="id" className="table" />
       </div>
     );
   }

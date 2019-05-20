@@ -35,6 +35,16 @@ export default (state = INITIAL_STATE, action) => {
       return newState;
     }
 
+    case ActionTypes.GAME.SUBMIT_PICK_PLAYER_SUCCESS: {
+      const { userId, week, team } = action.payload;
+      const newState = _.cloneDeep(state);
+
+      const player = newState.gameData.players.find(currentPlayer => currentPlayer.id === userId);
+      player.picks[week - 1].team = team;
+
+      return newState;
+    }
+
     case ActionTypes.GAME.SUBMIT_IN_PROGRESS: {
       const newState = _.cloneDeep(state);
       newState.submitInProgress = action.payload;

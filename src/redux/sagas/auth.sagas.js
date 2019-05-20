@@ -19,6 +19,8 @@ function* signInSaga(action) {
 
     yield call([auth, auth.signInWithEmailAndPassword], action.payload.email, action.payload.password);
 
+    // TODO get game data again
+
     yield put(showLoginModalAction(false));
     yield put(authLoadingAction(false));
   } catch (error) {
