@@ -5,7 +5,7 @@ import { selectGameData } from './game.selectors';
 export const selectIsAdmin = createSelector(
   [selectLoggedInUserId, selectGameData],
   (userId, gameData) => {
-    if (!userId || !gameData) {
+    if (!userId || !gameData || !gameData.players) {
       return false;
     }
 
