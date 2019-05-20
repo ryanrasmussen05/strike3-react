@@ -3,7 +3,13 @@ import './PlayerPickModal.scss';
 import { Alert, Button, Form, Modal, Select } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { selectGameError, selectIsSubmitting, selectSelectedWeek } from '../../../redux/selectors/game.selectors';
+import {
+  selectAllPicksForPlayer,
+  selectGameError,
+  selectIsSubmitting,
+  selectPickForSelectedWeek,
+  selectSelectedWeek,
+} from '../../../redux/selectors/game.selectors';
 import { showPlayerPickModalAction } from '../../../redux/actions/modal.actions';
 import { gameErrorAction, submitPickPlayerAction } from '../../../redux/actions/game.actions';
 import { GAME_ERROR_TYPES } from '../../../redux/reducers/game.reducer';
@@ -33,6 +39,30 @@ class PlayerPickModal extends React.Component {
     });
   };
 
+  getAvailableTeams = () => {
+    const { allPicks, existingPick } = this.props;
+
+    return AllTeams.filter(team => {
+      return !allPicks.some(currentPick => currentPick.team === team.abbreviation) || team.abbreviation === existingPick.team;
+    });
+  };
+
+  render() {
+    return (
+      <Modal
+        className="player-pick-modal"
+        title={ `Week ${this.props.selectedWeek} Pick` }
+        visible={ true }
+        maskClosable={ false }
+        onCancel={ this.closeModal }
+        footer={ null }
+      >
+        { this.renderErrorMessage() }
+        { this.renderPlayerPickForm() }
+      </Modal>
+    );
+  }
+
   renderErrorMessage = () => {
     if (this.props.error === GAME_ERROR_TYPES.SUBMIT) {
       return (
@@ -61,18 +91,20 @@ class PlayerPickModal extends React.Component {
 
   renderPlayerPickForm = () => {
     const { getFieldDecorator, getFieldsError } = this.props.form;
+    const existingPick = this.props.existingPick.team || undefined;
+    const availableTeams = this.getAvailableTeams();
 
     return (
       <Form colon={ false } layout="vertical" onSubmit={ this.handleSubmit }>
 
         <Form.Item label="Team">
-          { getFieldDecorator('team', { rules: [{ required: true, message: 'Team is required' }] })(
+          { getFieldDecorator('team', { rules: [{ required: true, message: 'Team is required' }], initialValue: existingPick })(
             <Select
               showSearch
               placeholder="Select Team"
               filterOption={ (input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0 }
             >
-              { AllTeams.map(team => (
+              { availableTeams.map(team => (
                 <Select.Option key={ team.name } value={ team.abbreviation }>{ team.name }</Select.Option>
               )) }
             </Select>
@@ -87,27 +119,13 @@ class PlayerPickModal extends React.Component {
       </Form>
     );
   };
-
-  render() {
-    return (
-      <Modal
-        className="player-pick-modal"
-        title={ `Week ${this.props.selectedWeek} Pick` }
-        visible={ true }
-        maskClosable={ false }
-        onCancel={ this.closeModal }
-        footer={ null }
-      >
-        { this.renderErrorMessage() }
-        { this.renderPlayerPickForm() }
-      </Modal>
-    );
-  }
 }
 
 PlayerPickModal.propTypes = {
   form: PropTypes.object,
   selectedWeek: PropTypes.number,
+  existingPick: PropTypes.object,
+  allPicks: PropTypes.array,
   loading: PropTypes.bool,
   error: PropTypes.string,
   closeModal: PropTypes.func,
@@ -117,6 +135,8 @@ PlayerPickModal.propTypes = {
 
 const mapStateToProps = state => ({
   selectedWeek: selectSelectedWeek(state),
+  existingPick: selectPickForSelectedWeek(state),
+  allPicks: selectAllPicksForPlayer(state),
   loading: selectIsSubmitting(state),
   error: selectGameError(state),
 });

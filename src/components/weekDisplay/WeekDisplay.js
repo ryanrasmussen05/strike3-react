@@ -30,6 +30,9 @@ class WeekDisplay extends React.Component {
           { getSvgForTeam(this.props.pick.team) }
           <span className="display-team">{ this.props.pick.team }</span>
         </div>
+        <Button type="primary" onClick={ this.props.showPlayerPickModal } className="change-pick-button">
+          Change Pick
+        </Button>
       </React.Fragment>
     );
   }

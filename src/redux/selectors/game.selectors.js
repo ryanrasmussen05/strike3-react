@@ -45,6 +45,18 @@ export const selectPickForSelectedWeek = createSelector(
   }
 );
 
+export const selectAllPicksForPlayer = createSelector(
+  [selectLoggedInUserId, selectGameData],
+  (loggedInUserId, gameData) => {
+    if (!loggedInUserId || !gameData) {
+      return null;
+    }
+
+    const player = gameData.players.find(currentPlayer => currentPlayer.id === loggedInUserId);
+    return player.picks;
+  }
+);
+
 export const selectPlayersForSelectedWeek = createSelector(
   [selectSelectedWeek, selectGameData],
   (week, gameData) => {
