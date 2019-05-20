@@ -19,11 +19,17 @@ class PlayerPage extends React.Component {
     this.props.getGameData();
   }
 
-  renderPlayerPickModal = () => {
-    if (this.props.shouldShowPlayerPickModal) {
-      return <PlayerPickModal />;
+  render() {
+    if (this.props.error && this.props.error === GAME_ERROR_TYPES.GAME_DATA) {
+      return this.renderErrorMessage();
     }
-  };
+
+    if (!!this.props.gameData) {
+      return this.renderPage();
+    }
+
+    return null;
+  }
 
   renderErrorMessage = () => {
     return (
@@ -59,17 +65,11 @@ class PlayerPage extends React.Component {
     );
   };
 
-  render() {
-    if (this.props.error && this.props.error === GAME_ERROR_TYPES.GAME_DATA) {
-      return this.renderErrorMessage();
+  renderPlayerPickModal = () => {
+    if (this.props.shouldShowPlayerPickModal) {
+      return <PlayerPickModal />;
     }
-
-    if (!!this.props.gameData) {
-      return this.renderPage();
-    }
-
-    return null;
-  }
+  };
 }
 
 PlayerPage.propTypes = {

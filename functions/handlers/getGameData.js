@@ -31,6 +31,8 @@ const buildPlayerModel = async(dbPlayer, database) => {
   const player = {};
   player.id = dbPlayer.id;
   player.name = dbPlayer.name;
+  player.admin = dbPlayer.admin || false;
+  player.superuser = dbPlayer.superuser || false;
   player.picks = [];
 
   const dbPlayerPicksSnapshot = await database.ref(`${picksPath}/${dbPlayer.id}`).once('value');

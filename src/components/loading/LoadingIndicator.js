@@ -1,13 +1,13 @@
 import React from 'react';
 import './LoadingIndicator.scss';
-import { Spin } from 'antd';
+import { Icon } from 'antd';
 
 class LoadingIndicator extends React.Component {
 
   render() {
     return (
       <div className="loading-indicator">
-        <Spin size="large" />
+        <Icon type="loading" />
       </div>
     );
   }
