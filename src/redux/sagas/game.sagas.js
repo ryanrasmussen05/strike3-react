@@ -2,7 +2,7 @@ import * as firebase from 'firebase/app';
 import { call, fork, put, select, takeLatest } from 'redux-saga/effects';
 import { ActionTypes } from '../actions/action.types';
 import {
-  gameErrorAction,
+  gameErrorAction, getGameDataAdminSuccessAction,
   getGameDataSuccessAction,
   setCurrentWeekSuccessAction,
   submitInProgressAction, submitPickPlayerSuccessAction,
@@ -25,6 +25,25 @@ function* getGameDataSaga() {
     const gameData = yield call(getGameDataFunction);
 
     yield put(getGameDataSuccessAction(gameData.data));
+    yield put(globalLoadingAction(false));
+  } catch (error) {
+    console.error(error);
+    yield put(gameErrorAction(GAME_ERROR_TYPES.GAME_DATA));
+    yield put(globalLoadingAction(false));
+  }
+}
+
+function* getGameDataAdminSaga() {
+  try {
+    const functions = firebase.functions();
+
+    yield put(gameErrorAction(null));
+    yield put(globalLoadingAction(true));
+
+    const getGameDataAdminFunction = yield call([functions, functions.httpsCallable], 'getGameDataAdmin');
+    const gameData = yield call(getGameDataAdminFunction);
+
+    yield put(getGameDataAdminSuccessAction(gameData.data));
     yield put(globalLoadingAction(false));
   } catch (error) {
     console.error(error);
@@ -91,6 +110,7 @@ function* setCurrentWeekSaga(action) {
 
 export default [
   takeLatest(ActionTypes.GAME.GET_GAME_DATA, getGameDataSaga),
+  takeLatest(ActionTypes.GAME.GET_GAME_DATA_ADMIN, getGameDataAdminSaga),
   takeLatest(ActionTypes.GAME.SUBMIT_PICK_PLAYER, submitPickPlayerSaga),
   takeLatest(ActionTypes.GAME.SET_CURRENT_WEEK, setCurrentWeekSaga),
 ];

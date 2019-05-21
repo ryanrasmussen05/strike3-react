@@ -1,5 +1,6 @@
 const createPlayerFunction = require('./handlers/createPlayer');
 const getGameDataFunction = require('./handlers/getGameData');
+const getGameDataAdminFunction = require('./handlers/getGameDataAdmin');
 const setWeekFunction = require('./handlers/setWeek');
 const setPickFunction = require('./handlers/setPick');
 const functions = require('firebase-functions');
@@ -15,6 +16,10 @@ exports.createPlayer = functions.https.onCall(async(data, context) => {
 
 exports.getGameData = functions.https.onCall(async(data, context) => {
   return getGameDataFunction.handler(context, database);
+});
+
+exports.getGameDataAdmin = functions.https.onCall(async(data, context) => {
+  return getGameDataAdminFunction.handler(context, database);
 });
 
 exports.setWeek = functions.https.onCall(async(data, context) => {

@@ -1,0 +1,41 @@
+.game-table {
+
+  .game-table-row {
+    display: flex;
+    border-bottom: 1px solid black;
+  }
+
+  .player-title {
+    width: 200px;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .week-title {
+    width: 50px;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .player-name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    font-weight: 400;
+    font-size: 16px;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+  }
+
+  .pick {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    font-weight: 500;
+    font-size: 16px;
+    border-right: 1px solid black;
+    padding: 5px 0;
+  }
+}

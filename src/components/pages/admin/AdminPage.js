@@ -5,15 +5,15 @@ import { connect } from 'react-redux';
 import { GAME_ERROR_TYPES } from '../../../redux/reducers/game.reducer';
 import { Alert } from 'antd';
 import { selectGameData, selectGameError } from '../../../redux/selectors/game.selectors';
-import { getGameDataAction } from '../../../redux/actions/game.actions';
+import { getGameDataAdminAction } from '../../../redux/actions/game.actions';
 import { selectIsAdmin } from '../../../redux/selectors/admin.selectors';
 import { selectGlobalLoading } from '../../../redux/selectors/global.selectors';
+import GameTable from '../../gameTable/GameTable';
 
 class AdminPage extends React.Component {
 
   componentDidMount() {
-    // TODO this will need to be gameDataAdmin
-    this.props.getGameData();
+    this.props.getGameDataAdmin();
   }
 
   render() {
@@ -48,7 +48,7 @@ class AdminPage extends React.Component {
   renderPage = () => {
     return (
       <div className="admin-page">
-
+        <GameTable />
       </div>
     );
   };
@@ -59,7 +59,7 @@ AdminPage.propTypes = {
   gameData: PropTypes.object,
   globalLoading: PropTypes.bool,
   error: PropTypes.any,
-  getGameData: PropTypes.func,
+  getGameDataAdmin: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -70,7 +70,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getGameData: () => dispatch(getGameDataAction()),
+  getGameDataAdmin: () => dispatch(getGameDataAdminAction()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminPage);

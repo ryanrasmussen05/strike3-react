@@ -3,6 +3,7 @@ const weekPath = `week`;
 const playersPath = `players`;
 const picksPath = `picks`;
 
+// TODO factor out common functions to util file
 exports.handler = async(context, database) => {
   const weekSnapshot = await database.ref(weekPath).once('value');
   const week = weekSnapshot.val();
@@ -38,13 +39,10 @@ const buildPlayerModel = async(dbPlayer, database) => {
   const dbPlayerPicksSnapshot = await database.ref(`${picksPath}/${dbPlayer.id}`).once('value');
   const dbPlayerPicks = dbPlayerPicksSnapshot.val();
 
-  // TODO need security, if not players picks (use auth data), only push to array if game has started or result is set
-
   for (let i = 1; i <= 17; i++) {
     if (dbPlayerPicks && dbPlayerPicks[i]) {
       player.picks.push({
         week: i,
-        locked: false, // TODO set to locked if not players pick OR players pick and game has started
         team: dbPlayerPicks[i].team,
         status: dbPlayerPicks[i].status,
       });
@@ -52,7 +50,6 @@ const buildPlayerModel = async(dbPlayer, database) => {
       // TODO add 'eliminated' flag
       player.picks.push({
         week: i,
-        locked: false, // TODO will be locked if eliminated
         team: null,
         status: 'open',
       });

@@ -11,14 +11,12 @@ exports.handler = async(pick, context, database) => {
     throw new functions.https.HttpsError('invalid-argument', 'team, week, and userId are required');
   }
 
-  // TODO check if week is locked
-
   // check if user is allowed to change current pick
   const existingPickSnapshot = await database.ref(pickPath).once('value');
   const existingPick = existingPickSnapshot.val();
 
   if (existingPick) {
-    // TODO eventually we will want to check if existing pick game has started
+    // TODO check if game has started
   }
 
   // check if user has already picked this team
