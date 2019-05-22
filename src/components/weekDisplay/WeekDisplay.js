@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getSvgForTeam } from '../../util/teams.util';
 import { Button } from 'antd';
-import { showPlayerPickModalAction } from '../../redux/actions/modal.actions';
+import { showPickModalAction } from '../../redux/actions/modal.actions';
 import { selectPickForSelectedWeek, selectSelectedWeek } from '../../redux/selectors/game.selectors';
 
 class WeekDisplay extends React.Component {
@@ -30,7 +30,7 @@ class WeekDisplay extends React.Component {
           { getSvgForTeam(this.props.pick.team) }
           <span className="display-team">{ this.props.pick.team }</span>
         </div>
-        <Button type="primary" onClick={ this.props.showPlayerPickModal } className="change-pick-button">
+        <Button type="primary" onClick={ this.props.showPickModal } className="change-pick-button">
           Change Pick
         </Button>
       </React.Fragment>
@@ -41,7 +41,7 @@ class WeekDisplay extends React.Component {
     return (
       <React.Fragment>
         <div className="display-header">{`Make Your Week ${this.props.week} Pick`}</div>
-        <Button type="primary" onClick={ this.props.showPlayerPickModal } className="make-pick-button">
+        <Button type="primary" onClick={ this.props.showPickModal } className="make-pick-button">
           Make Pick
         </Button>
       </React.Fragment>
@@ -52,7 +52,7 @@ class WeekDisplay extends React.Component {
 WeekDisplay.propTypes = {
   pick: PropTypes.object,
   week: PropTypes.number,
-  showPlayerPickModal: PropTypes.func,
+  showPickModal: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -61,7 +61,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  showPlayerPickModal: () => dispatch(showPlayerPickModalAction(true)),
+  showPickModal: () => dispatch(showPickModalAction(true)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(WeekDisplay);

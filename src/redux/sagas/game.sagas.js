@@ -2,13 +2,13 @@ import * as firebase from 'firebase/app';
 import { call, fork, put, select, takeLatest } from 'redux-saga/effects';
 import { ActionTypes } from '../actions/action.types';
 import {
-  gameErrorAction, getGameDataAdminSuccessAction,
+  gameErrorAction,
   getGameDataSuccessAction,
-  setCurrentWeekSuccessAction,
-  submitInProgressAction, submitPickPlayerSuccessAction,
+  submitInProgressAction,
+  submitPickSuccessAction,
 } from '../actions/game.actions';
 import { GAME_ERROR_TYPES } from '../reducers/game.reducer';
-import { showPlayerPickModalAction } from '../actions/modal.actions';
+import { showPickModalAction } from '../actions/modal.actions';
 import { globalLoadingAction } from '../actions/global.actions';
 import { message } from 'antd';
 import { selectSelectedWeek } from '../selectors/game.selectors';
@@ -33,26 +33,7 @@ function* getGameDataSaga() {
   }
 }
 
-function* getGameDataAdminSaga() {
-  try {
-    const functions = firebase.functions();
-
-    yield put(gameErrorAction(null));
-    yield put(globalLoadingAction(true));
-
-    const getGameDataAdminFunction = yield call([functions, functions.httpsCallable], 'getGameDataAdmin');
-    const gameData = yield call(getGameDataAdminFunction);
-
-    yield put(getGameDataAdminSuccessAction(gameData.data));
-    yield put(globalLoadingAction(false));
-  } catch (error) {
-    console.error(error);
-    yield put(gameErrorAction(GAME_ERROR_TYPES.GAME_DATA));
-    yield put(globalLoadingAction(false));
-  }
-}
-
-function* submitPickPlayerSaga(action) {
+function* submitPickSaga(action) {
   try {
     const functions = firebase.functions();
 
@@ -69,10 +50,10 @@ function* submitPickPlayerSaga(action) {
 
     yield fork(message.success, 'Pick Submitted');
 
-    yield put(submitPickPlayerSuccessAction({ userId, week, team }));
+    yield put(submitPickSuccessAction({ userId, week, team }));
 
     yield put(submitInProgressAction(false));
-    yield put(showPlayerPickModalAction(false));
+    yield put(showPickModalAction(false));
   } catch (error) {
     console.error(error);
 
@@ -87,30 +68,7 @@ function* submitPickPlayerSaga(action) {
   }
 }
 
-function* setCurrentWeekSaga(action) {
-  try {
-    const functions = firebase.functions();
-
-    yield put(submitInProgressAction(true));
-
-    const setWeekFunction = yield call([functions, functions.httpsCallable], 'setWeek');
-    yield call(setWeekFunction, action.payload);
-
-    yield put(setCurrentWeekSuccessAction(action.payload));
-
-    yield fork(message.success, 'Week Saved');
-
-    yield put(submitInProgressAction(false));
-  } catch (error) {
-    console.error(error);
-    yield fork(message.error, 'An error occurred, week not saved');
-    yield put(submitInProgressAction(false));
-  }
-}
-
 export default [
   takeLatest(ActionTypes.GAME.GET_GAME_DATA, getGameDataSaga),
-  takeLatest(ActionTypes.GAME.GET_GAME_DATA_ADMIN, getGameDataAdminSaga),
-  takeLatest(ActionTypes.GAME.SUBMIT_PICK_PLAYER, submitPickPlayerSaga),
-  takeLatest(ActionTypes.GAME.SET_CURRENT_WEEK, setCurrentWeekSaga),
+  takeLatest(ActionTypes.GAME.SUBMIT_PICK, submitPickSaga),
 ];

@@ -3,11 +3,14 @@ import './GameTable.scss';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { selectGameData } from '../../redux/selectors/game.selectors';
+import { selectAdminGameData } from '../../redux/selectors/admin.selectors';
 
 class GameTable extends React.Component {
 
   render() {
-    if (this.props.gameData.players) {
+    const gameData = this.props.admin ? this.props.gameDataAdmin : this.props.gameData;
+
+    if (gameData.players) {
       return (
         <div className="game-table">
           <div className="game-table-row">
@@ -17,7 +20,7 @@ class GameTable extends React.Component {
             )}
           </div>
           <div className="game-table-data">
-            { this.props.gameData.players.map(player => (
+            { gameData.players.map(player => (
               this.renderPlayer(player)
             ))}
           </div>
@@ -41,11 +44,14 @@ class GameTable extends React.Component {
 }
 
 GameTable.propTypes = {
+  admin: PropTypes.bool,
   gameData: PropTypes.object,
+  gameDataAdmin: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
   gameData: selectGameData(state),
+  gameDataAdmin: selectAdminGameData(state),
 });
 
 const mapDispatchToProps = () => ({

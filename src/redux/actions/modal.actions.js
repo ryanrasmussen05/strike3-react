@@ -15,7 +15,7 @@ export const showResetPasswordModalAction = shouldShow => ({
   payload: shouldShow,
 });
 
-export const showPlayerPickModalAction = shouldShow => ({
-  type: ActionTypes.MODAL.SHOW_PLAYER_PICK_MODAL,
+export const showPickModalAction = shouldShow => ({
+  type: ActionTypes.MODAL.SHOW_PICK_MODAL,
   payload: shouldShow,
 });

@@ -16,8 +16,7 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case ActionTypes.GAME.GET_GAME_DATA_SUCCESS:
-    case ActionTypes.GAME.GET_GAME_DATA_ADMIN_SUCCESS: {
+    case ActionTypes.GAME.GET_GAME_DATA_SUCCESS: {
       const newState = _.cloneDeep(state);
       newState.gameData = action.payload;
       newState.selectedWeek = action.payload.week;
@@ -30,13 +29,7 @@ export default (state = INITIAL_STATE, action) => {
       return newState;
     }
 
-    case ActionTypes.GAME.SET_CURRENT_WEEK_SUCCESS: {
-      const newState = _.cloneDeep(state);
-      newState.gameData.week = action.payload;
-      return newState;
-    }
-
-    case ActionTypes.GAME.SUBMIT_PICK_PLAYER_SUCCESS: {
+    case ActionTypes.GAME.SUBMIT_PICK_SUCCESS: {
       const { userId, week, team } = action.payload;
       const newState = _.cloneDeep(state);
 

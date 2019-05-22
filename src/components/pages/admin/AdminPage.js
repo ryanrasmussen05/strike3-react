@@ -4,11 +4,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { GAME_ERROR_TYPES } from '../../../redux/reducers/game.reducer';
 import { Alert } from 'antd';
-import { selectGameData, selectGameError } from '../../../redux/selectors/game.selectors';
-import { getGameDataAdminAction } from '../../../redux/actions/game.actions';
-import { selectIsAdmin } from '../../../redux/selectors/admin.selectors';
+import { selectAdminError, selectAdminGameData, selectIsAdmin } from '../../../redux/selectors/admin.selectors';
 import { selectGlobalLoading } from '../../../redux/selectors/global.selectors';
 import GameTable from '../../gameTable/GameTable';
+import { getGameDataAdminAction } from '../../../redux/actions/admin.actions';
 
 class AdminPage extends React.Component {
 
@@ -49,7 +48,7 @@ class AdminPage extends React.Component {
     return (
       <div className="admin-page">
         <div className="game-table-container">
-          <GameTable />
+          <GameTable admin={ true } />
         </div>
       </div>
     );
@@ -66,9 +65,9 @@ AdminPage.propTypes = {
 
 const mapStateToProps = state => ({
   isAdmin: selectIsAdmin(state),
-  gameData: selectGameData(state),
+  gameData: selectAdminGameData(state),
   globalLoading: selectGlobalLoading(state),
-  error: selectGameError(state),
+  error: selectAdminError(state),
 });
 
 const mapDispatchToProps = dispatch => ({

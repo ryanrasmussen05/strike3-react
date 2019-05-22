@@ -1,11 +1,13 @@
 import { all, put } from 'redux-saga/effects';
 import { globalErrorAction } from '../actions/global.actions';
+import adminSagas from './admin.sagas';
 import authSagas from './auth.sagas';
 import gameSagas from './game.sagas';
 
 export default function* rootSaga() {
   try {
     yield all([
+      ...adminSagas,
       ...authSagas,
       ...gameSagas,
     ]);

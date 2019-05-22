@@ -1,9 +1,20 @@
 import { createSelector } from 'reselect';
 import { selectLoggedInUserId } from './auth.selectors';
-import { selectGameData } from './game.selectors';
+
+export const selectAdminState = ({ admin }) => admin;
+
+export const selectAdminGameData = createSelector(
+  [selectAdminState],
+  admin => admin.gameData,
+);
+
+export const selectAdminError = createSelector(
+  [selectAdminState],
+  admin => admin.error
+);
 
 export const selectIsAdmin = createSelector(
-  [selectLoggedInUserId, selectGameData],
+  [selectLoggedInUserId, selectAdminGameData],
   (userId, gameData) => {
     if (!userId || !gameData || !gameData.players) {
       return false;

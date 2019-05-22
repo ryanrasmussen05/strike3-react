@@ -1,5 +1,5 @@
 import React from 'react';
-import './PlayerPickModal.scss';
+import './PickModal.scss';
 import { Alert, Button, Form, Modal, Select } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -10,12 +10,12 @@ import {
   selectPickForSelectedWeek,
   selectSelectedWeek,
 } from '../../../redux/selectors/game.selectors';
-import { showPlayerPickModalAction } from '../../../redux/actions/modal.actions';
-import { gameErrorAction, submitPickPlayerAction } from '../../../redux/actions/game.actions';
+import { showPickModalAction } from '../../../redux/actions/modal.actions';
+import { gameErrorAction, submitPickAction } from '../../../redux/actions/game.actions';
 import { GAME_ERROR_TYPES } from '../../../redux/reducers/game.reducer';
 import { AllTeams } from '../../../util/teams.util';
 
-class PlayerPickModal extends React.Component {
+class PickModal extends React.Component {
 
   componentWillUnmount() {
     this.props.clearErrors();
@@ -50,7 +50,7 @@ class PlayerPickModal extends React.Component {
   render() {
     return (
       <Modal
-        className="player-pick-modal"
+        className="pick-modal"
         title={ `Week ${this.props.selectedWeek} Pick` }
         visible={ true }
         maskClosable={ false }
@@ -58,7 +58,7 @@ class PlayerPickModal extends React.Component {
         footer={ null }
       >
         { this.renderErrorMessage() }
-        { this.renderPlayerPickForm() }
+        { this.renderPickForm() }
       </Modal>
     );
   }
@@ -89,7 +89,7 @@ class PlayerPickModal extends React.Component {
     }
   };
 
-  renderPlayerPickForm = () => {
+  renderPickForm = () => {
     const { getFieldDecorator, getFieldsError } = this.props.form;
     const existingPick = this.props.existingPick.team || undefined;
     const availableTeams = this.getAvailableTeams();
@@ -121,7 +121,7 @@ class PlayerPickModal extends React.Component {
   };
 }
 
-PlayerPickModal.propTypes = {
+PickModal.propTypes = {
   form: PropTypes.object,
   selectedWeek: PropTypes.number,
   existingPick: PropTypes.object,
@@ -142,11 +142,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  closeModal: () => dispatch(showPlayerPickModalAction(false)),
-  submitPick: team => dispatch(submitPickPlayerAction(team)),
+  closeModal: () => dispatch(showPickModalAction(false)),
+  submitPick: team => dispatch(submitPickAction(team)),
   clearErrors: () => dispatch(gameErrorAction(null)),
 });
 
-const ConnectedPlayerPickModal = connect(mapStateToProps, mapDispatchToProps)(PlayerPickModal);
+const ConnectedPickModal = connect(mapStateToProps, mapDispatchToProps)(PickModal);
 
-export default Form.create({ name: 'loginForm' })(ConnectedPlayerPickModal);
+export default Form.create({ name: 'pickForm' })(ConnectedPickModal);

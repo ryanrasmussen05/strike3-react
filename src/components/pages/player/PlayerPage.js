@@ -2,8 +2,8 @@ import React from 'react';
 import './PlayerPage.scss';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { selectShowPlayerPickModal } from '../../../redux/selectors/modal.selectors';
-import PlayerPickModal from '../../modals/playerPickModal/PlayerPickModal';
+import { selectShowPickModal } from '../../../redux/selectors/modal.selectors';
+import PlayerPickModal from '../../modals/pickModal/PickModal';
 import { getGameDataAction } from '../../../redux/actions/game.actions';
 import { selectGameData, selectGameError } from '../../../redux/selectors/game.selectors';
 import { GAME_ERROR_TYPES } from '../../../redux/reducers/game.reducer';
@@ -66,7 +66,7 @@ class PlayerPage extends React.Component {
   };
 
   renderPlayerPickModal = () => {
-    if (this.props.shouldShowPlayerPickModal) {
+    if (this.props.shouldShowPickModal) {
       return <PlayerPickModal />;
     }
   };
@@ -76,7 +76,7 @@ PlayerPage.propTypes = {
   loggedInUser: PropTypes.object,
   gameData: PropTypes.object,
   error: PropTypes.any,
-  shouldShowPlayerPickModal: PropTypes.bool,
+  shouldShowPickModal: PropTypes.bool,
   getGameData: PropTypes.func,
 };
 
@@ -84,7 +84,7 @@ const mapStateToProps = state => ({
   loggedInUser: selectLoggedInUser(state),
   gameData: selectGameData(state),
   error: selectGameError(state),
-  shouldShowPlayerPickModal: selectShowPlayerPickModal(state),
+  shouldShowPickModal: selectShowPickModal(state),
 });
 
 const mapDispatchToProps = dispatch => ({
