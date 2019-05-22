@@ -10,6 +10,7 @@ export const ADMIN_ERROR_TYPES = {
 const INITIAL_STATE = {
   gameData: null,
   selectedPick: null,
+  selectedPlayer: null,
   submitInProgress: false,
   error: null,
 };
@@ -25,6 +26,18 @@ export default (state = INITIAL_STATE, action) => {
     case ActionTypes.ADMIN.SUBMIT_IN_PROGRESS: {
       const newState = _.cloneDeep(state);
       newState.submitInProgress = action.payload;
+      return newState;
+    }
+
+    case ActionTypes.ADMIN.SET_SELECTED_PLAYER: {
+      const newState = _.cloneDeep(state);
+      newState.selectedPlayer = action.payload;
+      return newState;
+    }
+
+    case ActionTypes.ADMIN.SET_SELECTED_PICK: {
+      const newState = _.cloneDeep(state);
+      newState.selectedPick = action.payload;
       return newState;
     }
 

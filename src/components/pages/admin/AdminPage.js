@@ -8,6 +8,8 @@ import { selectAdminError, selectAdminGameData, selectIsAdmin } from '../../../r
 import { selectGlobalLoading } from '../../../redux/selectors/global.selectors';
 import GameTable from '../../gameTable/GameTable';
 import { getGameDataAdminAction } from '../../../redux/actions/admin.actions';
+import { selectShowAdminPickModal } from '../../../redux/selectors/modal.selectors';
+import AdminPickModal from '../../modals/adminPickModal/AdminPickModal';
 
 class AdminPage extends React.Component {
 
@@ -47,17 +49,26 @@ class AdminPage extends React.Component {
   renderPage = () => {
     return (
       <div className="admin-page">
+        { this.renderAdminPickModal() }
+
         <div className="game-table-container">
           <GameTable admin={ true } />
         </div>
       </div>
     );
   };
+
+  renderAdminPickModal = () => {
+    if (this.props.shouldShowAdminPickModal) {
+      return <AdminPickModal />;
+    }
+  }
 }
 
 AdminPage.propTypes = {
   isAdmin: PropTypes.bool,
   gameData: PropTypes.object,
+  shouldShowAdminPickModal: PropTypes.bool,
   globalLoading: PropTypes.bool,
   error: PropTypes.any,
   getGameDataAdmin: PropTypes.func,
@@ -66,6 +77,7 @@ AdminPage.propTypes = {
 const mapStateToProps = state => ({
   isAdmin: selectIsAdmin(state),
   gameData: selectAdminGameData(state),
+  shouldShowAdminPickModal: selectShowAdminPickModal(state),
   globalLoading: selectGlobalLoading(state),
   error: selectAdminError(state),
 });

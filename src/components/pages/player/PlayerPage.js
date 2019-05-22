@@ -46,7 +46,7 @@ class PlayerPage extends React.Component {
   renderPage = () => {
     return (
       <div className="player-page">
-        { this.renderPlayerPickModal() }
+        { this.renderPickModal() }
 
         <div className="week-selector-container">
           <WeekSelector />
@@ -65,7 +65,7 @@ class PlayerPage extends React.Component {
     );
   };
 
-  renderPlayerPickModal = () => {
+  renderPickModal = () => {
     if (this.props.shouldShowPickModal) {
       return <PlayerPickModal />;
     }

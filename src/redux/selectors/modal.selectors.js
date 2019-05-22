@@ -21,3 +21,8 @@ export const selectShowPickModal = createSelector(
   [selectModalState],
   modal => modal.showPickModal
 );
+
+export const selectShowAdminPickModal = createSelector(
+  [selectModalState],
+  modal => modal.showAdminPickModal
+);

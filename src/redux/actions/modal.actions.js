@@ -19,3 +19,8 @@ export const showPickModalAction = shouldShow => ({
   type: ActionTypes.MODAL.SHOW_PICK_MODAL,
   payload: shouldShow,
 });
+
+export const showAdminPickModalAction = shouldShow => ({
+  type: ActionTypes.MODAL.SHOW_ADMIN_PICK_MODAL,
+  payload: shouldShow,
+});
