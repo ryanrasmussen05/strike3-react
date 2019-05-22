@@ -1,8 +1,13 @@
+@import '../../theme';
+
 .game-table {
+  .game-table-data {
+    box-shadow: $box-shadow;
+  }
 
   .game-table-row {
     display: flex;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid $table-border-color;
   }
 
   .player-title {
@@ -24,8 +29,8 @@
     width: 200px;
     font-weight: 400;
     font-size: 16px;
-    border-left: 1px solid black;
-    border-right: 1px solid black;
+    border-left: 1px solid $table-border-color;
+    border-right: 1px solid $table-border-color;
   }
 
   .pick {
@@ -35,7 +40,15 @@
     width: 50px;
     font-weight: 500;
     font-size: 16px;
-    border-right: 1px solid black;
+    border-right: 1px solid $table-border-color;
     padding: 5px 0;
+
+    &.editable {
+      cursor: pointer;
+
+      &:hover {
+        background-color: $table-hover-color;
+      }
+    }
   }
 }

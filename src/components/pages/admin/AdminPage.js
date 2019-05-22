@@ -48,7 +48,9 @@ class AdminPage extends React.Component {
   renderPage = () => {
     return (
       <div className="admin-page">
-        <GameTable />
+        <div className="game-table-container">
+          <GameTable />
+        </div>
       </div>
     );
   };

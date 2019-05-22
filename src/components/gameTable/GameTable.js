@@ -16,9 +16,11 @@ class GameTable extends React.Component {
               <div className="week-title" key={ i }>{ i + 1 }</div>)
             )}
           </div>
-          { this.props.gameData.players.map(player => (
-            this.renderPlayer(player)
-          ))}
+          <div className="game-table-data">
+            { this.props.gameData.players.map(player => (
+              this.renderPlayer(player)
+            ))}
+          </div>
         </div>
       );
     }
@@ -31,7 +33,7 @@ class GameTable extends React.Component {
       <div key={ player.id } className="game-table-row">
         <div className="player-name">{ player.name }</div>
         { player.picks.map(pick => (
-          <div key={ pick.week } className="pick">{ pick.team }</div>
+          <div key={ pick.week } className={ pick.locked ? 'pick' : 'pick editable' }>{ pick.team }</div>
         ))}
       </div>
     );
