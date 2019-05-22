@@ -1,6 +1,6 @@
 import React from 'react';
 import './AdminPickModal.scss';
-import { Alert, Button, Form, Modal, Select } from 'antd';
+import { Alert, Button, Form, Modal, Radio, Select } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { showAdminPickModalAction } from '../../../redux/actions/modal.actions';
@@ -82,13 +82,13 @@ class AdminPickModal extends React.Component {
 
   renderAdminPickForm = () => {
     const { getFieldDecorator, getFieldsError } = this.props.form;
-    const existingPick = this.props.selectedPick.team || undefined;
+    const existingPick = this.props.selectedPick || {};
 
     return (
       <Form colon={ false } layout="vertical" onSubmit={ this.handleSubmit }>
 
         <Form.Item label="Team">
-          { getFieldDecorator('team', { rules: [{ required: true, message: 'Team is required' }], initialValue: existingPick })(
+          { getFieldDecorator('team', { rules: [{ required: true, message: 'Team is required' }], initialValue: existingPick.team })(
             <Select
               showSearch
               placeholder="Select Team"
@@ -98,6 +98,17 @@ class AdminPickModal extends React.Component {
                 <Select.Option key={ team.name } value={ team.abbreviation }>{ team.name }</Select.Option>
               )) }
             </Select>
+          ) }
+        </Form.Item>
+
+        <Form.Item label="Result">
+          { getFieldDecorator('status', { rules: [{ required: true, message: 'Result is required' }], initialValue: existingPick.status })(
+            <Radio.Group>
+              <Radio value="open">Open</Radio>
+              <Radio value="win">Win</Radio>
+              <Radio value="loss">Loss</Radio>
+              <Radio value="tie">Tie</Radio>
+            </Radio.Group>
           ) }
         </Form.Item>
 

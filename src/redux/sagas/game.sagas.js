@@ -5,7 +5,7 @@ import {
   gameErrorAction,
   getGameDataSuccessAction,
   submitInProgressAction,
-  submitPickSuccessAction,
+  updateGameDataAction,
 } from '../actions/game.actions';
 import { GAME_ERROR_TYPES } from '../reducers/game.reducer';
 import { showPickModalAction } from '../actions/modal.actions';
@@ -46,11 +46,11 @@ function* submitPickSaga(action) {
     const payload = { week, userId, team };
 
     const setPickFunction = yield call([functions, functions.httpsCallable], 'setPick');
-    yield call(setPickFunction, payload);
+    const gameData = yield call(setPickFunction, payload);
 
     yield fork(message.success, 'Pick Submitted');
 
-    yield put(submitPickSuccessAction({ userId, week, team }));
+    yield put(updateGameDataAction(gameData.data));
 
     yield put(submitInProgressAction(false));
     yield put(showPickModalAction(false));

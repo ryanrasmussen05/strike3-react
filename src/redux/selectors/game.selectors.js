@@ -41,6 +41,11 @@ export const selectPickForSelectedWeek = createSelector(
     }
 
     const player = gameData.players.find(currentPlayer => currentPlayer.id === loggedInUserId);
+
+    if (!player) {
+      return null;
+    }
+
     return player.picks[week - 1];
   }
 );

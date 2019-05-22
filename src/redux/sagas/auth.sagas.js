@@ -9,6 +9,7 @@ import {
   showLoginModalAction,
   showResetPasswordModalAction,
 } from '../actions/modal.actions';
+import { getGameDataAction, getGameDataSuccessAction } from '../actions/game.actions';
 
 function* signInSaga(action) {
   try {
@@ -19,10 +20,9 @@ function* signInSaga(action) {
 
     yield call([auth, auth.signInWithEmailAndPassword], action.payload.email, action.payload.password);
 
-    // TODO get game data again
-
     yield put(showLoginModalAction(false));
     yield put(authLoadingAction(false));
+    yield put(getGameDataAction());
   } catch (error) {
     console.error(error);
     let errorType = AUTH_ERROR_TYPES.UNKNOWN;
@@ -45,6 +45,7 @@ function* signOutSaga() {
     const auth = firebase.auth();
 
     yield call([auth, auth.signOut]);
+    yield put(getGameDataAction());
     yield fork(message.info, 'You have signed out');
   } catch (error) {
     console.error(error);
@@ -72,7 +73,9 @@ function* createAccountSaga(action) {
 
     // add user to strike3 database
     const createPlayerFunction = yield call([functions, functions.httpsCallable], 'createPlayer');
-    yield call(createPlayerFunction, { id: user.uid, name: userDisplayName, email: user.email });
+    const gameData = yield call(createPlayerFunction, { id: user.uid, name: userDisplayName, email: user.email });
+
+    yield put(getGameDataSuccessAction(gameData.data));
 
     yield put(showCreateAccountModalAction(false));
     yield fork(message.success, 'Your account has been created');

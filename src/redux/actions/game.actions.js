@@ -9,6 +9,11 @@ export const getGameDataSuccessAction = gameData => ({
   payload: gameData,
 });
 
+export const updateGameDataAction = gameData => ({
+  type: ActionTypes.GAME.UPDATE_GAME_DATA,
+  payload: gameData,
+});
+
 export const setSelectedWeekAction = weekNumber => ({
   type: ActionTypes.GAME.SET_SELECTED_WEEK,
   payload: weekNumber,
@@ -27,9 +32,4 @@ export const gameErrorAction = error => ({
 export const submitPickAction = team => ({
   type: ActionTypes.GAME.SUBMIT_PICK,
   payload: team,
-});
-
-export const submitPickSuccessAction = pickDetails => ({
-  type: ActionTypes.GAME.SUBMIT_PICK_SUCCESS,
-  payload: pickDetails,
 });
