@@ -19,6 +19,11 @@ export const adminSetSelectedPlayerAction = player => ({
   payload: player,
 });
 
+export const adminSubmitPickAction = pick => ({
+  type: ActionTypes.ADMIN.SUBMIT_PICK,
+  payload: pick,
+});
+
 export const adminSubmitInProgressAction = isSubmitting => ({
   type: ActionTypes.ADMIN.SUBMIT_IN_PROGRESS,
   payload: isSubmitting,

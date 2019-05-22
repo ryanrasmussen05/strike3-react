@@ -1,7 +1,6 @@
 const functions = require('firebase-functions');
 const isAdmin = require('../helpers/isAdmin').isAdmin;
 const updateCurrentWeek = require('../helpers/updateCurrentWeek').updateCurrentWeek;
-const deleteFuturePicks = require('../helpers/deleteFuturePicks').deleteFuturePicks;
 
 exports.handler = async(pick, context, database) => {
   const { team, week, status, userId } = pick;
@@ -36,9 +35,6 @@ exports.handler = async(pick, context, database) => {
 
   // submit pick
   await database.ref(pickPath).update({ team, status });
-
-  // if user now eliminated, delete picks they have in future weeks
-  await deleteFuturePicks(allExistingPicks, userId, database);
 
   // if all results are set for week, update the current week
   const updatedGameData = await updateCurrentWeek(context, database);

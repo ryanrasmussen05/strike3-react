@@ -1,8 +1,8 @@
-const getGameDataAdminFunction = require('../handlers/getGameDataAdmin').handler;
+const getGameData = require('./getGameData').getGameData;
 
 // if all results are set for current week, increment the week
 exports.updateCurrentWeek = async(context, database) => {
-  const gameData = await getGameDataAdminFunction.handler(context, database);
+  const gameData = await getGameData(context, database, true);
 
   const week = gameData.week;
 
@@ -18,7 +18,7 @@ exports.updateCurrentWeek = async(context, database) => {
   }
 
   if (weekIsComplete) {
-    await database.ref(`week`).update(week + 1);
+    await database.ref(`week`).set(week + 1);
     gameData.week = week + 1;
   }
 

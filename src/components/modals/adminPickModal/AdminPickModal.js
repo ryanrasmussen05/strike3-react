@@ -4,7 +4,7 @@ import { Alert, Button, Form, Modal, Radio, Select } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { showAdminPickModalAction } from '../../../redux/actions/modal.actions';
-import { AllTeams } from '../../../util/teams.util';
+import { AllTeamsAdmin } from '../../../util/teams.util';
 import { ADMIN_ERROR_TYPES } from '../../../redux/reducers/admin.reducer';
 import {
   selectAdminError,
@@ -12,7 +12,7 @@ import {
   selectAdminSelectedPick,
   selectAdminSelectedPlayer,
 } from '../../../redux/selectors/admin.selectors';
-import { adminErrorAction } from '../../../redux/actions/admin.actions';
+import { adminErrorAction, adminSubmitPickAction } from '../../../redux/actions/admin.actions';
 
 class AdminPickModal extends React.Component {
 
@@ -33,7 +33,15 @@ class AdminPickModal extends React.Component {
 
     this.props.form.validateFields((errors, values) => {
       if (!errors) {
-        this.props.submitPick(values.team);
+
+        const pick = {
+          team: values.team,
+          status: values.status,
+          week: this.props.selectedPick.week,
+          userId: this.props.selectedPlayer.id,
+        };
+
+        this.props.submitPick(pick);
       }
     });
   };
@@ -88,13 +96,13 @@ class AdminPickModal extends React.Component {
       <Form colon={ false } layout="vertical" onSubmit={ this.handleSubmit }>
 
         <Form.Item label="Team">
-          { getFieldDecorator('team', { rules: [{ required: true, message: 'Team is required' }], initialValue: existingPick.team })(
+          { getFieldDecorator('team', { initialValue: existingPick.team || undefined })(
             <Select
               showSearch
               placeholder="Select Team"
               filterOption={ (input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0 }
             >
-              { AllTeams.map(team => (
+              { AllTeamsAdmin.map(team => (
                 <Select.Option key={ team.name } value={ team.abbreviation }>{ team.name }</Select.Option>
               )) }
             </Select>
@@ -140,7 +148,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   closeModal: () => dispatch(showAdminPickModalAction(false)),
-  // submitPick: team => dispatch(submitPickPlayerAction(team)),
+  submitPick: pick => dispatch(adminSubmitPickAction(pick)),
   clearErrors: () => dispatch(adminErrorAction(null)),
 });
 

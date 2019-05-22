@@ -1,39 +1,5 @@
-const functions = require('firebase-functions');
-const isAdmin = require('../helpers/isAdmin').isAdmin;
-const buildPlayerModel = require('../helpers/buildPlayerModel').buildPlayerModel;
-
-const weekPath = `week`;
-const playersPath = `players`;
+const getGameData = require('../helpers/getGameData').getGameData;
 
 exports.handler = async(context, database) => {
-
-  const isUserAdmin = await isAdmin(context, database);
-
-  if (!isUserAdmin) {
-    throw new functions.https.HttpsError('permission-denied', 'only admin can call this function');
-  }
-
-  const loggedInUserId = context.auth ? context.auth.uid : null;
-
-  const weekSnapshot = await database.ref(weekPath).once('value');
-  const week = weekSnapshot.val();
-
-  const playersSnapshot = await database.ref(playersPath).once('value');
-  const dbPlayers = playersSnapshot.val();
-
-  let players = [];
-
-  if (dbPlayers) {
-    const results = [];
-
-    Object.keys(dbPlayers).forEach(async playerId => {
-      results.push(buildPlayerModel(dbPlayers[playerId], database, loggedInUserId, true));
-    });
-
-    players = await Promise.all(results);
-  }
-
-  // TODO add rank and sort by rank
-
-  return { week, players };
+  return getGameData(context, database, true);
 };
