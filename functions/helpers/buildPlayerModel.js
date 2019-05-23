@@ -15,6 +15,7 @@ exports.buildPlayerModel = async(dbPlayer, database, loggedInUserId, isAdmin) =>
   const dbPlayerPicks = dbPlayerPicksSnapshot.val();
 
   let totalStrikes = 0;
+  let eliminationWeek = 100;
 
   for (let i = 1; i <= 17; i++) {
     // if pick for this week exists in DB
@@ -28,7 +29,7 @@ exports.buildPlayerModel = async(dbPlayer, database, loggedInUserId, isAdmin) =>
         // TODO check if game has started, if it has then isEditable = false
       }
 
-      // TODO add a check for isVisible, only push pick to array if admin, or game started, or user owns pick, or result set
+      // TODO add a check for isVisible, only push pick to array if admin, or game started, or user owns pick, or result is set
 
       player.picks.push({
         week: i,
@@ -42,6 +43,11 @@ exports.buildPlayerModel = async(dbPlayer, database, loggedInUserId, isAdmin) =>
         totalStrikes = totalStrikes + 1;
       } else if (dbPlayerPicks[i].status === 'tie') {
         totalStrikes = totalStrikes + 0.5;
+      }
+
+      // if eliminated, set elimination week
+      if (totalStrikes >= 3) {
+        eliminationWeek = i;
       }
 
     // if pick for this week does not exists in DB
@@ -59,6 +65,9 @@ exports.buildPlayerModel = async(dbPlayer, database, loggedInUserId, isAdmin) =>
       });
     }
   }
+
+  player.strikes = totalStrikes;
+  player.eliminationWeek = eliminationWeek;
 
   return player;
 };

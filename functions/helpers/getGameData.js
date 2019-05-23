@@ -1,6 +1,7 @@
 const functions = require('firebase-functions');
 const isAdmin = require('../helpers/isAdmin').isAdmin;
 const buildPlayerModel = require('../helpers/buildPlayerModel').buildPlayerModel;
+const rankPlayers = require('../helpers/rankPlayers').rankPlayers;
 
 const weekPath = `week`;
 const playersPath = `players`;
@@ -35,7 +36,7 @@ exports.getGameData = async(context, database, adminVersion) => {
     players = await Promise.all(results);
   }
 
-  // TODO add rank and sort by rank
+  await rankPlayers(players);
 
   return { week, players };
 };
