@@ -1,13 +1,14 @@
 @import '../../theme';
 
 .week-table {
-  border: 1px solid $table-border-color;
+  border: 1px solid $week-table-border-color;
   border-radius: 5px;
   overflow: hidden;
   box-shadow: $box-shadow;
 
   .ant-table-tbody > tr > td {
     padding: 5px 16px;
+    border: none;
   }
 
   .week-table-logo {
@@ -27,5 +28,38 @@
   .week-table-no-pick {
     font-size: 24px;
     height: 40px;
+  }
+
+  .week-table-eliminated {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .pick-row {
+    border-bottom: 1px solid $week-table-border-color;
+
+    &:last-child {
+      border: none;
+    }
+
+    &.win {
+      background-color: rgba($win-color, 0.5);
+    }
+
+    &.loss {
+      background-color: rgba($loss-color, 0.5);
+    }
+
+    &.tie {
+      background-color: rgba($tie-color, 0.5);
+    }
+
+    &.eliminated {
+      background-color: rgba($eliminated-color, 0.5);
+    }
   }
 }

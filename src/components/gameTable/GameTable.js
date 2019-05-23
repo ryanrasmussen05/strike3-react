@@ -21,6 +21,20 @@ class GameTable extends React.Component {
     }
   };
 
+  getClassNameForPick = pick => {
+    let classes = 'pick';
+
+    if (!pick.locked) {
+      classes = `${classes} editable`;
+    }
+
+    if (pick.status !== 'open') {
+      classes = `${classes} ${pick.status}`;
+    }
+
+    return classes;
+  };
+
   render() {
     const gameData = this.props.admin ? this.props.gameDataAdmin : this.props.gameData;
 
@@ -50,7 +64,7 @@ class GameTable extends React.Component {
       <div key={ player.id } className="game-table-row">
         <div className="player-name">{ player.name }</div>
         { player.picks.map(pick => (
-          <div key={ pick.week } className={ pick.locked ? 'pick' : 'pick editable' } onClick={ () => this.handlePickSelected(player, pick) }>
+          <div key={ pick.week } className={ this.getClassNameForPick(pick) } onClick={ () => this.handlePickSelected(player, pick) }>
             { pick.team }
           </div>
         ))}

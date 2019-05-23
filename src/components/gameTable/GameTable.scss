@@ -7,7 +7,7 @@
 
   .game-table-row {
     display: flex;
-    border-bottom: 1px solid $table-border-color;
+    border-bottom: 1px solid $game-table-border-color;
   }
 
   .player-title {
@@ -29,8 +29,8 @@
     width: 200px;
     font-weight: 400;
     font-size: 16px;
-    border-left: 1px solid $table-border-color;
-    border-right: 1px solid $table-border-color;
+    border-left: 1px solid $game-table-border-color;
+    border-right: 1px solid $game-table-border-color;
   }
 
   .pick {
@@ -40,14 +40,30 @@
     width: 50px;
     font-weight: 500;
     font-size: 16px;
-    border-right: 1px solid $table-border-color;
+    border-right: 1px solid $game-table-border-color;
     padding: 5px 0;
+
+    &.win {
+      background-color: $win-color;
+    }
+
+    &.loss {
+      background-color: $loss-color;
+    }
+
+    &.tie {
+      background-color: $tie-color;
+    }
+
+    &.eliminated {
+      background-color: $eliminated-color;
+    }
 
     &.editable {
       cursor: pointer;
 
       &:hover {
-        background-color: $table-hover-color;
+        background-color: $game-table-hover-color;
       }
     }
   }

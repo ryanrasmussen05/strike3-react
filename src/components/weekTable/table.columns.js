@@ -1,6 +1,7 @@
 /* eslint-disable react/display-name,react/no-multi-comp */
 import React from 'react';
 import { getSvgForTeam } from '../../util/teams.util';
+import PickColumnHeader from './PickColumnHeader';
 
 export const columns = [
   {
@@ -10,10 +11,10 @@ export const columns = [
     render: name => <div>{ name }</div>,
   },
   {
-    title: 'Pick',
+    title: <PickColumnHeader />,
     dataIndex: 'pick',
     key: 'pick',
-    width: 112,
+    width: 120,
     align: 'center',
     render: pick => {
       if (pick.team) {
@@ -22,6 +23,11 @@ export const columns = [
             { getSvgForTeam(pick.team) }
             <span className="week-table-team">{ pick.team }</span>
           </div>
+        );
+      }
+      if (pick.status === 'eliminated') {
+        return (
+          <div className="week-table-eliminated">OUT</div>
         );
       }
       return (

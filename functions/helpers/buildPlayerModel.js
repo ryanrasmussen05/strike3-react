@@ -53,7 +53,7 @@ exports.buildPlayerModel = async(dbPlayer, database, loggedInUserId, isAdmin) =>
 
       player.picks.push({
         week: i,
-        locked: !isEditable,
+        locked: totalStrikes >= 3 ? true : !isEditable,
         team: null,
         status: totalStrikes >= 3 ? 'eliminated' : 'open',
       });

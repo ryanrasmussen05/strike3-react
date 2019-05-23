@@ -8,10 +8,27 @@ import { columns } from './table.columns';
 
 class WeekTable extends React.Component {
 
+  getRowClass = row => {
+    let classes = 'pick-row';
+
+    if (row.pick.status !== 'open') {
+      classes = `${classes} ${row.pick.status}`;
+    }
+
+    return classes;
+  };
+
   render() {
     return (
       <div className="week-table">
-        <Table columns={ columns } dataSource={ this.props.players } pagination={ false } rowKey="id" className="table" />
+        <Table
+          columns={ columns }
+          dataSource={ this.props.players }
+          pagination={ false }
+          rowKey="id"
+          className="table"
+          rowClassName={ this.getRowClass }
+        />
       </div>
     );
   }
@@ -25,7 +42,6 @@ const mapStateToProps = state => ({
   players: selectPlayersForSelectedWeek(state),
 });
 
-const mapDispatchToProps = () => ({
-});
+const mapDispatchToProps = () => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(WeekTable);

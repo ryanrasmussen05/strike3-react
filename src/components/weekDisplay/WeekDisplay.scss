@@ -1,3 +1,5 @@
+@import '../../theme';
+
 .week-display {
   display:flex;
   flex-direction: column;
@@ -7,6 +9,26 @@
   border-radius: 5px;
   overflow: hidden;
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+
+  &.win {
+    border-color: $win-color;
+    background-color: rgba($win-color, 0.2);
+  }
+
+  &.loss {
+    border-color: $loss-color;
+    background-color: rgba($loss-color, 0.2);
+  }
+
+  &.tie {
+    border-color: $tie-color;
+    background-color: rgba($tie-color, 0.2);
+  }
+
+  &.eliminated {
+    border-color: $eliminated-color;
+    background-color: rgba($eliminated-color, 0.2);
+  }
 
   .display-header {
     font-size: 18px
@@ -25,11 +47,30 @@
     font-weight: 600;
   }
 
+  .result {
+    font-size: 28px;
+    font-weight: 600;
+
+    &.win { color: $win-color }
+    &.loss { color: $loss-color }
+    &.tie { color: $tie-color }
+  }
+
   .change-pick-button {
     margin: 10px;
   }
 
   .make-pick-button {
     margin: 20px;
+  }
+
+  .eliminated-header {
+    font-size: 24px;
+    font-weight: 600;
+  }
+
+  .eliminated-text {
+    font-size: 18px;
+    margin: 10px;
   }
 }
