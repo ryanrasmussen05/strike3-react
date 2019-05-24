@@ -59,6 +59,13 @@ class PlayerPage extends React.Component {
       <div className="player-page">
         { this.renderPickModal() }
 
+        { !this.props.loggedInUser &&
+        <div className="welcome-message">
+          <div className="welcome-header">Welcome to Strike 3 2019</div>
+          <div className="welcome-text">Click the <span className="bold">Sign In</span> button to sign in or create an account</div>
+        </div>
+        }
+
         <div className="week-selector-container">
           <WeekSelector />
         </div>

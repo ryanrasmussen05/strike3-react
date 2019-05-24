@@ -76,17 +76,6 @@ class WeekDisplay extends React.Component {
       );
     }
   }
-
-  renderPickNotMade() {
-    return (
-      <React.Fragment>
-        <div className="display-header">{`Make Your Week ${this.props.week} Pick`}</div>
-        <Button type="primary" onClick={ this.props.showPickModal } className="make-pick-button">
-          Make Pick
-        </Button>
-      </React.Fragment>
-    );
-  }
 }
 
 WeekDisplay.propTypes = {
