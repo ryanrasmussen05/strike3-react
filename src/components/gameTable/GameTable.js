@@ -42,6 +42,7 @@ class GameTable extends React.Component {
       return (
         <div className="game-table">
           <div className="game-table-row">
+            <div className="rank-title">Rank</div>
             <div className="player-title">Player</div>
             { [...Array(17)].map((e, i) => (
               <div className="week-title" key={ i }>{ i + 1 }</div>)
@@ -62,6 +63,7 @@ class GameTable extends React.Component {
   renderPlayer = player => {
     return (
       <div key={ player.id } className="game-table-row">
+        <div className="rank">{ player.rank }</div>
         <div className="player-name">{ player.name }</div>
         { player.picks.map(pick => (
           <div key={ pick.week } className={ this.getClassNameForPick(pick) } onClick={ () => this.handlePickSelected(player, pick) }>

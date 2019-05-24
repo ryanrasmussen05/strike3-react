@@ -72,6 +72,7 @@ export const selectPlayersForSelectedWeek = createSelector(
         if (player.picks && player.picks[week - 1]) {
           players.push({
             name: player.name,
+            rank: player.rank,
             id: player.id,
             pick: player.picks[week - 1],
           });

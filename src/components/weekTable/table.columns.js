@@ -5,6 +5,13 @@ import PickColumnHeader from './PickColumnHeader';
 
 export const columns = [
   {
+    title: 'Rank',
+    dataIndex: 'rank',
+    key: 'rank',
+    align: 'center',
+    render: rank => <div>{ rank }</div>,
+  },
+  {
     title: 'Name',
     dataIndex: 'name',
     key: 'name',
