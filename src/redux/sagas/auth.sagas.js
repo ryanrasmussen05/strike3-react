@@ -10,6 +10,7 @@ import {
   showResetPasswordModalAction,
 } from '../actions/modal.actions';
 import { getGameDataAction, getGameDataSuccessAction } from '../actions/game.actions';
+import { getGameDataAdminAction } from '../actions/admin.actions';
 
 function* signInSaga(action) {
   try {
@@ -22,7 +23,12 @@ function* signInSaga(action) {
 
     yield put(showLoginModalAction(false));
     yield put(authLoadingAction(false));
-    yield put(getGameDataAction());
+
+    if (window.location.pathname.includes('admin')) {
+      yield put(getGameDataAdminAction());
+    } else {
+      yield put(getGameDataAction());
+    }
   } catch (error) {
     console.error(error);
     let errorType = AUTH_ERROR_TYPES.UNKNOWN;
@@ -45,8 +51,13 @@ function* signOutSaga() {
     const auth = firebase.auth();
 
     yield call([auth, auth.signOut]);
-    yield put(getGameDataAction());
-    yield fork(message.info, 'You have signed out');
+
+    if (window.location.pathname.includes('admin')) {
+      window.location.href = '/player';
+    } else {
+      yield put(getGameDataAction());
+      yield fork(message.info, 'You have signed out');
+    }
   } catch (error) {
     console.error(error);
   }
