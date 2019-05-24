@@ -12,6 +12,17 @@
     border: none;
   }
 
+  .player-label {
+    font-weight: 500;
+  }
+
+  .strikes-label {
+    margin-left: 3px;
+    font-size: 12px;
+    font-weight: 400;
+    font-style: italic;
+  }
+
   .week-table-logo {
     font-size: 40px;
     display: flex;

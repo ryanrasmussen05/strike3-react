@@ -73,6 +73,7 @@ export const selectPlayersForSelectedWeek = createSelector(
           players.push({
             name: player.name,
             rank: player.rank,
+            strikes: player.strikes,
             id: player.id,
             pick: player.picks[week - 1],
           });

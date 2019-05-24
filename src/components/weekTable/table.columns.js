@@ -12,10 +12,17 @@ export const columns = [
     render: rank => <div>{ rank }</div>,
   },
   {
-    title: 'Name',
+    title: <div>Name<span className="strikes-label">(Strikes)</span></div>,
     dataIndex: 'name',
     key: 'name',
-    render: name => <div>{ name }</div>,
+    render: (name, player) => (
+      <div className={ player.pick.status === 'eliminated' ? '' : 'player-label' }>
+        { name }
+        { player.pick.status !== 'eliminated' &&
+        <span className="strikes-label">{ `(${player.strikes})` }</span>
+        }
+      </div>
+    ),
   },
   {
     title: <PickColumnHeader />,
