@@ -9,6 +9,7 @@
   border-radius: 5px;
   overflow: hidden;
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+  background-color: $content-background-color;
 
   &.win {
     border-color: $win-color;

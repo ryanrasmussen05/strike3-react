@@ -22,12 +22,18 @@ class App extends React.Component {
     return (
       <BrowserRouter>
         { this.props.globalLoading && <LoadingIndicator /> }
-        <Header />
-        <Switch>
-          <Route path="/player" component={ PlayerPage } />
-          <Route path="/admin" component={ AdminPage } />
-          <Redirect from="*" to="/player" />
-        </Switch>
+
+        <div className="header-container">
+          <Header />
+        </div>
+
+        <div className="page-container">
+          <Switch>
+            <Route path="/player" component={ PlayerPage } />
+            <Route path="/admin" component={ AdminPage } />
+            <Redirect from="*" to="/player" />
+          </Switch>
+        </div>
       </BrowserRouter>
     );
   }
