@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import { selectGameData } from '../../redux/selectors/game.selectors';
 import { selectAdminGameData } from '../../redux/selectors/admin.selectors';
 import { adminSetSelectedPickAction, adminSetSelectedPlayerAction } from '../../redux/actions/admin.actions';
-import { showAdminPickModalAction } from '../../redux/actions/modal.actions';
+import { showAdminPickModalAction, showPickModalAction } from '../../redux/actions/modal.actions';
+import { setSelectedWeekAction } from '../../redux/actions/game.actions';
 
 class GameTable extends React.Component {
 
@@ -18,6 +19,9 @@ class GameTable extends React.Component {
       this.props.adminSetSelectedPlayer(player);
       this.props.adminSetSelectedPick(pick);
       this.props.showAdminPickModal();
+    } else {
+      this.props.setSelectedWeek(pick.week);
+      this.props.showPickModal();
     }
   };
 
@@ -43,11 +47,14 @@ class GameTable extends React.Component {
         <div className="game-table">
           <div className="game-table-row">
             <div className="rank-title">Rank</div>
+
             <div className="player-title">Player</div>
+
             { [...Array(17)].map((e, i) => (
               <div className="week-title" key={ i }>{ i + 1 }</div>)
             )}
           </div>
+
           <div className="game-table-data">
             { gameData.players.map(player => (
               this.renderPlayer(player)
@@ -64,7 +71,9 @@ class GameTable extends React.Component {
     return (
       <div key={ player.id } className="game-table-row">
         <div className="rank">{ player.rank }</div>
+
         <div className="player-name">{ player.name }</div>
+
         { player.picks.map(pick => (
           <div key={ pick.week } className={ this.getClassNameForPick(pick) } onClick={ () => this.handlePickSelected(player, pick) }>
             { pick.team }
@@ -82,6 +91,8 @@ GameTable.propTypes = {
   adminSetSelectedPlayer: PropTypes.func,
   adminSetSelectedPick: PropTypes.func,
   showAdminPickModal: PropTypes.func,
+  setSelectedWeek: PropTypes.func,
+  showPickModal: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -93,6 +104,8 @@ const mapDispatchToProps = dispatch => ({
   adminSetSelectedPlayer: player => dispatch(adminSetSelectedPlayerAction(player)),
   adminSetSelectedPick: pick => dispatch(adminSetSelectedPickAction(pick)),
   showAdminPickModal: () => dispatch(showAdminPickModalAction(true)),
+  setSelectedWeek: weekNumber => dispatch(setSelectedWeekAction(weekNumber)),
+  showPickModal: () => dispatch(showPickModalAction(true)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GameTable);

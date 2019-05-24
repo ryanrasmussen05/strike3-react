@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 import { selectLoggedInUserId } from './auth.selectors';
+import { selectGameData } from './game.selectors';
 
 export const selectAdminState = ({ admin }) => admin;
 
@@ -29,13 +30,15 @@ export const selectAdminIsSubmitting = createSelector(
 );
 
 export const selectIsAdmin = createSelector(
-  [selectLoggedInUserId, selectAdminGameData],
-  (userId, gameData) => {
-    if (!userId || !gameData || !gameData.players) {
+  [selectLoggedInUserId, selectAdminGameData, selectGameData],
+  (userId, adminGameData, gameData) => {
+    if (!userId || (!gameData && !adminGameData)) {
       return false;
     }
 
-    const loggedInPlayer = gameData.players.find(player => player.id === userId);
+    const actingGameData = adminGameData || gameData;
+
+    const loggedInPlayer = actingGameData.players.find(player => player.id === userId);
 
     return loggedInPlayer.admin || loggedInPlayer.superuser;
   }

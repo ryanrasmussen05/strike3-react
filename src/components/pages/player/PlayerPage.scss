@@ -12,7 +12,24 @@
     margin: 0 20px 20px 20px;
   }
 
+  .view-type-container {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    margin: 20px;
+
+    .view-type-label {
+      font-weight: 500;
+      margin-right: 10px;
+    }
+  }
+
   .week-table-container {
+    margin: 10px auto 30px auto;
+  }
+
+  .game-table-container {
+    margin: 10px auto 30px auto;
   }
 }
 

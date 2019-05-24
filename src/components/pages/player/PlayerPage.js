@@ -7,17 +7,28 @@ import PlayerPickModal from '../../modals/pickModal/PickModal';
 import { getGameDataAction } from '../../../redux/actions/game.actions';
 import { selectGameData, selectGameError } from '../../../redux/selectors/game.selectors';
 import { GAME_ERROR_TYPES } from '../../../redux/reducers/game.reducer';
-import { Alert } from 'antd';
+import { Alert, Radio } from 'antd';
 import WeekSelector from '../../weekSelector/WeekSelector';
 import WeekTable from '../../weekTable/WeekTable';
 import WeekDisplay from '../../weekDisplay/WeekDisplay';
 import { selectLoggedInUser } from '../../../redux/selectors/auth.selectors';
+import GameTable from '../../gameTable/GameTable';
 
 class PlayerPage extends React.Component {
+
+  state = {
+    viewType: 'week',
+  };
 
   componentDidMount() {
     this.props.getGameData();
   }
+
+  onViewTypeChange = event => {
+    this.setState({
+      viewType: event.target.value,
+    });
+  };
 
   render() {
     if (this.props.error && this.props.error === GAME_ERROR_TYPES.GAME_DATA) {
@@ -58,9 +69,25 @@ class PlayerPage extends React.Component {
         </div>
         }
 
+        <div className="view-type-container">
+          <div className="view-type-label">View Picks:</div>
+          <Radio.Group size="large" buttonStyle="solid" defaultValue="week" onChange={ this.onViewTypeChange }>
+            <Radio.Button value="week">By Week</Radio.Button>
+            <Radio.Button value="all">All</Radio.Button>
+          </Radio.Group>
+        </div>
+
+        { this.state.viewType === 'week' &&
         <div className="week-table-container">
           <WeekTable />
         </div>
+        }
+
+        { this.state.viewType === 'all' &&
+        <div className="game-table-container">
+          <GameTable admin={ false } />
+        </div>
+        }
       </div>
     );
   };

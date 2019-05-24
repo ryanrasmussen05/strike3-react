@@ -15,6 +15,7 @@ import {
 import { selectLoggedInUser } from '../../redux/selectors/auth.selectors';
 import { signOutAction } from '../../redux/actions/auth.actions';
 import { Link, withRouter } from 'react-router-dom';
+import { selectIsAdmin } from '../../redux/selectors/admin.selectors';
 
 class Header extends React.Component {
 
@@ -27,12 +28,14 @@ class Header extends React.Component {
   };
 
   renderAuthButton = () => {
-    let routeLink; // TODO only admins should see this
+    let routeLink;
 
-    if (this.props.location && this.props.location.pathname === '/player') {
-      routeLink = <Menu.Item><Link to="/admin">Admin</Link></Menu.Item>;
-    } else {
-      routeLink = <Menu.Item><Link to="/player">Home</Link></Menu.Item>;
+    if (this.props.isAdmin) {
+      if (this.props.location && this.props.location.pathname === '/player') {
+        routeLink = <Menu.Item><Link to="/admin">Admin</Link></Menu.Item>;
+      } else {
+        routeLink = <Menu.Item><Link to="/player">Home</Link></Menu.Item>;
+      }
     }
 
     if (this.props.loggedInUser) {
@@ -92,6 +95,7 @@ class Header extends React.Component {
 Header.propTypes = {
   location: PropTypes.object,
   loggedInUser: PropTypes.object,
+  isAdmin: PropTypes.bool,
   shouldShowLoginModal: PropTypes.bool,
   shouldShowCreateAccountModal: PropTypes.bool,
   shouldShowResetPasswordModal: PropTypes.bool,
@@ -101,6 +105,7 @@ Header.propTypes = {
 
 const mapStateToProps = state => ({
   loggedInUser: selectLoggedInUser(state),
+  isAdmin: selectIsAdmin(state),
   shouldShowLoginModal: selectShowLoginModal(state),
   shouldShowCreateAccountModal: selectShowCreateAccountModal(state),
   shouldShowResetPasswordModal: selectShowResetPasswordModal(state),
