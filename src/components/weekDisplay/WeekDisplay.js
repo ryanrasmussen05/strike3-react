@@ -24,9 +24,10 @@ class WeekDisplay extends React.Component {
   renderDisplay() {
     return (
       <React.Fragment>
-        { this.renderPickHeader() }
-        { this.renderPickTeam() }
-        { this.renderPickResult() }
+        <div className="pick-container">
+          { this.renderPickHeader() }
+          { this.renderPickTeam() }
+        </div>
         { this.renderPickButton() }
       </React.Fragment>
     );
@@ -43,8 +44,8 @@ class WeekDisplay extends React.Component {
     }
 
     return (
-      <div className="display-header">
-        { this.props.pick.team === null ? `Make Your Week ${this.props.week} Pick` : `Your Week ${this.props.week} Pick`}
+      <div className={ this.props.pick.team === null ? 'display-header no-pick' : 'display-header' }>
+        { this.props.pick.team === null ? `Make Your Week ${this.props.week} Pick` : `Your Week ${this.props.week} Pick:`}
       </div>
     );
   }
@@ -57,12 +58,6 @@ class WeekDisplay extends React.Component {
           <span className="display-team">{ this.props.pick.team }</span>
         </div>
       );
-    }
-  }
-
-  renderPickResult() {
-    if (this.props.pick.status !== 'open' && this.props.pick.status !== 'eliminated') {
-      return <div className={ `result ${this.props.pick.status}` }>{ this.props.pick.status.toUpperCase() }</div>;
     }
   }
 

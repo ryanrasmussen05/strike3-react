@@ -4,7 +4,7 @@
   display:flex;
   flex-direction: column;
   align-items: center;
-  padding: 10px 20px;
+  padding: 0 15px;
   border: 1px solid rgba(60, 60, 60, 0.2);
   border-radius: 5px;
   overflow: hidden;
@@ -29,10 +29,22 @@
   &.eliminated {
     border-color: $eliminated-color;
     background-color: rgba($eliminated-color, 0.2);
+    max-width: 350px;
+  }
+
+  .pick-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
   }
 
   .display-header {
-    font-size: 18px
+    font-size: 18px;
+    margin-right: 5px;
+
+    &.no-pick {
+      margin: 10px;
+    }
   }
 
   .display-pick {
@@ -48,17 +60,8 @@
     font-weight: 600;
   }
 
-  .result {
-    font-size: 28px;
-    font-weight: 600;
-
-    &.win { color: $win-color }
-    &.loss { color: $loss-color }
-    &.tie { color: $tie-color }
-  }
-
   .change-pick-button {
-    margin: 10px;
+    margin: 0 10px 10px 10px;
   }
 
   .make-pick-button {
@@ -66,11 +69,16 @@
   }
 
   .eliminated-header {
+    width: 100%;
+    text-align: center;
     font-size: 24px;
     font-weight: 600;
+    margin-top: 10px;
   }
 
   .eliminated-text {
+    width: 100%;
+    text-align: center;
     font-size: 18px;
     margin: 10px;
   }
