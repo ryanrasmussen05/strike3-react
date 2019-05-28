@@ -31,7 +31,7 @@ export const columns = [
     width: 120,
     align: 'center',
     render: pick => {
-      if (pick.team) {
+      if (pick.team && pick.team !== 'NP') {
         return (
           <div className="week-table-logo">
             { getSvgForTeam(pick.team) }
@@ -42,6 +42,11 @@ export const columns = [
       if (pick.status === 'eliminated') {
         return (
           <div className="week-table-eliminated">OUT</div>
+        );
+      }
+      if (pick.team === 'NP') {
+        return (
+          <div className="week-table-eliminated">NP</div>
         );
       }
       return (

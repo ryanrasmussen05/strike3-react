@@ -3,7 +3,7 @@ import './AdminPage.scss';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ADMIN_ERROR_TYPES } from '../../../redux/reducers/admin.reducer';
-import { Alert } from 'antd';
+import { Alert, Radio } from 'antd';
 import { selectAdminError, selectAdminGameData, selectIsAdmin } from '../../../redux/selectors/admin.selectors';
 import { selectGlobalLoading } from '../../../redux/selectors/global.selectors';
 import GameTable from '../../gameTable/GameTable';
@@ -13,9 +13,19 @@ import AdminPickModal from '../../modals/adminPickModal/AdminPickModal';
 
 class AdminPage extends React.Component {
 
+  state = {
+    view: 'spreadsheet',
+  };
+
   componentDidMount() {
     this.props.getGameDataAdmin();
   }
+
+  onViewChange = event => {
+    this.setState({
+      view: event.target.value,
+    });
+  };
 
   render() {
     const isError = !this.props.globalLoading && ((this.props.error && this.props.error === ADMIN_ERROR_TYPES.GAME_DATA) || !this.props.isAdmin);
@@ -51,9 +61,20 @@ class AdminPage extends React.Component {
       <div className="admin-page">
         { this.renderAdminPickModal() }
 
+        <div className="view-selector-container">
+          <Radio.Group buttonStyle="solid" defaultValue="spreadsheet" onChange={ this.onViewChange }>
+            <Radio.Button value="spreadsheet">Spreadsheet</Radio.Button>
+            <Radio.Button value="tiebreakers">Tie Breakers</Radio.Button>
+            <Radio.Button value="roster">Roster</Radio.Button>
+            <Radio.Button value="email">Email</Radio.Button>
+          </Radio.Group>
+        </div>
+
+        { this.state.view === 'spreadsheet' &&
         <div className="game-table-container">
           <GameTable admin={ true } />
         </div>
+        }
       </div>
     );
   };
