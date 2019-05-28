@@ -4,13 +4,19 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ADMIN_ERROR_TYPES } from '../../../redux/reducers/admin.reducer';
 import { Alert, Radio } from 'antd';
-import { selectAdminError, selectAdminGameData, selectIsAdmin } from '../../../redux/selectors/admin.selectors';
+import {
+  selectAdminError,
+  selectAdminGameData,
+  selectIsAdmin,
+  selectIsSuperuser,
+} from '../../../redux/selectors/admin.selectors';
 import { selectGlobalLoading } from '../../../redux/selectors/global.selectors';
 import GameTable from '../../gameTable/GameTable';
 import { getGameDataAdminAction } from '../../../redux/actions/admin.actions';
 import { selectShowAdminPickModal } from '../../../redux/selectors/modal.selectors';
 import AdminPickModal from '../../modals/adminPickModal/AdminPickModal';
 import RosterTable from '../../rosterTable/RosterTable';
+import Schedule from '../../schedule/Schedule';
 
 class AdminPage extends React.Component {
 
@@ -68,6 +74,9 @@ class AdminPage extends React.Component {
             <Radio.Button value="tiebreakers">Tie Breakers</Radio.Button>
             <Radio.Button value="roster">Roster</Radio.Button>
             <Radio.Button value="email">Email</Radio.Button>
+            { this.props.isSuperuser &&
+            <Radio.Button value="schedule">Schedule</Radio.Button>
+            }
           </Radio.Group>
         </div>
 
@@ -79,6 +88,10 @@ class AdminPage extends React.Component {
 
         { this.state.view === 'roster' &&
           <RosterTable />
+        }
+
+        { this.state.view === 'schedule' &&
+          <Schedule />
         }
       </div>
     );
@@ -93,6 +106,7 @@ class AdminPage extends React.Component {
 
 AdminPage.propTypes = {
   isAdmin: PropTypes.bool,
+  isSuperuser: PropTypes.bool,
   gameData: PropTypes.object,
   shouldShowAdminPickModal: PropTypes.bool,
   globalLoading: PropTypes.bool,
@@ -102,6 +116,7 @@ AdminPage.propTypes = {
 
 const mapStateToProps = state => ({
   isAdmin: selectIsAdmin(state),
+  isSuperuser: selectIsSuperuser(state),
   gameData: selectAdminGameData(state),
   shouldShowAdminPickModal: selectShowAdminPickModal(state),
   globalLoading: selectGlobalLoading(state),

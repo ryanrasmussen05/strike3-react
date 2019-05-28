@@ -6,6 +6,7 @@ import { adminErrorAction, adminSubmitInProgressAction, getGameDataAdminSuccessA
 import { ADMIN_ERROR_TYPES } from '../reducers/admin.reducer';
 import { message } from 'antd';
 import { showAdminPickModalAction } from '../actions/modal.actions';
+import { fetchNflSchedule, parseNflSchedule } from '../../api/nfl.service';
 
 function* getGameDataAdminSaga() {
   try {
@@ -55,7 +56,25 @@ function* submitPickAdminSaga(action) {
   }
 }
 
+function* getScheduleSaga() {
+  try {
+    const functions = firebase.functions();
+
+    const rawSchedule = yield call(fetchNflSchedule);
+    const rawScheduleJson = yield rawSchedule.json();
+    const parsedSchedule = yield parseNflSchedule(rawScheduleJson);
+    console.log(parsedSchedule);
+
+    // TODO don't do this immediately, have another action, put in state first to view
+    const setScheduleFunction = yield call([functions, functions.httpsCallable], 'setSchedule');
+    yield call(setScheduleFunction, parsedSchedule);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export default [
   takeLatest(ActionTypes.ADMIN.GET_GAME_DATA, getGameDataAdminSaga),
   takeLatest(ActionTypes.ADMIN.SUBMIT_PICK, submitPickAdminSaga),
+  takeLatest(ActionTypes.ADMIN.GET_SCHEDULE, getScheduleSaga),
 ];

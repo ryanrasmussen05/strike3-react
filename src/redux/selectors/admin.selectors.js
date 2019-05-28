@@ -44,6 +44,21 @@ export const selectIsAdmin = createSelector(
   }
 );
 
+export const selectIsSuperuser = createSelector(
+  [selectLoggedInUserId, selectAdminGameData, selectGameData],
+  (userId, adminGameData, gameData) => {
+    if (!userId || (!gameData && !adminGameData)) {
+      return false;
+    }
+
+    const actingGameData = adminGameData || gameData;
+
+    const loggedInPlayer = actingGameData.players.find(player => player.id === userId);
+
+    return loggedInPlayer.superuser;
+  }
+);
+
 export const selectRosterPlayers = createSelector(
   [selectAdminGameData],
   gameData => {
