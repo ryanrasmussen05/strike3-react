@@ -43,3 +43,21 @@ export const selectIsAdmin = createSelector(
     return loggedInPlayer.admin || loggedInPlayer.superuser;
   }
 );
+
+export const selectRosterPlayers = createSelector(
+  [selectAdminGameData],
+  gameData => {
+    if (!gameData) {
+      return [];
+    }
+
+    const rosterPlayers = gameData.players.map(player => ({
+      name: player.name,
+      email: player.email,
+    }));
+
+    rosterPlayers.sort((a, b) => a.name.localeCompare(b.name));
+
+    return rosterPlayers;
+  }
+);

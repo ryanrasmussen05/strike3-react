@@ -11,6 +11,10 @@ exports.buildPlayerModel = async(dbPlayer, database, loggedInUserId, isAdmin) =>
   player.superuser = dbPlayer.superuser || false;
   player.picks = [];
 
+  if (isAdmin) {
+    player.email = dbPlayer.email;
+  }
+
   const dbPlayerPicksSnapshot = await database.ref(`${picksPath}/${dbPlayer.id}`).once('value');
   const dbPlayerPicks = dbPlayerPicksSnapshot.val();
 

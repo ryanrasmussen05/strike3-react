@@ -10,6 +10,7 @@ import GameTable from '../../gameTable/GameTable';
 import { getGameDataAdminAction } from '../../../redux/actions/admin.actions';
 import { selectShowAdminPickModal } from '../../../redux/selectors/modal.selectors';
 import AdminPickModal from '../../modals/adminPickModal/AdminPickModal';
+import RosterTable from '../../rosterTable/RosterTable';
 
 class AdminPage extends React.Component {
 
@@ -74,6 +75,10 @@ class AdminPage extends React.Component {
         <div className="game-table-container">
           <GameTable admin={ true } />
         </div>
+        }
+
+        { this.state.view === 'roster' &&
+          <RosterTable />
         }
       </div>
     );
