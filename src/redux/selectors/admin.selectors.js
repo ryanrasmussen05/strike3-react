@@ -29,6 +29,11 @@ export const selectAdminIsSubmitting = createSelector(
   admin => admin.submitInProgress
 );
 
+export const selectSchedulePreview = createSelector(
+  [selectAdminState],
+  admin => admin.schedulePreview
+);
+
 export const selectIsAdmin = createSelector(
   [selectLoggedInUserId, selectAdminGameData, selectGameData],
   (userId, adminGameData, gameData) => {

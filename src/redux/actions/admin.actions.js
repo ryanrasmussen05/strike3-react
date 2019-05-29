@@ -28,6 +28,16 @@ export const adminGetScheduleAction = () => ({
   type: ActionTypes.ADMIN.GET_SCHEDULE,
 });
 
+export const adminViewScheduleAction = schedule => ({
+  type: ActionTypes.ADMIN.VIEW_SCHEDULE,
+  payload: schedule,
+});
+
+export const adminPostScheduleAction = schedule => ({
+  type: ActionTypes.ADMIN.POST_SCHEDULE,
+  payload: schedule,
+});
+
 export const adminSubmitInProgressAction = isSubmitting => ({
   type: ActionTypes.ADMIN.SUBMIT_IN_PROGRESS,
   payload: isSubmitting,

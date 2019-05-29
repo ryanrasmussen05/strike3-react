@@ -12,6 +12,7 @@ const INITIAL_STATE = {
   selectedPick: null,
   selectedPlayer: null,
   submitInProgress: false,
+  schedulePreview: null,
   error: null,
 };
 
@@ -38,6 +39,12 @@ export default (state = INITIAL_STATE, action) => {
     case ActionTypes.ADMIN.SET_SELECTED_PICK: {
       const newState = _.cloneDeep(state);
       newState.selectedPick = action.payload;
+      return newState;
+    }
+
+    case ActionTypes.ADMIN.VIEW_SCHEDULE: {
+      const newState = _.cloneDeep(state);
+      newState.schedulePreview = action.payload;
       return newState;
     }
 
