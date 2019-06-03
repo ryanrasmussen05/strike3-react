@@ -10,7 +10,7 @@ import {
 } from '../actions/admin.actions';
 import { ADMIN_ERROR_TYPES } from '../reducers/admin.reducer';
 import { message } from 'antd';
-import { showAdminPickModalAction } from '../actions/modal.actions';
+import { showAdminPickModalAction, showAdminTieBreakerModalAction } from '../actions/modal.actions';
 import { fetchNflSchedule, parseNflSchedule } from '../../api/nfl.service';
 
 function* getGameDataAdminSaga() {
@@ -72,6 +72,29 @@ function* getScheduleSaga() {
   }
 }
 
+function* createTieBreakerSaga(action) {
+  try {
+    const functions = firebase.functions();
+
+    yield put(adminErrorAction(null));
+    yield put(adminSubmitInProgressAction(true));
+
+    const createTieBreakerFunction = yield call([functions, functions.httpsCallable], 'createTieBreaker');
+    const gameData = yield call(createTieBreakerFunction, action.payload);
+
+    yield fork(message.success, 'Tie Breaker Created');
+
+    yield put(getGameDataAdminSuccessAction(gameData.data));
+
+    yield put(adminSubmitInProgressAction(false));
+    yield put(showAdminTieBreakerModalAction(false));
+  } catch (error) {
+    console.error(error);
+    yield put(adminErrorAction(ADMIN_ERROR_TYPES.SUBMIT));
+    yield put(adminSubmitInProgressAction(false));
+  }
+}
+
 function* postScheduleSaga(action) {
   try {
     const functions = firebase.functions();
@@ -89,5 +112,6 @@ export default [
   takeLatest(ActionTypes.ADMIN.GET_GAME_DATA, getGameDataAdminSaga),
   takeLatest(ActionTypes.ADMIN.SUBMIT_PICK, submitPickAdminSaga),
   takeLatest(ActionTypes.ADMIN.GET_SCHEDULE, getScheduleSaga),
+  takeLatest(ActionTypes.ADMIN.CREATE_TIE_BREAKER, createTieBreakerSaga),
   takeLatest(ActionTypes.ADMIN.POST_SCHEDULE, postScheduleSaga),
 ];

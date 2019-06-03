@@ -17,6 +17,7 @@ import { selectShowAdminPickModal } from '../../../redux/selectors/modal.selecto
 import AdminPickModal from '../../modals/adminPickModal/AdminPickModal';
 import RosterTable from '../../rosterTable/RosterTable';
 import Schedule from '../../schedule/Schedule';
+import TieBreaker from '../../tieBreaker/TieBreaker';
 
 class AdminPage extends React.Component {
 
@@ -84,6 +85,10 @@ class AdminPage extends React.Component {
         <div className="game-table-container">
           <GameTable admin={ true } />
         </div>
+        }
+
+        { this.state.view === 'tiebreakers' &&
+          <TieBreaker />
         }
 
         { this.state.view === 'roster' &&

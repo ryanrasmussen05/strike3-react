@@ -24,3 +24,8 @@ export const showAdminPickModalAction = shouldShow => ({
   type: ActionTypes.MODAL.SHOW_ADMIN_PICK_MODAL,
   payload: shouldShow,
 });
+
+export const showAdminTieBreakerModalAction = shouldShow => ({
+  type: ActionTypes.MODAL.SHOW_ADMIN_TIE_BREAKER_MODAL,
+  payload: shouldShow,
+});

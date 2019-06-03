@@ -5,6 +5,8 @@ const rankPlayers = require('../helpers/rankPlayers').rankPlayers;
 
 const weekPath = `week`;
 const playersPath = `players`;
+const schedulePath = `schedule`;
+const tieBreakersPath = `tieBreakers`;
 
 exports.getGameData = async(context, database, adminVersion) => {
 
@@ -24,6 +26,9 @@ exports.getGameData = async(context, database, adminVersion) => {
   const playersSnapshot = await database.ref(playersPath).once('value');
   const dbPlayers = playersSnapshot.val();
 
+  const tieBreakersSnapshot = await database.ref(tieBreakersPath).once('value');
+  const tieBreakers = tieBreakersSnapshot.val();
+
   let players = [];
 
   if (dbPlayers) {
@@ -38,5 +43,14 @@ exports.getGameData = async(context, database, adminVersion) => {
 
   await rankPlayers(players);
 
-  return { week, players };
+  const returnVal = { week, players, tieBreakers };
+
+  if (adminVersion) {
+    const scheduleSnapshot = await database.ref(schedulePath).once('value');
+    const schedule = scheduleSnapshot.val();
+
+    returnVal.schedule = schedule;
+  }
+
+  return returnVal;
 };

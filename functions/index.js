@@ -3,6 +3,7 @@ const getGameDataFunction = require('./handlers/getGameData');
 const getGameDataAdminFunction = require('./handlers/getGameDataAdmin');
 const setPickFunction = require('./handlers/setPick');
 const setPickAdminFunction = require('./handlers/setPickAdmin');
+const createTieBreakerFunction = require('./handlers/createTieBreaker');
 const setScheduleFunction = require('./handlers/setSchedule');
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
@@ -29,6 +30,10 @@ exports.setPick = functions.https.onCall(async(data, context) => {
 
 exports.setPickAdmin = functions.https.onCall(async(data, context) => {
   return setPickAdminFunction.handler(data, context, database);
+});
+
+exports.createTieBreaker = functions.https.onCall(async(data, context) => {
+  return createTieBreakerFunction.handler(data, context, database);
 });
 
 exports.setSchedule = functions.https.onCall(async(data, context) => {

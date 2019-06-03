@@ -38,6 +38,11 @@ export const adminPostScheduleAction = schedule => ({
   payload: schedule,
 });
 
+export const adminCreateTieBreakerAction = tieBreaker => ({
+  type: ActionTypes.ADMIN.CREATE_TIE_BREAKER,
+  payload: tieBreaker,
+});
+
 export const adminSubmitInProgressAction = isSubmitting => ({
   type: ActionTypes.ADMIN.SUBMIT_IN_PROGRESS,
   payload: isSubmitting,
