@@ -81,3 +81,25 @@ export const selectRosterPlayers = createSelector(
     return rosterPlayers;
   }
 );
+
+export const selectAdminTieBreakers = createSelector(
+  [selectAdminGameData],
+  gameData => {
+    if (!gameData) {
+      return [];
+    }
+
+    const tieBreakerArray = [];
+
+    for (let i = 1; i <= 17; i++) {
+      if (gameData.tieBreakers && !!gameData.tieBreakers[i]) {
+        tieBreakerArray.push({
+          week: i,
+          ...gameData.tieBreakers[i],
+        });
+      }
+    }
+
+    return tieBreakerArray;
+  }
+);
