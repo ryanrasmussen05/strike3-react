@@ -11,6 +11,7 @@ const INITIAL_STATE = {
   gameData: null,
   selectedPick: null,
   selectedPlayer: null,
+  selectedTieBreaker: null,
   submitInProgress: false,
   schedulePreview: null,
   error: null,
@@ -39,6 +40,12 @@ export default (state = INITIAL_STATE, action) => {
     case ActionTypes.ADMIN.SET_SELECTED_PICK: {
       const newState = _.cloneDeep(state);
       newState.selectedPick = action.payload;
+      return newState;
+    }
+
+    case ActionTypes.ADMIN.SET_SELECTED_TIE_BREAKER: {
+      const newState = _.cloneDeep(state);
+      newState.selectedTieBreaker = action.payload;
       return newState;
     }
 

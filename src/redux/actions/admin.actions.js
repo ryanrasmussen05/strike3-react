@@ -43,6 +43,16 @@ export const adminCreateTieBreakerAction = tieBreaker => ({
   payload: tieBreaker,
 });
 
+export const adminUpdateTieBreakerAction = tieBreaker => ({
+  type: ActionTypes.ADMIN.UPDATE_TIE_BREAKER,
+  payload: tieBreaker,
+});
+
+export const adminSetSelectedTieBreakerAction = tieBreaker => ({
+  type: ActionTypes.ADMIN.SET_SELECTED_TIE_BREAKER,
+  payload: tieBreaker,
+});
+
 export const adminSubmitInProgressAction = isSubmitting => ({
   type: ActionTypes.ADMIN.SUBMIT_IN_PROGRESS,
   payload: isSubmitting,

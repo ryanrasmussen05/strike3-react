@@ -19,6 +19,11 @@ export const selectAdminSelectedPick = createSelector(
   admin => admin.selectedPick,
 );
 
+export const selectAdminSelectedTieBreaker = createSelector(
+  [selectAdminState],
+  admin => admin.selectedTieBreaker,
+);
+
 export const selectAdminError = createSelector(
   [selectAdminState],
   admin => admin.error

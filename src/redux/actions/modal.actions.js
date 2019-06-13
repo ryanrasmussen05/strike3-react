@@ -29,3 +29,8 @@ export const showAdminTieBreakerModalAction = shouldShow => ({
   type: ActionTypes.MODAL.SHOW_ADMIN_TIE_BREAKER_MODAL,
   payload: shouldShow,
 });
+
+export const showAdminTieBreakerResultModalAction = shouldShow => ({
+  type: ActionTypes.MODAL.SHOW_ADMIN_TIE_BREAKER_RESULT_MODAL,
+  payload: shouldShow,
+});

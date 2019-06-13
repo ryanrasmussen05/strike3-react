@@ -8,6 +8,7 @@ const INITIAL_STATE = {
   showPickModal: false,
   showAdminPickModal: false,
   showAdminTieBreakerModal: false,
+  showAdminTieBreakerResultModal: false,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -45,6 +46,12 @@ export default (state = INITIAL_STATE, action) => {
     case ActionTypes.MODAL.SHOW_ADMIN_TIE_BREAKER_MODAL: {
       const newState = _.cloneDeep(state);
       newState.showAdminTieBreakerModal = action.payload;
+      return newState;
+    }
+
+    case ActionTypes.MODAL.SHOW_ADMIN_TIE_BREAKER_RESULT_MODAL: {
+      const newState = _.cloneDeep(state);
+      newState.showAdminTieBreakerResultModal = action.payload;
       return newState;
     }
 
