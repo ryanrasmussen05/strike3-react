@@ -48,6 +48,11 @@ export const adminUpdateTieBreakerAction = tieBreaker => ({
   payload: tieBreaker,
 });
 
+export const adminDeleteTieBreakerAction = tieBreaker => ({
+  type: ActionTypes.ADMIN.DELETE_TIE_BREAKER,
+  payload: tieBreaker,
+});
+
 export const adminSetSelectedTieBreakerAction = tieBreaker => ({
   type: ActionTypes.ADMIN.SET_SELECTED_TIE_BREAKER,
   payload: tieBreaker,

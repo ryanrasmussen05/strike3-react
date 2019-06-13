@@ -21,7 +21,6 @@
   }
 
   .tie-breaker-table-game {
-    font-size: 30px;
     display: flex;
     align-items: center;
   }
@@ -29,7 +28,6 @@
   .tie-breaker-table-team {
     font-weight: 500;
     font-size: 20px;
-    margin-left: 5px;
   }
 
   .tie-breaker-table-vs {
@@ -39,5 +37,13 @@
 
   .update-button {
     margin-left: 20px;
+  }
+
+  .win {
+    color: $win-color;
+  }
+
+  .loss {
+    color: $loss-color;
   }
 }

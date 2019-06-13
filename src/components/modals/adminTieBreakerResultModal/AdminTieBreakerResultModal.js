@@ -6,11 +6,13 @@ import { connect } from 'react-redux';
 import { showAdminTieBreakerResultModalAction } from '../../../redux/actions/modal.actions';
 import { ADMIN_ERROR_TYPES } from '../../../redux/reducers/admin.reducer';
 import {
-  selectAdminError,
-  selectAdminIsSubmitting, selectAdminSelectedTieBreaker,
+  selectAdminError, selectAdminIsSubmitting, selectAdminSelectedTieBreaker,
 } from '../../../redux/selectors/admin.selectors';
-import { adminErrorAction } from '../../../redux/actions/admin.actions';
-import { getSvgForTeam } from '../../../util/teams.util';
+import {
+  adminDeleteTieBreakerAction,
+  adminErrorAction,
+  adminUpdateTieBreakerAction,
+} from '../../../redux/actions/admin.actions';
 
 class AdminTieBreakerResultModal extends React.Component {
 
@@ -31,9 +33,21 @@ class AdminTieBreakerResultModal extends React.Component {
 
     this.props.form.validateFields((errors, values) => {
       if (!errors) {
-        console.log(values);
+        const tieBreaker = {
+          week: this.props.tieBreaker.week,
+          awayTeam: this.props.tieBreaker.awayTeam,
+          awayTeamPoints: values.awayTeamPoints,
+          homeTeam: this.props.tieBreaker.homeTeam,
+          homeTeamPoints: values.homeTeamPoints,
+        };
+
+        this.props.updateTieBreaker(tieBreaker);
       }
     });
+  };
+
+  handleDelete = () => {
+    this.props.deleteTieBreaker(this.props.tieBreaker);
   };
 
   render() {
@@ -75,20 +89,18 @@ class AdminTieBreakerResultModal extends React.Component {
       <Form colon={ false } layout="vertical" onSubmit={ this.handleSubmit }>
 
         <div className="team-row">
-          <div className="team-logo">{ getSvgForTeam(this.props.tieBreaker.awayTeam) }</div>
           <div className="team-name">{ this.props.tieBreaker.awayTeam }</div>
           <Form.Item>
-            { getFieldDecorator('awayTeamPoints', { rules: [{ required: true, message: 'Score is required' }] })(
+            { getFieldDecorator('awayTeamPoints', { rules: [{ required: true, message: 'Score is required' }], initialValue: this.props.tieBreaker.awayTeamPoints })(
               <Input placeholder={ `${this.props.tieBreaker.awayTeam} Score` } />
             ) }
           </Form.Item>
         </div>
 
         <div className="team-row">
-          <div className="team-logo">{ getSvgForTeam(this.props.tieBreaker.homeTeam) }</div>
           <div className="team-name">{ this.props.tieBreaker.homeTeam }</div>
           <Form.Item>
-            { getFieldDecorator('homeTeamPoints', { rules: [{ required: true, message: 'Score is required' }] })(
+            { getFieldDecorator('homeTeamPoints', { rules: [{ required: true, message: 'Score is required' }], initialValue: this.props.tieBreaker.homeTeamPoints })(
               <Input placeholder={ `${this.props.tieBreaker.homeTeam} Score` } />
             ) }
           </Form.Item>
@@ -99,7 +111,7 @@ class AdminTieBreakerResultModal extends React.Component {
         </Button>
 
         <div className="delete-button">
-          <Button type="danger">Delete</Button>
+          <Button type="danger" onClick={ this.handleDelete } loading={ this.props.loading }>Delete</Button>
         </div>
       </Form>
     );
@@ -112,7 +124,8 @@ AdminTieBreakerResultModal.propTypes = {
   loading: PropTypes.bool,
   error: PropTypes.string,
   closeModal: PropTypes.func,
-  // updateTieBreaker: PropTypes.func,
+  updateTieBreaker: PropTypes.func,
+  deleteTieBreaker: PropTypes.func,
   clearErrors: PropTypes.func,
 };
 
@@ -124,7 +137,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   closeModal: () => dispatch(showAdminTieBreakerResultModalAction(false)),
-  // updateTieBreaker: tieBreaker => dispatch(adminUpdateTieBreakerAction(tieBreaker)),
+  updateTieBreaker: tieBreaker => dispatch(adminUpdateTieBreakerAction(tieBreaker)),
+  deleteTieBreaker: tieBreaker => dispatch(adminDeleteTieBreakerAction(tieBreaker)),
   clearErrors: () => dispatch(adminErrorAction(null)),
 });
 
