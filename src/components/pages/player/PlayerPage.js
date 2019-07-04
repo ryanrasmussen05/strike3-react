@@ -8,7 +8,6 @@ import { getGameDataAction } from '../../../redux/actions/game.actions';
 import { selectCurrentWeek, selectGameData, selectGameError } from '../../../redux/selectors/game.selectors';
 import { GAME_ERROR_TYPES } from '../../../redux/reducers/game.reducer';
 import { Alert, Radio } from 'antd';
-import WeekSelector from '../../weekSelector/WeekSelector';
 import WeekTable from '../../weekTable/WeekTable';
 import WeekDisplay from '../../weekDisplay/WeekDisplay';
 import { selectLoggedInUser } from '../../../redux/selectors/auth.selectors';
