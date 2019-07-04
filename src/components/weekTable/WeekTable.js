@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { selectPlayersForSelectedWeek } from '../../redux/selectors/game.selectors';
 import { Table } from 'antd';
 import { columns } from './table.columns';
+import WeekSelector from '../weekSelector/WeekSelector';
 
 class WeekTable extends React.Component {
 
@@ -21,6 +22,10 @@ class WeekTable extends React.Component {
   render() {
     return (
       <div className="week-table">
+        <div className="week-selector-container">
+          <WeekSelector />
+        </div>
+
         <Table
           columns={ columns }
           dataSource={ this.props.players }

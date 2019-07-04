@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { selectShowPickModal } from '../../../redux/selectors/modal.selectors';
 import PlayerPickModal from '../../modals/pickModal/PickModal';
 import { getGameDataAction } from '../../../redux/actions/game.actions';
-import { selectGameData, selectGameError } from '../../../redux/selectors/game.selectors';
+import { selectCurrentWeek, selectGameData, selectGameError } from '../../../redux/selectors/game.selectors';
 import { GAME_ERROR_TYPES } from '../../../redux/reducers/game.reducer';
 import { Alert, Radio } from 'antd';
 import WeekSelector from '../../weekSelector/WeekSelector';
@@ -66,8 +66,8 @@ class PlayerPage extends React.Component {
         </div>
         }
 
-        <div className="week-selector-container">
-          <WeekSelector />
+        <div className="active-week-container">
+          {`Week ${this.props.currentWeek}`}
         </div>
 
         { this.props.loggedInUser &&
@@ -76,25 +76,29 @@ class PlayerPage extends React.Component {
         </div>
         }
 
-        <div className="view-type-container">
-          <div className="view-type-label">View Picks:</div>
-          <Radio.Group size="large" buttonStyle="solid" defaultValue="week" onChange={ this.onViewTypeChange }>
-            <Radio.Button value="week">By Week</Radio.Button>
-            <Radio.Button value="all">All</Radio.Button>
-          </Radio.Group>
-        </div>
+        <div className="standings-container">
+          <div className="standings-header">STANDINGS</div>
 
-        { this.state.viewType === 'week' &&
-        <div className="week-table-container">
-          <WeekTable />
-        </div>
-        }
+          <div className="view-type-container">
+            <div className="view-type-label">View Picks:</div>
+            <Radio.Group size="large" buttonStyle="outline" defaultValue="week" onChange={ this.onViewTypeChange }>
+              <Radio.Button value="week">By Week</Radio.Button>
+              <Radio.Button value="all">All</Radio.Button>
+            </Radio.Group>
+          </div>
 
-        { this.state.viewType === 'all' &&
-        <div className="game-table-container">
-          <GameTable admin={ false } />
+          { this.state.viewType === 'week' &&
+          <div className="week-table-container">
+            <WeekTable />
+          </div>
+          }
+
+          { this.state.viewType === 'all' &&
+          <div className="game-table-container">
+            <GameTable admin={ false } />
+          </div>
+          }
         </div>
-        }
       </div>
     );
   };
@@ -109,6 +113,7 @@ class PlayerPage extends React.Component {
 PlayerPage.propTypes = {
   loggedInUser: PropTypes.object,
   gameData: PropTypes.object,
+  currentWeek: PropTypes.number,
   error: PropTypes.any,
   shouldShowPickModal: PropTypes.bool,
   getGameData: PropTypes.func,
@@ -117,6 +122,7 @@ PlayerPage.propTypes = {
 const mapStateToProps = state => ({
   loggedInUser: selectLoggedInUser(state),
   gameData: selectGameData(state),
+  currentWeek: selectCurrentWeek(state),
   error: selectGameError(state),
   shouldShowPickModal: selectShowPickModal(state),
 });

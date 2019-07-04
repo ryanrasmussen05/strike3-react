@@ -5,9 +5,15 @@ import { connect } from 'react-redux';
 import { getSvgForTeam } from '../../util/teams.util';
 import { Button } from 'antd';
 import { showPickModalAction } from '../../redux/actions/modal.actions';
-import { selectPickForSelectedWeek, selectSelectedWeek } from '../../redux/selectors/game.selectors';
+import { selectCurrentWeek, selectPickForCurrentWeek } from '../../redux/selectors/game.selectors';
+import { setSelectedWeekAction } from '../../redux/actions/game.actions';
 
 class WeekDisplay extends React.Component {
+
+  showPickModal = () => {
+    this.props.setSelectedWeek(this.props.currentWeek);
+    this.props.showPickModal();
+  };
 
   render() {
     if (this.props.pick) {
@@ -45,7 +51,7 @@ class WeekDisplay extends React.Component {
 
     return (
       <div className={ this.props.pick.team === null ? 'display-header no-pick' : 'display-header' }>
-        { this.props.pick.team === null ? `Make Your Week ${this.props.week} Pick` : `Your Week ${this.props.week} Pick:`}
+        { this.props.pick.team === null ? `Make Your Pick` : `Your Pick:`}
       </div>
     );
   }
@@ -65,7 +71,7 @@ class WeekDisplay extends React.Component {
   renderPickButton() {
     if (this.props.pick.status !== 'eliminated' && (this.props.pick.status === 'open')) {
       return (
-        <Button type="primary" onClick={ this.props.showPickModal } className="change-pick-button">
+        <Button type="primary" onClick={ this.showPickModal } className="make-pick-button">
           { this.props.pick.team === null ? 'Make Pick' : 'Change Pick' }
         </Button>
       );
@@ -75,17 +81,19 @@ class WeekDisplay extends React.Component {
 
 WeekDisplay.propTypes = {
   pick: PropTypes.object,
-  week: PropTypes.number,
+  currentWeek: PropTypes.number,
+  setSelectedWeek: PropTypes.func,
   showPickModal: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
-  pick: selectPickForSelectedWeek(state),
-  week: selectSelectedWeek(state),
+  pick: selectPickForCurrentWeek(state),
+  currentWeek: selectCurrentWeek(state),
 });
 
 const mapDispatchToProps = dispatch => ({
   showPickModal: () => dispatch(showPickModalAction(true)),
+  setSelectedWeek: weekNumber => dispatch(setSelectedWeekAction(weekNumber)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(WeekDisplay);

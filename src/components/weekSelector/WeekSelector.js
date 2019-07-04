@@ -19,13 +19,13 @@ class WeekSelector extends React.Component {
   render() {
     return (
       <div className="week-selector">
-        <Button type="primary" shape="circle" onClick={ this.decrementWeek } disabled={ this.props.selectedWeek <= 1 }>
+        <Button type="default" shape="circle" onClick={ this.decrementWeek } disabled={ this.props.selectedWeek <= 1 }>
           <Icon type="left" />
         </Button>
         <span className="week-title">
           {`Week ${this.props.selectedWeek}`}
         </span>
-        <Button type="primary" shape="circle" onClick={ this.incrementWeek } disabled={ this.props.selectedWeek >= 17 }>
+        <Button type="default" shape="circle" onClick={ this.incrementWeek } disabled={ this.props.selectedWeek >= 17 }>
           <Icon type="right" />
         </Button>
       </div>

@@ -7,6 +7,11 @@
   box-shadow: $box-shadow;
   background-color: $content-background-color;
 
+  .week-selector-container {
+    display: flex;
+    justify-content: center;
+  }
+
   .ant-table-tbody > tr > td {
     padding: 5px 16px;
     border: none;

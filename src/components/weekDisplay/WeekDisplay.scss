@@ -2,9 +2,8 @@
 
 .week-display {
   display:flex;
-  flex-direction: column;
   align-items: center;
-  padding: 0 15px;
+  padding: 5px 15px;
   border: 1px solid rgba(60, 60, 60, 0.2);
   border-radius: 5px;
   overflow: hidden;
@@ -40,32 +39,27 @@
 
   .display-header {
     font-size: 18px;
-    margin-right: 5px;
 
     &.no-pick {
-      margin: 10px;
+      margin: 5px;
     }
   }
 
   .display-pick {
     display: flex;
     align-items: center;
-    font-size: 60px;
+    font-size: 40px;
+    margin-left: 5px;
   }
 
   .display-team {
-    margin-left: 5px;
     margin-right: 5px;
-    font-size: 28px;
+    font-size: 24px;
     font-weight: 600;
   }
 
-  .change-pick-button {
-    margin: 0 10px 10px 10px;
-  }
-
   .make-pick-button {
-    margin: 20px;
+    margin-left: 10px;
   }
 
   .eliminated-header {

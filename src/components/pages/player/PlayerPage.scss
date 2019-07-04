@@ -28,18 +28,35 @@
     }
   }
 
-  .week-selector-container {
-    margin: 20px;
+  .active-week-container {
+    margin: 20px 0 10px 0;
+    font-size: 24px;
+    font-weight: 600;
   }
 
   .week-display-container {
-    min-width: 250px;
+    margin-bottom: 50px;
+  }
+
+  .standings-container {
+    background-color: white;
+    padding: 20px;
+    border: 1px solid gray;
+    box-shadow: $box-shadow;
+    border-radius: 5px;
     margin-bottom: 20px;
+
+    .standings-header {
+      text-align: center;
+      font-size: 24px;
+      font-weight: 500;
+    }
   }
 
   .view-type-container {
     display: flex;
     align-items: center;
+    justify-content: center;
     font-size: 18px;
     margin: 20px;
 
@@ -50,7 +67,7 @@
   }
 
   .week-table-container {
-    margin: 10px auto 30px auto;
+    margin: 10px auto 10px auto;
   }
 
   .game-table-container {
