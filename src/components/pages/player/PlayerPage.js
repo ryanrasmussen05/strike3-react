@@ -12,6 +12,7 @@ import WeekTable from '../../weekTable/WeekTable';
 import WeekDisplay from '../../weekDisplay/WeekDisplay';
 import { selectLoggedInUser } from '../../../redux/selectors/auth.selectors';
 import GameTable from '../../gameTable/GameTable';
+import TieBreakerDisplay from '../../tieBreakerDisplay/TieBreakerDisplay';
 
 class PlayerPage extends React.Component {
 
@@ -74,6 +75,10 @@ class PlayerPage extends React.Component {
           <WeekDisplay />
         </div>
         }
+
+        <div className="tie-breaker-display-container">
+          <TieBreakerDisplay />
+        </div>
 
         <div className="standings-container">
           <div className="standings-header">STANDINGS</div>

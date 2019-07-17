@@ -1,0 +1,45 @@
+@import '../../theme';
+
+.tie-breaker-display {
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 15px;
+  border: 1px solid rgba(60, 60, 60, 0.2);
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+  background-color: $content-background-color;
+
+  .tie-breaker-header {
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .display-tie-breaker {
+    font-size: 50px;
+    display: flex;
+    align-items: center;
+    margin: 8px 0;
+  }
+
+  .display-tie-breaker-vs {
+    margin: 0 10px;
+    font-size: 16px;
+  }
+
+  .display-tie-breaker-away-points {
+    font-size: 32px;
+    margin-right: 5px;
+  }
+
+  .display-tie-breaker-home-points {
+    font-size: 32px;
+    margin-left: 5px;
+  }
+
+  .tie-breaker-final {
+    font-weight: 500;
+    margin-left: 5px;
+  }
+}

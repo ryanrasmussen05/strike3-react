@@ -40,6 +40,8 @@ exports.buildPlayerModel = async(dbPlayer, database, loggedInUserId, isAdmin) =>
         locked: !isEditable,
         team: dbPlayerPicks[i].team,
         status: dbPlayerPicks[i].status,
+        tieBreakerAwayPoints: dbPlayerPicks[i].tieBreakerAwayPoints,
+        tieBreakerHomePoints: dbPlayerPicks[i].tieBreakerHomePoints,
       });
 
       // update strike count to determine if eliminated
