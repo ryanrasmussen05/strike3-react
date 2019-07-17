@@ -33,3 +33,8 @@ export const submitPickAction = team => ({
   type: ActionTypes.GAME.SUBMIT_PICK,
   payload: team,
 });
+
+export const submitTieBreakerPickAction = tieBreakerPick => ({
+  type: ActionTypes.GAME.SUBMIT_TIE_BREAKER_PICK,
+  payload: tieBreakerPick,
+});

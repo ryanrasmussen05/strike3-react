@@ -2,6 +2,7 @@ const createPlayerFunction = require('./handlers/createPlayer');
 const getGameDataFunction = require('./handlers/getGameData');
 const getGameDataAdminFunction = require('./handlers/getGameDataAdmin');
 const setPickFunction = require('./handlers/setPick');
+const setTieBreakerPickFunction = require('./handlers/setTieBreakerPick');
 const setPickAdminFunction = require('./handlers/setPickAdmin');
 const createTieBreakerFunction = require('./handlers/createTieBreaker');
 const updateTieBreakerFunction = require('./handlers/updateTieBreaker');
@@ -28,6 +29,10 @@ exports.getGameDataAdmin = functions.https.onCall(async(data, context) => {
 
 exports.setPick = functions.https.onCall(async(data, context) => {
   return setPickFunction.handler(data, context, database);
+});
+
+exports.setTieBreakerPick = functions.https.onCall(async(data, context) => {
+  return setTieBreakerPickFunction.handler(data, context, database);
 });
 
 exports.setPickAdmin = functions.https.onCall(async(data, context) => {

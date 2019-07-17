@@ -16,7 +16,7 @@ exports.handler = async(pick, context, database) => {
 
   // only the owner can set their picks
   if (!loggedInUserId || loggedInUserId !== userId) {
-    throw new functions.https.HttpsError('permission-denied', 'only admin can call this function');
+    throw new functions.https.HttpsError('permission-denied', 'only the owner of the pick can call setPick');
   }
 
   // check if user is allowed to change current pick

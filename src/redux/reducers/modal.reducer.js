@@ -6,6 +6,7 @@ const INITIAL_STATE = {
   showCreateAccountModal: false,
   showResetPasswordModal: false,
   showPickModal: false,
+  showTieBreakerPickModal: false,
   showAdminPickModal: false,
   showAdminTieBreakerModal: false,
   showAdminTieBreakerResultModal: false,
@@ -34,6 +35,12 @@ export default (state = INITIAL_STATE, action) => {
     case ActionTypes.MODAL.SHOW_PICK_MODAL: {
       const newState = _.cloneDeep(state);
       newState.showPickModal = action.payload;
+      return newState;
+    }
+
+    case ActionTypes.MODAL.SHOW_TIE_BREAKER_PICK_MODAL: {
+      const newState = _.cloneDeep(state);
+      newState.showTieBreakerPickModal = action.payload;
       return newState;
     }
 

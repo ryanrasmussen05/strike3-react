@@ -22,6 +22,11 @@ export const selectShowPickModal = createSelector(
   modal => modal.showPickModal
 );
 
+export const selectShowTieBreakerPickModal = createSelector(
+  [selectModalState],
+  modal => modal.showTieBreakerPickModal
+);
+
 export const selectShowAdminPickModal = createSelector(
   [selectModalState],
   modal => modal.showAdminPickModal

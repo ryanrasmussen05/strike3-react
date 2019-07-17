@@ -2,7 +2,7 @@ import React from 'react';
 import './PlayerPage.scss';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { selectShowPickModal } from '../../../redux/selectors/modal.selectors';
+import { selectShowPickModal, selectShowTieBreakerPickModal } from '../../../redux/selectors/modal.selectors';
 import PlayerPickModal from '../../modals/pickModal/PickModal';
 import { getGameDataAction } from '../../../redux/actions/game.actions';
 import { selectCurrentWeek, selectGameData, selectGameError } from '../../../redux/selectors/game.selectors';
@@ -13,6 +13,7 @@ import WeekDisplay from '../../weekDisplay/WeekDisplay';
 import { selectLoggedInUser } from '../../../redux/selectors/auth.selectors';
 import GameTable from '../../gameTable/GameTable';
 import TieBreakerDisplay from '../../tieBreakerDisplay/TieBreakerDisplay';
+import TieBreakerPickModal from '../../modals/tieBreakerPickModal/TieBreakerPickModal';
 
 class PlayerPage extends React.Component {
 
@@ -58,6 +59,7 @@ class PlayerPage extends React.Component {
     return (
       <div className="player-page">
         { this.renderPickModal() }
+        { this.renderTieBreakerPickModal() }
 
         { !this.props.loggedInUser &&
         <div className="welcome-message">
@@ -112,6 +114,12 @@ class PlayerPage extends React.Component {
       return <PlayerPickModal />;
     }
   };
+
+  renderTieBreakerPickModal = () => {
+    if (this.props.shouldShowTieBreakerPickModal) {
+      return <TieBreakerPickModal />;
+    }
+  }
 }
 
 PlayerPage.propTypes = {
@@ -120,6 +128,7 @@ PlayerPage.propTypes = {
   currentWeek: PropTypes.number,
   error: PropTypes.any,
   shouldShowPickModal: PropTypes.bool,
+  shouldShowTieBreakerPickModal: PropTypes.bool,
   getGameData: PropTypes.func,
 };
 
@@ -129,6 +138,7 @@ const mapStateToProps = state => ({
   currentWeek: selectCurrentWeek(state),
   error: selectGameError(state),
   shouldShowPickModal: selectShowPickModal(state),
+  shouldShowTieBreakerPickModal: selectShowTieBreakerPickModal(state),
 });
 
 const mapDispatchToProps = dispatch => ({

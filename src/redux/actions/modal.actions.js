@@ -20,6 +20,11 @@ export const showPickModalAction = shouldShow => ({
   payload: shouldShow,
 });
 
+export const showTieBreakerPickModalAction = shouldShow => ({
+  type: ActionTypes.MODAL.SHOW_TIE_BREAKER_PICK_MODAL,
+  payload: shouldShow,
+});
+
 export const showAdminPickModalAction = shouldShow => ({
   type: ActionTypes.MODAL.SHOW_ADMIN_PICK_MODAL,
   payload: shouldShow,

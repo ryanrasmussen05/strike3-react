@@ -8,7 +8,7 @@ import {
   updateGameDataAction,
 } from '../actions/game.actions';
 import { GAME_ERROR_TYPES } from '../reducers/game.reducer';
-import { showPickModalAction } from '../actions/modal.actions';
+import { showPickModalAction, showTieBreakerPickModalAction } from '../actions/modal.actions';
 import { globalLoadingAction } from '../actions/global.actions';
 import { message } from 'antd';
 import { selectSelectedWeek } from '../selectors/game.selectors';
@@ -68,7 +68,40 @@ function* submitPickSaga(action) {
   }
 }
 
+function* submitTieBreakerPickSaga(action) {
+  try {
+    const functions = firebase.functions();
+
+    yield put(gameErrorAction(null));
+    yield put(submitInProgressAction(true));
+
+    const week = yield select(selectSelectedWeek);
+    const userId = yield select(selectLoggedInUserId);
+    const tieBreakerAwayTeamPoints = action.payload.tieBreakerAwayTeamPoints;
+    const tieBreakerHomeTeamPoints = action.payload.tieBreakerHomeTeamPoints;
+    const payload = { week, userId, tieBreakerAwayTeamPoints, tieBreakerHomeTeamPoints };
+
+    const setTieBreakerPickFunction = yield call([functions, functions.httpsCallable], 'setTieBreakerPick');
+    const gameData = yield call(setTieBreakerPickFunction, payload);
+
+    yield fork(message.success, 'Tie Breaker Submitted');
+
+    yield put(updateGameDataAction(gameData.data));
+
+    yield put(submitInProgressAction(false));
+    yield put(showTieBreakerPickModalAction(false));
+  } catch (error) {
+    console.error(error);
+
+    // TODO eventually add error type for game started
+    yield put(gameErrorAction(GAME_ERROR_TYPES.SUBMIT));
+
+    yield put(submitInProgressAction(false));
+  }
+}
+
 export default [
   takeLatest(ActionTypes.GAME.GET_GAME_DATA, getGameDataSaga),
   takeLatest(ActionTypes.GAME.SUBMIT_PICK, submitPickSaga),
+  takeLatest(ActionTypes.GAME.SUBMIT_TIE_BREAKER_PICK, submitTieBreakerPickSaga),
 ];
