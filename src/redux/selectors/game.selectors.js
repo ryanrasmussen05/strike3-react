@@ -70,7 +70,7 @@ export const selectPickForCurrentWeek = createSelector(
 export const selectTieBreakerForCurrentWeek = createSelector(
   [selectCurrentWeek, selectGameData],
   (week, gameData) => {
-    if (!week || !gameData) {
+    if (!week || !gameData || !gameData.tieBreakers) {
       return null;
     }
 
