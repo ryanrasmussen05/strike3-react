@@ -3,7 +3,7 @@ const isAdmin = require('../helpers/isAdmin').isAdmin;
 const updateCurrentWeek = require('../helpers/updateCurrentWeek').updateCurrentWeek;
 
 exports.handler = async(pick, context, database) => {
-  const { team, week, status, userId } = pick;
+  const { team, week, status, userId, tieBreakerHomeTeamPoints, tieBreakerAwayTeamPoints } = pick;
 
   const isUserAdmin = await isAdmin(context, database);
 
@@ -33,8 +33,15 @@ exports.handler = async(pick, context, database) => {
     }
   }
 
+  const validatedPick = { team, status };
+
+  if (tieBreakerHomeTeamPoints || tieBreakerAwayTeamPoints) {
+    validatedPick.tieBreakerHomeTeamPoints = tieBreakerHomeTeamPoints;
+    validatedPick.tieBreakerAwayTeamPoints = tieBreakerAwayTeamPoints;
+  }
+
   // submit pick
-  await database.ref(pickPath).update({ team, status });
+  await database.ref(pickPath).update(validatedPick);
 
   // if all results are set for week, update the current week
   const updatedGameData = await updateCurrentWeek(context, database);

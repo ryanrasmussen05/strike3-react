@@ -1,13 +1,13 @@
 import React from 'react';
 import './AdminPickModal.scss';
-import { Alert, Button, Form, Modal, Radio, Select } from 'antd';
+import { Alert, Button, Form, Input, Modal, Radio, Select } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { showAdminPickModalAction } from '../../../redux/actions/modal.actions';
 import { AllTeamsAdmin } from '../../../util/teams.util';
 import { ADMIN_ERROR_TYPES } from '../../../redux/reducers/admin.reducer';
 import {
-  selectAdminError,
+  selectAdminError, selectAdminGameData,
   selectAdminIsSubmitting,
   selectAdminSelectedPick,
   selectAdminSelectedPlayer,
@@ -40,6 +40,11 @@ class AdminPickModal extends React.Component {
           week: this.props.selectedPick.week,
           userId: this.props.selectedPlayer.id,
         };
+
+        if (values.tieBreakerAwayTeamPoints || values.tieBreakerHomeTeamPoints) {
+          pick.tieBreakerAwayTeamPoints = values.tieBreakerAwayTeamPoints;
+          pick.tieBreakerHomeTeamPoints = values.tieBreakerHomeTeamPoints;
+        }
 
         this.props.submitPick(pick);
       }
@@ -90,13 +95,14 @@ class AdminPickModal extends React.Component {
 
   renderAdminPickForm = () => {
     const { getFieldDecorator, getFieldsError } = this.props.form;
-    const existingPick = this.props.selectedPick || {};
+    const existingPick = this.props.selectedPick;
+    const tieBreakerGame = this.props.gameData.tieBreakers[this.props.selectedPick.week];
 
     return (
       <Form colon={ false } layout="vertical" onSubmit={ this.handleSubmit }>
 
         <Form.Item label="Team">
-          { getFieldDecorator('team', { initialValue: existingPick.team || undefined })(
+          { getFieldDecorator('team', { rules: [{ required: true, message: 'Team is required' }], initialValue: existingPick.team || undefined })(
             <Select
               showSearch
               placeholder="Select Team"
@@ -108,6 +114,22 @@ class AdminPickModal extends React.Component {
             </Select>
           ) }
         </Form.Item>
+
+        { tieBreakerGame &&
+        <Form.Item label={ `${tieBreakerGame.awayTeam} Score (Tie Breaker)` }>
+          { getFieldDecorator('tieBreakerAwayTeamPoints', { initialValue: existingPick.tieBreakerAwayTeamPoints || undefined })(
+            <Input type="number" />
+          ) }
+        </Form.Item>
+        }
+
+        { tieBreakerGame &&
+        <Form.Item label={ `${tieBreakerGame.homeTeam} Score (Tie Breaker)` }>
+          { getFieldDecorator('tieBreakerHomeTeamPoints', { initialValue: existingPick.tieBreakerHomeTeamPoints || undefined })(
+            <Input type="number" />
+          ) }
+        </Form.Item>
+        }
 
         <Form.Item label="Result">
           { getFieldDecorator('status', { rules: [{ required: true, message: 'Result is required' }], initialValue: existingPick.status })(
@@ -130,6 +152,7 @@ class AdminPickModal extends React.Component {
 
 AdminPickModal.propTypes = {
   form: PropTypes.object,
+  gameData: PropTypes.object,
   selectedPlayer: PropTypes.object,
   selectedPick: PropTypes.object,
   loading: PropTypes.bool,
@@ -140,6 +163,7 @@ AdminPickModal.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  gameData: selectAdminGameData(state),
   selectedPlayer: selectAdminSelectedPlayer(state),
   selectedPick: selectAdminSelectedPick(state),
   loading: selectAdminIsSubmitting(state),
