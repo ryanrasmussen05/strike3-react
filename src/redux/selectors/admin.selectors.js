@@ -39,6 +39,17 @@ export const selectSchedulePreview = createSelector(
   admin => admin.schedulePreview
 );
 
+export const selectAdminCurrentWeek = createSelector(
+  [selectAdminGameData],
+  gameData => {
+    if (!gameData) {
+      return null;
+    }
+
+    return gameData.week;
+  }
+);
+
 export const selectIsAdmin = createSelector(
   [selectLoggedInUserId, selectAdminGameData, selectGameData],
   (userId, adminGameData, gameData) => {
@@ -106,5 +117,29 @@ export const selectAdminTieBreakers = createSelector(
     }
 
     return tieBreakerArray;
+  }
+);
+
+export const selectPlayerMissingPickForCurrentWeek = createSelector(
+  [selectAdminGameData],
+  gameData => {
+    if (!gameData) {
+      return [];
+    }
+
+    const currentWeek = gameData.week;
+    const isTieBreaker = !!gameData.tieBreakers[currentWeek];
+
+    const playersMissingPick = gameData.players.filter(player => {
+      const playerPick = player.picks[currentWeek - 1];
+      const isPlayerEliminated = player.eliminationWeek <= 17;
+      const isMissingPick = !playerPick.team || (isTieBreaker && !playerPick.tieBreakerHomeTeamPoints);
+
+      return !isPlayerEliminated && isMissingPick;
+    });
+
+    playersMissingPick.sort((a, b) => a.name.localeCompare(b.name));
+
+    return playersMissingPick;
   }
 );

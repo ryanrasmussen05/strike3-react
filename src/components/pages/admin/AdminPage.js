@@ -18,6 +18,7 @@ import AdminPickModal from '../../modals/adminPickModal/AdminPickModal';
 import RosterTable from '../../rosterTable/RosterTable';
 import Schedule from '../../schedule/Schedule';
 import TieBreaker from '../../tieBreaker/TieBreaker';
+import Email from '../../email/Email';
 
 class AdminPage extends React.Component {
 
@@ -89,6 +90,10 @@ class AdminPage extends React.Component {
 
         { this.state.view === 'tiebreakers' &&
           <TieBreaker />
+        }
+
+        { this.state.view === 'email' &&
+          <Email />
         }
 
         { this.state.view === 'roster' &&

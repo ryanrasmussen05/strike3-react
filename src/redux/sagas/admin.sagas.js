@@ -158,6 +158,27 @@ function* postScheduleSaga(action) {
   }
 }
 
+function* sendEmailSaga(action) {
+  try {
+    const functions = firebase.functions();
+
+    yield put(adminErrorAction(null));
+    yield put(adminSubmitInProgressAction(true));
+
+    const sendEmailFunction = yield call([functions, functions.httpsCallable], 'sendEmail');
+    yield call(sendEmailFunction, action.payload);
+
+    yield fork(message.success, 'Email Sent');
+
+    yield put(adminSubmitInProgressAction(false));
+  } catch (error) {
+    console.error(error);
+    yield fork(message.error, 'Error: Email Not Sent');
+    yield put(adminErrorAction(ADMIN_ERROR_TYPES.SUBMIT));
+    yield put(adminSubmitInProgressAction(false));
+  }
+}
+
 export default [
   takeLatest(ActionTypes.ADMIN.GET_GAME_DATA, getGameDataAdminSaga),
   takeLatest(ActionTypes.ADMIN.SUBMIT_PICK, submitPickAdminSaga),
@@ -166,4 +187,5 @@ export default [
   takeLatest(ActionTypes.ADMIN.UPDATE_TIE_BREAKER, updateTieBreakerSaga),
   takeLatest(ActionTypes.ADMIN.DELETE_TIE_BREAKER, deleteTieBreakerSaga),
   takeLatest(ActionTypes.ADMIN.POST_SCHEDULE, postScheduleSaga),
+  takeLatest(ActionTypes.ADMIN.SEND_EMAIL, sendEmailSaga),
 ];

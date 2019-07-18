@@ -58,6 +58,11 @@ export const adminSetSelectedTieBreakerAction = tieBreaker => ({
   payload: tieBreaker,
 });
 
+export const adminSendEmailAction = emailData => ({
+  type: ActionTypes.ADMIN.SEND_EMAIL,
+  payload: emailData,
+});
+
 export const adminSubmitInProgressAction = isSubmitting => ({
   type: ActionTypes.ADMIN.SUBMIT_IN_PROGRESS,
   payload: isSubmitting,
