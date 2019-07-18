@@ -2,10 +2,11 @@ import React from 'react';
 import './WeekTable.scss';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { selectPlayersForSelectedWeek } from '../../redux/selectors/game.selectors';
+import { selectPlayersForSelectedWeek, selectTieBreakerForSelectedWeek } from '../../redux/selectors/game.selectors';
 import { Table } from 'antd';
-import { columns } from './table.columns';
+import { columns, tieBreakerColumn } from './table.columns';
 import WeekSelector from '../weekSelector/WeekSelector';
+import { getSvgForTeam } from '../../util/teams.util';
 
 class WeekTable extends React.Component {
 
@@ -20,14 +21,22 @@ class WeekTable extends React.Component {
   };
 
   render() {
+    let tableColumns = [...columns];
+
+    if (this.props.tieBreaker) {
+      tableColumns.push(tieBreakerColumn);
+    }
+
     return (
       <div className="week-table">
         <div className="week-selector-container">
           <WeekSelector />
         </div>
 
+        { this.renderTieBreakerHeader() }
+
         <Table
-          columns={ columns }
+          columns={ tableColumns }
           dataSource={ this.props.players }
           pagination={ false }
           rowKey="id"
@@ -37,14 +46,45 @@ class WeekTable extends React.Component {
       </div>
     );
   }
+
+  renderTieBreakerHeader = () => {
+    if (this.props.tieBreaker) {
+      return (
+        <div className="tie-breaker-section">
+          <div className="tie-breaker-container">
+            <span className="tie-breaker-label">
+              { `Tie Breaker ${this.props.tieBreaker.homeTeamPoints ? 'Final:' : 'Game:'}` }
+            </span>
+
+            { this.props.tieBreaker.awayTeamPoints &&
+            <span className="tie-breaker-away-points">{ this.props.tieBreaker.awayTeamPoints }</span>
+            }
+
+            { getSvgForTeam(this.props.tieBreaker.awayTeam) }
+            <span className="tie-breaker-vs">vs.</span>
+            { getSvgForTeam(this.props.tieBreaker.homeTeam) }
+
+            { this.props.tieBreaker.homeTeamPoints &&
+            <span className="tie-breaker-home-points">{ this.props.tieBreaker.homeTeamPoints }</span>
+            }
+          </div>
+        </div>
+
+      );
+    }
+
+    return null;
+  }
 }
 
 WeekTable.propTypes = {
   players: PropTypes.array,
+  tieBreaker: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
   players: selectPlayersForSelectedWeek(state),
+  tieBreaker: selectTieBreakerForSelectedWeek(state),
 });
 
 const mapDispatchToProps = () => ({});

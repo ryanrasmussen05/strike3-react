@@ -78,6 +78,17 @@ export const selectTieBreakerForCurrentWeek = createSelector(
   }
 );
 
+export const selectTieBreakerForSelectedWeek = createSelector(
+  [selectSelectedWeek, selectGameData],
+  (week, gameData) => {
+    if (!week || !gameData || !gameData.tieBreakers) {
+      return null;
+    }
+
+    return gameData.tieBreakers[week];
+  }
+);
+
 export const selectAllPicksForPlayer = createSelector(
   [selectLoggedInUserId, selectGameData],
   (loggedInUserId, gameData) => {

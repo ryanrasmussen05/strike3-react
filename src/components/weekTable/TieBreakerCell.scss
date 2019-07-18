@@ -1,0 +1,19 @@
+.tie-breaker-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+
+  .tie-breaker-cell-away-points {
+    font-size: 16px;
+  }
+
+  .tie-breaker-cell-home-points {
+    font-size: 16px;
+  }
+
+  .tie-breaker-cell-vs {
+    font-size: 16px;
+    margin: 0 5px;
+  }
+}

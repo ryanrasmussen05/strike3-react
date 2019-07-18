@@ -2,6 +2,7 @@
 import React from 'react';
 import { getSvgForTeam } from '../../util/teams.util';
 import PickColumnHeader from './PickColumnHeader';
+import TieBreakerCell from './TieBreakerCell';
 
 export const columns = [
   {
@@ -55,3 +56,15 @@ export const columns = [
     },
   },
 ];
+
+export const tieBreakerColumn = {
+  title: 'Tie Breaker',
+  width: 120,
+  align: 'center',
+  render: player => {
+    if (player.pick.tieBreakerHomeTeamPoints) {
+      return <TieBreakerCell awayTeamPoints={ player.pick.tieBreakerAwayTeamPoints } homeTeamPoints={ player.pick.tieBreakerHomeTeamPoints } />;
+    }
+    return null;
+  },
+};
