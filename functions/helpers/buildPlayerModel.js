@@ -1,7 +1,20 @@
-/* eslint-disable complexity */
+/* eslint-disable complexity,max-params,max-statements */
+const getGameTime = require('./getGameTime').getGameTime;
+
+// determine if the tie breaker game is locked for current week, return false if tie breaker doesn't exist
+const isTieBreakerLocked = (week, tieBreakers, schedule) => {
+  const tieBreakerGame = tieBreakers[week];
+
+  if (tieBreakerGame) {
+    const tieBreakerGameTime = getGameTime(schedule, week, tieBreakerGame.awayTeam);
+    return Date.now() > tieBreakerGameTime;
+  }
+
+  return false;
+};
 
 // build front-end player model given dbPlayer
-exports.buildPlayerModel = async(dbPlayer, database, loggedInUserId, isAdmin) => {
+exports.buildPlayerModel = async(dbPlayer, database, loggedInUserId, schedule, tieBreakers, isAdmin) => {
   const picksPath = `picks`;
 
   const player = {};
@@ -29,8 +42,10 @@ exports.buildPlayerModel = async(dbPlayer, database, loggedInUserId, isAdmin) =>
       let isEditable = isAdmin;
       isEditable = isEditable || (dbPlayer.id === loggedInUserId && dbPlayerPicks[i].status === 'open');
 
+      // cannot edit pick if not admin and game has started
       if (isEditable && !isAdmin) {
-        // TODO check if game has started, if it has then isEditable = false
+        const gameStartTime = getGameTime(schedule, i, dbPlayerPicks[i].team);
+        isEditable = Date.now() < gameStartTime;
       }
 
       // TODO add a check for isVisible, only push pick to array if admin, or game started, or user owns pick, or result is set
@@ -42,6 +57,7 @@ exports.buildPlayerModel = async(dbPlayer, database, loggedInUserId, isAdmin) =>
         status: dbPlayerPicks[i].status,
         tieBreakerAwayTeamPoints: dbPlayerPicks[i].tieBreakerAwayTeamPoints,
         tieBreakerHomeTeamPoints: dbPlayerPicks[i].tieBreakerHomeTeamPoints,
+        tieBreakerLocked: isTieBreakerLocked(i, tieBreakers, schedule),
       });
 
       // update strike count to determine if eliminated
@@ -68,6 +84,7 @@ exports.buildPlayerModel = async(dbPlayer, database, loggedInUserId, isAdmin) =>
         locked: totalStrikes >= 3 ? true : !isEditable,
         team: null,
         status: totalStrikes >= 3 ? 'eliminated' : 'open',
+        tieBreakerLocked: isTieBreakerLocked(i, tieBreakers, schedule),
       });
     }
   }

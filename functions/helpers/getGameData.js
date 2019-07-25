@@ -29,13 +29,16 @@ exports.getGameData = async(context, database, adminVersion) => {
   const tieBreakersSnapshot = await database.ref(tieBreakersPath).once('value');
   const tieBreakers = tieBreakersSnapshot.val();
 
+  const scheduleSnapshot = await database.ref(schedulePath).once('value');
+  const schedule = scheduleSnapshot.val();
+
   let players = [];
 
   if (dbPlayers) {
     const results = [];
 
     Object.keys(dbPlayers).forEach(async playerId => {
-      results.push(buildPlayerModel(dbPlayers[playerId], database, loggedInUserId, adminVersion));
+      results.push(buildPlayerModel(dbPlayers[playerId], database, loggedInUserId, schedule, tieBreakers, adminVersion));
     });
 
     players = await Promise.all(results);
@@ -43,14 +46,7 @@ exports.getGameData = async(context, database, adminVersion) => {
 
   await rankPlayers(players);
 
-  const returnVal = { week, players, tieBreakers };
-
-  if (adminVersion) {
-    const scheduleSnapshot = await database.ref(schedulePath).once('value');
-    const schedule = scheduleSnapshot.val();
-
-    returnVal.schedule = schedule;
-  }
+  const returnVal = { week, players, tieBreakers, schedule };
 
   return returnVal;
 };
