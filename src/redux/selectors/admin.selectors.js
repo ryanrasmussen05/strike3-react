@@ -61,6 +61,11 @@ export const selectIsAdmin = createSelector(
 
     const loggedInPlayer = actingGameData.players.find(player => player.id === userId);
 
+    // happens initially when creating new account before game data is updated
+    if (!loggedInPlayer) {
+      return false;
+    }
+
     return loggedInPlayer.admin || loggedInPlayer.superuser;
   }
 );
