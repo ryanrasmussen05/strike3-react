@@ -1,5 +1,6 @@
 const functions = require('firebase-functions');
 const getGameDataFunction = require('./getGameData').handler;
+const getGameTime = require('../helpers/getGameTime').getGameTime;
 
 exports.handler = async(pick, context, database) => {
   const { team, week, userId } = pick;
@@ -19,12 +20,24 @@ exports.handler = async(pick, context, database) => {
     throw new functions.https.HttpsError('permission-denied', 'only the owner of the pick can call setPick');
   }
 
+  // get schedule
+  const scheduleSnapshot = await database.ref('schedule').once('value');
+  const schedule = scheduleSnapshot.val();
+
   // check if user is allowed to change current pick
   const existingPickSnapshot = await database.ref(pickPath).once('value');
   const existingPick = existingPickSnapshot.val();
 
+  // if the user has an existing pick, and that game has started, throw an error
   if (existingPick) {
-    // TODO check if game has started, if has throw error
+    const currentTime = Date.now();
+    const existingPickTime = getGameTime(schedule, week, existingPick.team);
+
+    if (currentTime > existingPickTime) {
+      throw new functions.https.HttpsError('out-of-range', 'cannot change pick, game started');
+    }
+
+    console.log(schedule);
   }
 
   // check if user has already picked this team
@@ -39,6 +52,13 @@ exports.handler = async(pick, context, database) => {
     if (isAlreadyPicked) {
       throw new functions.https.HttpsError('already-exists', 'team already picked');
     }
+  }
+
+  // verify selected pick game hasn't started yet
+  const newPickGameTime = getGameTime(schedule, week, team);
+
+  if (Date.now() > newPickGameTime) {
+    throw new functions.https.HttpsError('out-of-range', 'cannot set pick, game started');
   }
 
   // submit pick
