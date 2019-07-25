@@ -48,8 +48,16 @@ class Email extends React.Component {
           body: draftToHtml(convertToRaw(this.state.editorState.getCurrentContent())),
         };
 
-        this.props.sendEmail(emailData);
+        this.props.sendEmail(emailData, this.onSuccess);
       }
+    });
+  };
+
+  onSuccess = () => {
+    this.props.form.resetFields();
+    this.setState({
+      editorState: EditorState.createEmpty(),
+      recipients: recipientOptions.ALL,
     });
   };
 
@@ -110,7 +118,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  sendEmail: emailData => dispatch(adminSendEmailAction(emailData)),
+  sendEmail: (emailData, onSuccess) => dispatch(adminSendEmailAction({ emailData, onSuccess })),
 });
 
 const ConnectedEmail = connect(mapStateToProps, mapDispatchToProps)(Email);

@@ -166,7 +166,9 @@ function* sendEmailSaga(action) {
     yield put(adminSubmitInProgressAction(true));
 
     const sendEmailFunction = yield call([functions, functions.httpsCallable], 'sendEmail');
-    yield call(sendEmailFunction, action.payload);
+    yield call(sendEmailFunction, action.payload.emailData);
+
+    action.payload.onSuccess();
 
     yield fork(message.success, 'Email Sent');
 
