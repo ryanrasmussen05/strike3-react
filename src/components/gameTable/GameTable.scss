@@ -9,6 +9,7 @@
   .game-table-row {
     display: flex;
     border-bottom: 1px solid $game-table-border-color;
+    min-height: 35px;
   }
 
   .rank-title {
