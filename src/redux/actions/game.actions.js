@@ -19,6 +19,10 @@ export const setSelectedWeekAction = weekNumber => ({
   payload: weekNumber,
 });
 
+export const resetSelectedWeekAction = () => ({
+  type: ActionTypes.GAME.RESET_SELECTED_WEEK,
+});
+
 export const submitInProgressAction = isSubmitting => ({
   type: ActionTypes.GAME.SUBMIT_IN_PROGRESS,
   payload: isSubmitting,

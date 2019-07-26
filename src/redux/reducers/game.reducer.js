@@ -38,6 +38,12 @@ export default (state = INITIAL_STATE, action) => {
       return newState;
     }
 
+    case ActionTypes.GAME.RESET_SELECTED_WEEK: {
+      const newState = _.cloneDeep(state);
+      newState.selectedWeek = newState.gameData ? newState.gameData.week : undefined;
+      return newState;
+    }
+
     case ActionTypes.GAME.SUBMIT_IN_PROGRESS: {
       const newState = _.cloneDeep(state);
       newState.submitInProgress = action.payload;

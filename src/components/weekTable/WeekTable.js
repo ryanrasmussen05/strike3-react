@@ -21,7 +21,7 @@ class WeekTable extends React.Component {
   };
 
   render() {
-    let tableColumns = [...columns];
+    const tableColumns = [...columns];
 
     if (this.props.tieBreaker) {
       tableColumns.push(tieBreakerColumn);

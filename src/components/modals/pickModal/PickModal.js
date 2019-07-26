@@ -11,7 +11,7 @@ import {
   selectSelectedWeek,
 } from '../../../redux/selectors/game.selectors';
 import { showPickModalAction } from '../../../redux/actions/modal.actions';
-import { gameErrorAction, submitPickAction } from '../../../redux/actions/game.actions';
+import { gameErrorAction, resetSelectedWeekAction, submitPickAction } from '../../../redux/actions/game.actions';
 import { GAME_ERROR_TYPES } from '../../../redux/reducers/game.reducer';
 import { AllTeams } from '../../../util/teams.util';
 
@@ -22,6 +22,7 @@ class PickModal extends React.Component {
   }
 
   closeModal = () => {
+    this.props.resetSelectedWeek(); // reset week to current week to prevent week table from potentially showing future weeks
     this.props.closeModal();
   };
 
@@ -154,6 +155,7 @@ PickModal.propTypes = {
   error: PropTypes.string,
   closeModal: PropTypes.func,
   submitPick: PropTypes.func,
+  resetSelectedWeek: PropTypes.func,
   clearErrors: PropTypes.func,
 };
 
@@ -168,6 +170,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   closeModal: () => dispatch(showPickModalAction(false)),
   submitPick: team => dispatch(submitPickAction(team)),
+  resetSelectedWeek: () => dispatch(resetSelectedWeekAction()),
   clearErrors: () => dispatch(gameErrorAction(null)),
 });
 
