@@ -7,6 +7,7 @@ export const GAME_ERROR_TYPES = {
   DUPLICATE_PICK: 'game_duplicate_pick',
   EXISTING_PICK_STARTED: 'game_existing_pick_started',
   NEW_PICK_STARTED: 'new_pick_started',
+  TIE_BREAKER_STARTED: 'tie_breaker_started',
 };
 
 const INITIAL_STATE = {

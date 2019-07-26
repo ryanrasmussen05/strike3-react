@@ -67,9 +67,8 @@ class WeekDisplay extends React.Component {
     }
   }
 
-  // TODO this should look at locked property when it actually does stuff (2nd part of if statement)
   renderPickButton() {
-    if (this.props.pick.status !== 'eliminated' && (this.props.pick.status === 'open')) {
+    if (this.props.pick.status !== 'eliminated' && this.props.pick.status === 'open' && !this.props.pick.locked) {
       return (
         <Button type="primary" onClick={ this.showPickModal } className="make-pick-button">
           { this.props.pick.team === null ? 'Make Pick' : 'Change Pick' }

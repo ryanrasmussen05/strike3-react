@@ -66,13 +66,11 @@ class TieBreakerDisplay extends React.Component {
     );
   }
 
-  // TODO this needs to handle changing pick until game starts
   renderTieBreakerButton() {
-    // if (this.props.pick && this.props.pick.status !== 'eliminated' && !this.props.pick.tieBreakerHomeTeamPoints && !this.props.tieBreaker.homeTeamPoints) {
-    if (this.props.pick && this.props.pick.status !== 'eliminated') {
+    if (this.props.pick && this.props.pick.status !== 'eliminated' && !this.props.pick.tieBreakerLocked) {
       return (
         <Button type="primary" onClick={ this.showTieBreakerPickModal }>
-          Make Pick
+          { this.props.pick.tieBreakerHomeTeamPoints ? 'Change Pick' : 'Make Pick' }
         </Button>
       );
     }

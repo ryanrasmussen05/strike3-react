@@ -68,6 +68,18 @@ class TieBreakerPickModal extends React.Component {
         </div>
       );
     }
+
+    if (this.props.error === GAME_ERROR_TYPES.TIE_BREAKER_STARTED) {
+      return (
+        <div className="error-message">
+          <Alert
+            message="Game Started"
+            description="The tie breaker game has already started. You cannot change your pick now."
+            type="error"
+          />
+        </div>
+      );
+    }
   };
 
   renderTieBreakerPickForm = () => {
@@ -95,7 +107,7 @@ class TieBreakerPickModal extends React.Component {
         </div>
 
         <div className="note">
-          *For fairness, you CANNOT change your tie breaker pick after submitting
+          *You can change your pick until the tie breaker game starts
         </div>
 
         <Button className="submit-button" type="primary" htmlType="submit" disabled={ this.hasErrors(getFieldsError()) } block loading={ this.props.loading }>

@@ -57,7 +57,6 @@ function* submitPickSaga(action) {
   } catch (error) {
     console.error(error);
 
-    // TODO eventually add error type for week locked / game started
     if (error.code === 'already-exists') {
       yield put(gameErrorAction(GAME_ERROR_TYPES.DUPLICATE_PICK));
     } else if (error.code === 'out-of-range' && error.message === 'new pick game started') {
@@ -97,8 +96,11 @@ function* submitTieBreakerPickSaga(action) {
   } catch (error) {
     console.error(error);
 
-    // TODO eventually add error type for game started
-    yield put(gameErrorAction(GAME_ERROR_TYPES.SUBMIT));
+    if (error.code === 'out-of-range') {
+      yield put(gameErrorAction(GAME_ERROR_TYPES.TIE_BREAKER_STARTED));
+    } else {
+      yield put(gameErrorAction(GAME_ERROR_TYPES.SUBMIT));
+    }
 
     yield put(submitInProgressAction(false));
   }
