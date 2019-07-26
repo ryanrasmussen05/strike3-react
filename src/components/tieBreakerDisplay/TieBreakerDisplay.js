@@ -67,7 +67,7 @@ class TieBreakerDisplay extends React.Component {
   }
 
   renderTieBreakerButton() {
-    if (this.props.pick && this.props.pick.status !== 'eliminated' && !this.props.pick.tieBreakerLocked) {
+    if (this.props.pick && this.props.pick.status !== 'eliminated' && !this.props.pick.tieBreakerLocked && !this.props.tieBreaker.awayTeamPoints) {
       return (
         <Button type="primary" onClick={ this.showTieBreakerPickModal }>
           { this.props.pick.tieBreakerHomeTeamPoints ? 'Change Pick' : 'Make Pick' }
