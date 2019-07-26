@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   selectGameError,
-  selectIsSubmitting,
+  selectIsSubmitting, selectPickForCurrentWeek,
   selectSelectedWeek,
   selectTieBreakerForCurrentWeek,
 } from '../../../redux/selectors/game.selectors';
@@ -85,13 +85,16 @@ class TieBreakerPickModal extends React.Component {
   renderTieBreakerPickForm = () => {
     const { getFieldDecorator, getFieldsError } = this.props.form;
 
+    const initialAwayPoints = this.props.pick ? this.props.pick.tieBreakerAwayTeamPoints : null;
+    const initialHomePoints = this.props.pick ? this.props.pick.tieBreakerHomeTeamPoints : null;
+
     return (
       <Form colon={ false } layout="vertical" onSubmit={ this.handleSubmit }>
 
         <div className="team-row">
           <div className="team-name">{ this.props.tieBreaker.awayTeam }</div>
           <Form.Item>
-            { getFieldDecorator('awayTeamPoints', { rules: [{ required: true, message: 'Score is required' }], initialValue: this.props.tieBreaker.awayTeamPoints })(
+            { getFieldDecorator('awayTeamPoints', { rules: [{ required: true, message: 'Score is required' }], initialValue: initialAwayPoints })(
               <Input type="number" placeholder={ `${this.props.tieBreaker.awayTeam} Score` } />
             ) }
           </Form.Item>
@@ -100,7 +103,7 @@ class TieBreakerPickModal extends React.Component {
         <div className="team-row">
           <div className="team-name">{ this.props.tieBreaker.homeTeam }</div>
           <Form.Item>
-            { getFieldDecorator('homeTeamPoints', { rules: [{ required: true, message: 'Score is required' }], initialValue: this.props.tieBreaker.homeTeamPoints })(
+            { getFieldDecorator('homeTeamPoints', { rules: [{ required: true, message: 'Score is required' }], initialValue: initialHomePoints })(
               <Input type="number" placeholder={ `${this.props.tieBreaker.homeTeam} Score` } />
             ) }
           </Form.Item>
@@ -121,6 +124,7 @@ class TieBreakerPickModal extends React.Component {
 TieBreakerPickModal.propTypes = {
   form: PropTypes.object,
   tieBreaker: PropTypes.object,
+  pick: PropTypes.object,
   selectedWeek: PropTypes.number,
   loading: PropTypes.bool,
   error: PropTypes.string,
@@ -131,6 +135,7 @@ TieBreakerPickModal.propTypes = {
 
 const mapStateToProps = state => ({
   tieBreaker: selectTieBreakerForCurrentWeek(state),
+  pick: selectPickForCurrentWeek(state),
   selectedWeek: selectSelectedWeek(state),
   loading: selectIsSubmitting(state),
   error: selectGameError(state),
