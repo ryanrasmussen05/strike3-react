@@ -60,6 +60,10 @@ function* submitPickSaga(action) {
     // TODO eventually add error type for week locked / game started
     if (error.code === 'already-exists') {
       yield put(gameErrorAction(GAME_ERROR_TYPES.DUPLICATE_PICK));
+    } else if (error.code === 'out-of-range' && error.message === 'new pick game started') {
+      yield put(gameErrorAction(GAME_ERROR_TYPES.NEW_PICK_STARTED));
+    } else if (error.message === 'existing pick game started') {
+      yield put(gameErrorAction(GAME_ERROR_TYPES.EXISTING_PICK_STARTED));
     } else {
       yield put(gameErrorAction(GAME_ERROR_TYPES.SUBMIT));
     }

@@ -34,7 +34,7 @@ exports.handler = async(pick, context, database) => {
     const existingPickTime = getGameTime(schedule, week, existingPick.team);
 
     if (currentTime > existingPickTime) {
-      throw new functions.https.HttpsError('out-of-range', 'cannot change pick, game started');
+      throw new functions.https.HttpsError('out-of-range', 'existing pick game started');
     }
 
     console.log(schedule);
@@ -58,7 +58,7 @@ exports.handler = async(pick, context, database) => {
   const newPickGameTime = getGameTime(schedule, week, team);
 
   if (Date.now() > newPickGameTime) {
-    throw new functions.https.HttpsError('out-of-range', 'cannot set pick, game started');
+    throw new functions.https.HttpsError('out-of-range', 'new pick game started');
   }
 
   // submit pick

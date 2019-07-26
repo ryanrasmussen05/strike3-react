@@ -87,6 +87,30 @@ class PickModal extends React.Component {
         </div>
       );
     }
+
+    if (this.props.error === GAME_ERROR_TYPES.NEW_PICK_STARTED) {
+      return (
+        <div className="error-message">
+          <Alert
+            message="Game Started"
+            description="The game you are trying to select has already started, you can't pick this team anymore this week"
+            type="error"
+          />
+        </div>
+      );
+    }
+
+    if (this.props.error === GAME_ERROR_TYPES.EXISTING_PICK_STARTED) {
+      return (
+        <div className="error-message">
+          <Alert
+            message="Game Started"
+            description="The game you previously selected has already started, you can't change your pick now"
+            type="error"
+          />
+        </div>
+      );
+    }
   };
 
   renderPickForm = () => {
