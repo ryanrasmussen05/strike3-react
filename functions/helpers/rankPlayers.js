@@ -47,7 +47,7 @@ const sortPlayersByTieBreaker = (playerA, playerB, eliminationWeek, tieBreakers)
 };
 
 // determine all player ranks and sort by rank
-exports.rankPlayers = async(players, tieBreakers) => {
+exports.rankPlayers = async(players, tieBreakers, week) => {
 
   // first sort player
   players.sort((a, b) => {
@@ -61,6 +61,13 @@ exports.rankPlayers = async(players, tieBreakers) => {
 
     if (a.strikes < b.strikes) return -1;
     if (a.strikes > b.strikes) return 1;
+
+    // handle players who both haven't struck out in Week 17 and have same number of strikes
+    if (week === 17 && weekHasTieBreaker(17, tieBreakers)) {
+      const tieBreakerValue = sortPlayersByTieBreaker(a, b, 17, tieBreakers);
+      if (tieBreakerValue !== 0) return tieBreakerValue;
+    }
+
     if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
     if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
     return 0;
@@ -80,6 +87,12 @@ exports.rankPlayers = async(players, tieBreakers) => {
       if (isTied && weekHasTieBreaker(player.eliminationWeek, tieBreakers)) {
         // since player are sorted, if sort doesn't return 0 we can assume player is ranked lower
         isTied = sortPlayersByTieBreaker(prevPlayer, player, player.eliminationWeek, tieBreakers) === 0;
+      }
+
+      // handle players who haven't struck out and have same # of strikes on week 17
+      if (isTied && week === 17 && weekHasTieBreaker(17, tieBreakers)) {
+        // since player are sorted, if sort doesn't return 0 we can assume player is ranked lower
+        isTied = sortPlayersByTieBreaker(prevPlayer, player, 17, tieBreakers) === 0;
       }
 
       // if player is not tied with prevPlayer, since players are sorted we know this player is ranked lower than prev

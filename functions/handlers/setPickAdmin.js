@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 const functions = require('firebase-functions');
 const isAdmin = require('../helpers/isAdmin').isAdmin;
 const updateCurrentWeek = require('../helpers/updateCurrentWeek').updateCurrentWeek;
@@ -26,7 +27,12 @@ exports.handler = async(pick, context, database) => {
   if (!!allExistingPicks) {
     delete allExistingPicks[week]; // so a player can resubmit the same pick
 
-    const isAlreadyPicked = Object.values(allExistingPicks).some(oldPick => oldPick.team === team);
+    let isAlreadyPicked = Object.values(allExistingPicks).some(oldPick => oldPick.team === team);
+
+    // allow NP to be picked multiple times
+    if (team === 'NP') {
+      isAlreadyPicked = false;
+    }
 
     if (isAlreadyPicked) {
       throw new functions.https.HttpsError('already-exists', 'team already picked');

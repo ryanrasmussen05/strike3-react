@@ -44,7 +44,7 @@ exports.getGameData = async(context, database, adminVersion) => {
     players = await Promise.all(results);
   }
 
-  await rankPlayers(players, tieBreakers);
+  await rankPlayers(players, tieBreakers, week);
 
   const returnVal = { week, players, tieBreakers, schedule };
 

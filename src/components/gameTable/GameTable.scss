@@ -15,19 +15,25 @@
   .rank-title {
     width: 50px;
     font-weight: 600;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .player-title {
     width: 200px;
     font-weight: 600;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .week-title {
     width: 50px;
     font-weight: 600;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .rank {

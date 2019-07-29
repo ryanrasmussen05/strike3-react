@@ -2,18 +2,21 @@ const getGameData = require('./getGameData').getGameData;
 
 // returns the first week number that has an open pick status
 const getActiveWeek = gameData => {
-  let activeWeek = 1;
+  if (!gameData.players || gameData.players.length === 0) {
+    return 1;
+  }
 
   for (let week = 1; week <= 17; week++) {
     for (const player of gameData.players) {
       const pick = player.picks[week - 1];
 
       if (pick.status === 'open') {
-        activeWeek = week;
-        return activeWeek;
+        return week;
       }
     }
   }
+
+  return 17;
 };
 
 // if all results are set for current week, increment the week
