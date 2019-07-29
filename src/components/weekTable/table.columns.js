@@ -65,7 +65,10 @@ export const tieBreakerColumn = {
   render: player => {
     if (player.pick.tieBreakerHomeTeamPoints) {
       return <TieBreakerCell awayTeamPoints={ player.pick.tieBreakerAwayTeamPoints } homeTeamPoints={ player.pick.tieBreakerHomeTeamPoints } />;
+    } else if (player.pick.status !== 'eliminated') {
+      return <div>- - -</div>;
     }
+
     return null;
   },
 };
