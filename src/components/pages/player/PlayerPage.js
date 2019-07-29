@@ -8,7 +8,7 @@ import { getGameDataAction } from '../../../redux/actions/game.actions';
 import {
   selectCurrentWeek,
   selectGameData,
-  selectGameError,
+  selectGameError, selectPickForCurrentWeek,
   selectTieBreakerForCurrentWeek
 } from '../../../redux/selectors/game.selectors';
 import { GAME_ERROR_TYPES } from '../../../redux/reducers/game.reducer';
@@ -73,10 +73,10 @@ class PlayerPage extends React.Component {
         </div>
         }
 
-        { /* TODO don't show this if not logged in */ }
+        { this.props.loggedInUser &&
         <div className="player-page-header">
           <div className="active-week-container">
-            {`Week ${this.props.currentWeek}`}
+            { `Week ${this.props.currentWeek}` }
           </div>
 
           { this.props.loggedInUser &&
@@ -85,13 +85,15 @@ class PlayerPage extends React.Component {
           </div>
           }
 
-          { this.props.tieBreaker &&
+          {/* only show the tie breaker display if player is not eliminated */ }
+          { this.props.tieBreaker && this.props.currentPick && this.props.currentPick.status !== 'eliminated' &&
           <React.Fragment>
             <Divider />
             <TieBreakerDisplay />
           </React.Fragment>
           }
         </div>
+        }
 
         <div className="standings-container">
           <div className="standings-header">STANDINGS</div>
@@ -138,6 +140,7 @@ PlayerPage.propTypes = {
   gameData: PropTypes.object,
   currentWeek: PropTypes.number,
   tieBreaker: PropTypes.object,
+  currentPick: PropTypes.object,
   error: PropTypes.any,
   shouldShowPickModal: PropTypes.bool,
   shouldShowTieBreakerPickModal: PropTypes.bool,
@@ -149,6 +152,7 @@ const mapStateToProps = state => ({
   gameData: selectGameData(state),
   currentWeek: selectCurrentWeek(state),
   tieBreaker: selectTieBreakerForCurrentWeek(state),
+  currentPick: selectPickForCurrentWeek(state),
   error: selectGameError(state),
   shouldShowPickModal: selectShowPickModal(state),
   shouldShowTieBreakerPickModal: selectShowTieBreakerPickModal(state),
