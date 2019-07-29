@@ -107,9 +107,7 @@ class PlayerPage extends React.Component {
           </div>
 
           { this.state.viewType === 'week' &&
-          <div className="week-table-container">
-            <WeekTable />
-          </div>
+          <WeekTable />
           }
 
           { this.state.viewType === 'all' &&

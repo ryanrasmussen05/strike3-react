@@ -44,16 +44,18 @@
 
   .standings-container {
     background-color: white;
-    padding: 20px;
     border: 1px solid gray;
     box-shadow: $box-shadow;
     border-radius: 5px;
     margin: 20px auto;
+    min-width: 320px;
+    overflow: hidden;
 
     .standings-header {
       text-align: center;
       font-size: 24px;
       font-weight: 500;
+      margin: 20px;
     }
   }
 
@@ -70,12 +72,8 @@
     }
   }
 
-  .week-table-container {
-    margin: 10px auto 10px auto;
-  }
-
   .game-table-container {
-    margin: 10px auto 30px auto;
+    margin: 10px 20px 30px 20px;
   }
 }
 

@@ -1,10 +1,7 @@
 @import '../../theme';
 
 .week-table {
-  border: 1px solid $week-table-border-color;
-  border-radius: 5px;
   overflow: hidden;
-  box-shadow: $box-shadow;
   background-color: $content-background-color;
 
   // week selector
