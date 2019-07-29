@@ -93,6 +93,10 @@
   }
 
   // table player/pick column
+  .player-pick-column-header .ant-table-header-column {
+    margin-left: 10px;
+  }
+
   .player-pick-column {
     display: flex;
     align-items: center;
@@ -111,6 +115,14 @@
       .player-name {
         font-weight: 500;
         font-size: 14px;
+        display: flex;
+        align-items: center;
+
+        .strikes {
+          display: flex;
+          margin-left: 5px;
+          font-size: 16px;
+        }
       }
 
       .player-pick {
