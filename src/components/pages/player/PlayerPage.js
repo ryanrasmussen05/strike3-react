@@ -68,18 +68,21 @@ class PlayerPage extends React.Component {
         </div>
         }
 
-        <div className="active-week-container">
-          {`Week ${this.props.currentWeek}`}
-        </div>
+        { /* TODO don't show this if not logged in */ }
+        <div className="player-page-header">
+          <div className="active-week-container">
+            {`Week ${this.props.currentWeek}`}
+          </div>
 
-        { this.props.loggedInUser &&
-        <div className="week-display-container">
-          <WeekDisplay />
-        </div>
-        }
+          { this.props.loggedInUser &&
+          <div className="week-display-container">
+            <WeekDisplay />
+          </div>
+          }
 
-        <div className="tie-breaker-display-container">
-          <TieBreakerDisplay />
+          <div className="tie-breaker-display-container">
+            <TieBreakerDisplay />
+          </div>
         </div>
 
         <div className="standings-container">

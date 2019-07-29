@@ -6,16 +6,14 @@
   align-items: center;
 
   .welcome-message {
-    margin: 20px 20px 0 20px;
+    width: 100%;
     display:flex;
     flex-direction: column;
     align-items: center;
     padding: 10px 20px;
-    border: 1px solid rgba(60, 60, 60, 0.2);
-    border-radius: 5px;
     overflow: hidden;
-    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
-    background-color: $content-background-color;
+    color: $welcome-message-text-color;
+    background-image: linear-gradient(to bottom right, $welcome-message-gradient-start, $welcome-message-gradient-end);
 
     .welcome-header {
       font-size: 20px;
@@ -25,21 +23,23 @@
     .welcome-text {
       font-size: 14px;
       margin: 10px;
+      text-align: center;
     }
   }
 
+  .player-page-header {
+    width: 100%;
+    background-color: $player-page-header-color;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+
   .active-week-container {
-    margin: 20px 0 10px 0;
-    font-size: 24px;
+    margin-bottom: 10px;
+    font-size: 30px;
     font-weight: 600;
-  }
-
-  .week-display-container {
-    margin-bottom: 20px;
-  }
-
-  .tie-breaker-display-container {
-    margin-bottom: 40px;
   }
 
   .standings-container {
@@ -49,6 +49,7 @@
     box-shadow: $box-shadow;
     border-radius: 5px;
     margin-bottom: 20px;
+    margin-top: 20px;
 
     .standings-header {
       text-align: center;

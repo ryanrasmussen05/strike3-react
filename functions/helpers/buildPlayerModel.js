@@ -74,7 +74,7 @@ exports.buildPlayerModel = async(dbPlayer, database, loggedInUserId, schedule, t
       isEditable = isEditable || (dbPlayer.id === loggedInUserId && dbPlayerPicks[i].status === 'open');
 
       // cannot edit pick if not admin and game has started
-      if (isEditable && !isAdmin) {
+      if (isEditable && !isAdmin && dbPlayerPicks[i].team !== 'NP') {
         const gameStartTime = getGameTime(schedule, i, dbPlayerPicks[i].team);
         isEditable = Date.now() < gameStartTime;
       }

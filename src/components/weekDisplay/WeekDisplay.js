@@ -18,7 +18,7 @@ class WeekDisplay extends React.Component {
   render() {
     if (this.props.pick) {
       return (
-        <div className={ `week-display ${this.props.pick.status}` }>
+        <div className="week-display">
           { this.renderDisplay() }
         </div>
       );
@@ -30,51 +30,66 @@ class WeekDisplay extends React.Component {
   renderDisplay() {
     return (
       <React.Fragment>
-        <div className="pick-container">
-          { this.renderPickHeader() }
-          { this.renderPickTeam() }
-        </div>
-        { this.renderPickButton() }
+        { this.props.pick.status === 'eliminated' &&
+          this.renderEliminated()
+        }
+        { this.props.pick.status !== 'eliminated' && this.props.pick.team === null &&
+          this.renderPickNotMade()
+        }
+        { this.props.pick.status !== 'eliminated' && this.props.pick.team !== null &&
+          this.renderPickMade()
+        }
       </React.Fragment>
     );
   }
 
-  renderPickHeader() {
-    if (this.props.pick.status === 'eliminated') {
-      return (
-        <React.Fragment>
-          <div className="eliminated-header">ELIMINATED</div>
-          <div className="eliminated-text">{ `Strike three, you're out!  Thanks for playing!` }</div>
-        </React.Fragment>
-      );
-    }
-
+  renderPickNotMade() {
     return (
-      <div className={ this.props.pick.team === null ? 'display-header no-pick' : 'display-header' }>
-        { this.props.pick.team === null ? `Make Your Pick` : `Your Pick:`}
+      <Button type="primary" onClick={ this.showPickModal }>
+        { `Make Your Week ${this.props.pick.week} Pick` }
+      </Button>
+    );
+  }
+
+  renderPickMade() {
+    return (
+      <div className="your-pick">
+        <div className="your-pick-row">
+          <span className="your-pick-label">Your Pick:</span>
+
+          { this.props.pick.team === 'NP' &&
+            <span className="no-pick">NO PICK</span>
+          }
+          { this.props.pick.team !== 'NP' &&
+          <React.Fragment>
+            { getSvgForTeam(this.props.pick.team) }
+            <span className="team-label">{ this.props.pick.team }</span>
+          </React.Fragment>
+          }
+        </div>
+
+        { this.props.pick.status !== 'open' &&
+          <span className="pick-status">
+            { this.props.pick.status === 'win' && <span className="win">WIN</span>}
+            { this.props.pick.status === 'loss' && <span className="loss">LOSS</span>}
+            { this.props.pick.status === 'tie' && <span className="tie">TIE</span>}
+          </span>
+        }
+
+        { !this.props.pick.locked &&
+          <Button type="primary" onClick={ this.showPickModal } className="change-pick-button">Change Pick</Button>
+        }
       </div>
     );
   }
 
-  renderPickTeam() {
-    if (this.props.pick.team) {
-      return (
-        <div className="display-pick">
-          { getSvgForTeam(this.props.pick.team) }
-          <span className="display-team">{ this.props.pick.team }</span>
-        </div>
-      );
-    }
-  }
-
-  renderPickButton() {
-    if (this.props.pick.status !== 'eliminated' && this.props.pick.status === 'open' && !this.props.pick.locked) {
-      return (
-        <Button type="primary" onClick={ this.showPickModal } className="make-pick-button">
-          { this.props.pick.team === null ? 'Make Pick' : 'Change Pick' }
-        </Button>
-      );
-    }
+  renderEliminated() {
+    return (
+      <div className="eliminated">
+        <div className="eliminated-header">ELIMINATED</div>
+        <div>{ `Strike three, you're out!  Thanks for playing!` }</div>
+      </div>
+    );
   }
 }
 

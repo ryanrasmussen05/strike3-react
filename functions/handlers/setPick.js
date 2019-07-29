@@ -29,7 +29,7 @@ exports.handler = async(pick, context, database) => {
   const existingPick = existingPickSnapshot.val();
 
   // if the user has an existing pick, and that game has started, throw an error
-  if (existingPick) {
+  if (existingPick && existingPick.team !== 'NP') {
     const currentTime = Date.now();
     const existingPickTime = getGameTime(schedule, week, existingPick.team);
 

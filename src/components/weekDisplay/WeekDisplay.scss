@@ -3,77 +3,73 @@
 .week-display {
   display:flex;
   align-items: center;
-  padding: 5px 15px;
-  border: 1px solid rgba(60, 60, 60, 0.2);
-  border-radius: 5px;
-  overflow: hidden;
-  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
-  background-color: $content-background-color;
 
-  &.win {
-    border-color: $win-color;
-    background-color: rgba($win-color, 0.2);
+  .your-pick {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .your-pick-row {
+      display: flex;
+      align-items: center;
+    }
+
+    svg {
+      font-size: 35px;
+    }
+
+    .your-pick-label {
+      font-size: 16px;
+      margin-right: 5px;
+    }
+
+    .no-pick {
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .team-label {
+      font-size: 24px;
+      margin-left: 5px;
+      font-weight: 500;
+    }
+
+    .change-pick-button {
+      margin-left: 10px;
+    }
+
+    .pick-status {
+      font-size: 20px;
+      font-weight: 500;
+      margin-left: 10px;
+
+      .win {
+        color: $win-color;
+      }
+
+      .loss {
+        color: $loss-color;
+      }
+
+      .tie {
+        color: $tie-color;
+      }
+    }
   }
 
-  &.loss {
-    border-color: $loss-color;
-    background-color: rgba($loss-color, 0.2);
-  }
+  .eliminated {
+    text-align: center;
 
-  &.tie {
-    border-color: $tie-color;
-    background-color: rgba($tie-color, 0.2);
+    .eliminated-header {
+      font-size: 22px;
+      font-weight: 500;
+    }
   }
 
   &.eliminated {
     border-color: $eliminated-color;
     background-color: rgba($eliminated-color, 0.2);
     max-width: 350px;
-  }
-
-  .pick-container {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-
-  .display-header {
-    font-size: 18px;
-
-    &.no-pick {
-      margin: 5px;
-    }
-  }
-
-  .display-pick {
-    display: flex;
-    align-items: center;
-    font-size: 40px;
-    margin-left: 5px;
-  }
-
-  .display-team {
-    margin-right: 5px;
-    font-size: 24px;
-    font-weight: 600;
-  }
-
-  .make-pick-button {
-    margin-left: 10px;
-  }
-
-  .eliminated-header {
-    width: 100%;
-    text-align: center;
-    font-size: 24px;
-    font-weight: 600;
-    margin-top: 10px;
-  }
-
-  .eliminated-text {
-    width: 100%;
-    text-align: center;
-    font-size: 18px;
-    margin: 10px;
   }
 }
