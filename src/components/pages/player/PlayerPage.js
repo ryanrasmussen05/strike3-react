@@ -5,9 +5,14 @@ import { connect } from 'react-redux';
 import { selectShowPickModal, selectShowTieBreakerPickModal } from '../../../redux/selectors/modal.selectors';
 import PlayerPickModal from '../../modals/pickModal/PickModal';
 import { getGameDataAction } from '../../../redux/actions/game.actions';
-import { selectCurrentWeek, selectGameData, selectGameError } from '../../../redux/selectors/game.selectors';
+import {
+  selectCurrentWeek,
+  selectGameData,
+  selectGameError,
+  selectTieBreakerForCurrentWeek
+} from '../../../redux/selectors/game.selectors';
 import { GAME_ERROR_TYPES } from '../../../redux/reducers/game.reducer';
-import { Alert, Radio } from 'antd';
+import { Alert, Divider, Radio } from 'antd';
 import WeekTable from '../../weekTable/WeekTable';
 import WeekDisplay from '../../weekDisplay/WeekDisplay';
 import { selectLoggedInUser } from '../../../redux/selectors/auth.selectors';
@@ -80,9 +85,12 @@ class PlayerPage extends React.Component {
           </div>
           }
 
-          <div className="tie-breaker-display-container">
+          { this.props.tieBreaker &&
+          <React.Fragment>
+            <Divider />
             <TieBreakerDisplay />
-          </div>
+          </React.Fragment>
+          }
         </div>
 
         <div className="standings-container">
@@ -129,6 +137,7 @@ PlayerPage.propTypes = {
   loggedInUser: PropTypes.object,
   gameData: PropTypes.object,
   currentWeek: PropTypes.number,
+  tieBreaker: PropTypes.object,
   error: PropTypes.any,
   shouldShowPickModal: PropTypes.bool,
   shouldShowTieBreakerPickModal: PropTypes.bool,
@@ -139,6 +148,7 @@ const mapStateToProps = state => ({
   loggedInUser: selectLoggedInUser(state),
   gameData: selectGameData(state),
   currentWeek: selectCurrentWeek(state),
+  tieBreaker: selectTieBreakerForCurrentWeek(state),
   error: selectGameError(state),
   shouldShowPickModal: selectShowPickModal(state),
   shouldShowTieBreakerPickModal: selectShowTieBreakerPickModal(state),

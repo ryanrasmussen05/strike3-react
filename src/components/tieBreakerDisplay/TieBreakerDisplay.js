@@ -52,15 +52,21 @@ class TieBreakerDisplay extends React.Component {
 
   renderTieBreakerGame() {
     return (
-      <div className="display-tie-breaker">
+      <div className="tie-breaker-row">
         { this.props.pick && this.props.pick.tieBreakerAwayTeamPoints &&
-        <span className="display-tie-breaker-away-points">{ this.props.pick.tieBreakerAwayTeamPoints }</span>
+        <div className="tie-breaker-away-points">{ this.props.pick.tieBreakerAwayTeamPoints }</div>
         }
+
         { getSvgForTeam(this.props.tieBreaker.awayTeam) }
-        <span className="display-tie-breaker-vs">vs.</span>
+        <div className="team-label">{this.props.tieBreaker.awayTeam}</div>
+
+        <span className="tie-breaker-vs">vs.</span>
+
         { getSvgForTeam(this.props.tieBreaker.homeTeam) }
+        <div className="team-label">{this.props.tieBreaker.homeTeam}</div>
+
         { this.props.pick && this.props.pick.tieBreakerHomeTeamPoints &&
-        <span className="display-tie-breaker-home-points">{ this.props.pick.tieBreakerHomeTeamPoints }</span>
+        <div className="tie-breaker-home-points">{ this.props.pick.tieBreakerHomeTeamPoints }</div>
         }
       </div>
     );
@@ -70,7 +76,7 @@ class TieBreakerDisplay extends React.Component {
     if (this.props.pick && this.props.pick.status !== 'eliminated' && !this.props.pick.tieBreakerLocked && !this.props.tieBreaker.awayTeamPoints) {
       return (
         <Button type="primary" onClick={ this.showTieBreakerPickModal }>
-          { this.props.pick.tieBreakerHomeTeamPoints ? 'Change Pick' : 'Make Pick' }
+          { this.props.pick.tieBreakerHomeTeamPoints ? 'Change Pick' : 'Make Tie Breaker Pick' }
         </Button>
       );
     }

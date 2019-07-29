@@ -66,10 +66,4 @@
       font-weight: 500;
     }
   }
-
-  &.eliminated {
-    border-color: $eliminated-color;
-    background-color: rgba($eliminated-color, 0.2);
-    max-width: 350px;
-  }
 }
