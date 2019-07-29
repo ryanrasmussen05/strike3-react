@@ -3,7 +3,7 @@ const getGameTime = require('./getGameTime').getGameTime;
 
 // determine if the tie breaker game is locked for current week, return false if tie breaker doesn't exist
 const isTieBreakerLocked = (week, tieBreakers, schedule) => {
-  const tieBreakerGame = tieBreakers[week];
+  const tieBreakerGame = tieBreakers ? tieBreakers[week] : null;
 
   if (tieBreakerGame) {
     const tieBreakerGameTime = getGameTime(schedule, week, tieBreakerGame.awayTeam);

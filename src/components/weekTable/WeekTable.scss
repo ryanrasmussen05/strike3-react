@@ -7,11 +7,13 @@
   box-shadow: $box-shadow;
   background-color: $content-background-color;
 
+  // week selector
   .week-selector-container {
     display: flex;
     justify-content: center;
   }
 
+  // tie breaker top section
   .tie-breaker-section {
     display: flex;
     justify-content: center;
@@ -49,50 +51,17 @@
     }
   }
 
+  // table specific styles
+  .ant-table-thead > tr > th {
+    padding: 16px 10px;
+  }
+
   .ant-table-tbody > tr > td {
-    padding: 5px 16px;
+    padding: 4px 16px;
     border: none;
   }
 
-  .player-label {
-    font-weight: 500;
-  }
-
-  .strikes-label {
-    margin-left: 3px;
-    font-size: 12px;
-    font-weight: 400;
-    font-style: italic;
-  }
-
-  .week-table-logo {
-    font-size: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .week-table-team {
-    margin-left: 5px;
-    margin-right: 5px;
-    font-size: 18px;
-    font-weight: 600;
-  }
-
-  .week-table-no-pick {
-    font-size: 24px;
-    height: 40px;
-  }
-
-  .week-table-eliminated {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 40px;
-    font-size: 18px;
-    font-weight: 600;
-  }
-
+  // table rows
   .pick-row {
     border-bottom: 1px solid $week-table-border-color;
 
@@ -116,4 +85,39 @@
       background-color: rgba($eliminated-color, 0.5);
     }
   }
+
+  // table rank column
+  .rank {
+    font-weight: 500;
+    font-size: 16px;
+  }
+
+  // table player/pick column
+  .player-pick-column {
+    display: flex;
+    align-items: center;
+    min-height: 50px;
+
+    .team-logo {
+      display: flex;
+      font-size: 50px;
+    }
+
+    .details-section {
+      display: flex;
+      flex-direction: column;
+      margin-left: 10px;
+
+      .player-name {
+        font-weight: 500;
+        font-size: 14px;
+      }
+
+      .player-pick {
+        font-size: 14px;
+      }
+    }
+  }
+
+
 }

@@ -96,7 +96,7 @@ class AdminPickModal extends React.Component {
   renderAdminPickForm = () => {
     const { getFieldDecorator, getFieldsError } = this.props.form;
     const existingPick = this.props.selectedPick;
-    const tieBreakerGame = this.props.gameData.tieBreakers[this.props.selectedPick.week];
+    const tieBreakerGame = this.props.gameData.tieBreakers ? this.props.gameData.tieBreakers[this.props.selectedPick.week] : null;
 
     return (
       <Form colon={ false } layout="vertical" onSubmit={ this.handleSubmit }>

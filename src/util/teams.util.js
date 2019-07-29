@@ -31,6 +31,7 @@ import { SeaSvg } from '../assets/sea';
 import { TbSvg } from '../assets/tb';
 import { TenSvg } from '../assets/ten';
 import { WasSvg } from '../assets/was';
+import { UnknownSvg } from '../assets/unknown';
 
 export const AllTeams = [
   { name: 'Arizona Cardinals', abbreviation: 'ARI' },
@@ -104,6 +105,7 @@ export const getSvgForTeam = team => {
     case 'TB': return <TbSvg />;
     case 'TEN': return <TenSvg />;
     case 'WAS': return <WasSvg />;
+    case 'unknown': return <UnknownSvg />;
     default: return null;
   }
 };

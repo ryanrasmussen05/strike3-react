@@ -1,7 +1,6 @@
 /* eslint-disable react/display-name,react/no-multi-comp */
 import React from 'react';
 import { getSvgForTeam } from '../../util/teams.util';
-import PickColumnHeader from './PickColumnHeader';
 import TieBreakerCell from './TieBreakerCell';
 
 export const columns = [
@@ -10,50 +9,39 @@ export const columns = [
     dataIndex: 'rank',
     key: 'rank',
     align: 'center',
-    render: rank => <div>{ rank }</div>,
+    width: 20,
+    render: rank => <div className="rank">{ rank }</div>,
   },
   {
-    title: <div>Name<span className="strikes-label">(Strikes)</span></div>,
-    dataIndex: 'name',
-    key: 'name',
-    render: (name, player) => (
-      <div className={ player.pick.status === 'eliminated' ? '' : 'player-label' }>
-        { name }
-        { player.pick.status !== 'eliminated' &&
-        <span className="strikes-label">{ `(${player.strikes})` }</span>
-        }
+    title: 'Player/Pick',
+    render: player => (
+      <div className="player-pick-column">
+
+        <div className="team-logo">
+          { player.pick.team &&
+            getSvgForTeam(player.pick.team)
+          }
+          { (!player.pick.team || player.pick.team === 'NP') && player.pick.status !== 'eliminated' &&
+            getSvgForTeam('unknown')
+          }
+        </div>
+
+        <div className="details-section">
+          <div className="player-name">{ player.name }</div>
+
+          { player.pick.team === 'NP' &&
+            <div className="player-pick">NO PICK</div>
+          }
+          { player.pick.status === 'eliminated' &&
+            <div className="player-pick">OUT</div>
+          }
+          { player.pick.status !== 'eliminated' && player.pick.team !== 'NP' &&
+            <div className="player-pick">{ player.pick.team }</div>
+          }
+        </div>
+
       </div>
     ),
-  },
-  {
-    title: <PickColumnHeader />,
-    dataIndex: 'pick',
-    key: 'pick',
-    width: 120,
-    align: 'center',
-    render: pick => {
-      if (pick.team && pick.team !== 'NP') {
-        return (
-          <div className="week-table-logo">
-            { getSvgForTeam(pick.team) }
-            <span className="week-table-team">{ pick.team }</span>
-          </div>
-        );
-      }
-      if (pick.status === 'eliminated') {
-        return (
-          <div className="week-table-eliminated">OUT</div>
-        );
-      }
-      if (pick.team === 'NP') {
-        return (
-          <div className="week-table-eliminated">NP</div>
-        );
-      }
-      return (
-        <div className="week-table-no-pick">- - - - -</div>
-      );
-    },
   },
 ];
 

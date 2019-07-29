@@ -1,7 +1,7 @@
 /* eslint-disable curly,one-var,complexity */
 
 const weekHasTieBreaker = (weekNumber, tieBreakers) => {
-  return !!tieBreakers[weekNumber];
+  return tieBreakers ? !!tieBreakers[weekNumber] : false;
 };
 
 const sortPlayersByTieBreaker = (playerA, playerB, eliminationWeek, tieBreakers) => {
