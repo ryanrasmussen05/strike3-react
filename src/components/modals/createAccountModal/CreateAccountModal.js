@@ -47,27 +47,27 @@ class CreateAccountModal extends React.Component {
     return (
       <Form colon={ false } layout="vertical" onSubmit={ this.handleSubmit }>
         <Form.Item label="First Name">
-          {getFieldDecorator('firstName', { rules: [{ required: true, message: 'First Name is required' }] })(
+          { getFieldDecorator('firstName', { rules: [{ required: true, message: 'First Name is required' }] })(
             <Input placeholder="First Name" />
-          )}
+          ) }
         </Form.Item>
 
         <Form.Item label="Last Name">
-          {getFieldDecorator('lastName', { rules: [{ required: true, message: 'Last Name is required' }] })(
+          { getFieldDecorator('lastName', { rules: [{ required: true, message: 'Last Name is required' }] })(
             <Input placeholder="First Name" />
-          )}
+          ) }
         </Form.Item>
 
         <Form.Item label="Email">
-          {getFieldDecorator('email', { rules: [{ required: true, message: 'Email is required' }, { type: 'email', message: 'Email not valid' }] })(
+          { getFieldDecorator('email', { rules: [{ required: true, message: 'Email is required' }, { type: 'email', message: 'Email not valid' }] })(
             <Input placeholder="Email" />
-          )}
+          ) }
         </Form.Item>
 
         <Form.Item label="Password">
-          {getFieldDecorator('password', { rules: [{ required: true, message: 'Password is required' }, { min: 6, message: 'Password must be at least 6 characters' }] })(
+          { getFieldDecorator('password', { rules: [{ required: true, message: 'Password is required' }, { min: 6, message: 'Password must be at least 6 characters' }] })(
             <Input type="password" placeholder="Password" />
-          )}
+          ) }
         </Form.Item>
 
         <Form.Item
@@ -75,9 +75,9 @@ class CreateAccountModal extends React.Component {
           validateStatus={ confirmPasswordError ? 'error' : '' }
           help={ confirmPasswordError ? 'Passwords do not match' : '' }
         >
-          {getFieldDecorator('confirmPassword', { rules: [{ required: true, message: 'Confirm Password is required' }] })(
+          { getFieldDecorator('confirmPassword', { rules: [{ required: true, message: 'Confirm Password is required' }] })(
             <Input type="password" placeholder="Confirm Password" />
-          )}
+          ) }
         </Form.Item>
 
         <Button className="submit-button" type="primary" htmlType="submit" disabled={ this.hasErrors(getFieldsError()) } block loading={ this.props.loading }>Create Account</Button>

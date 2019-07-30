@@ -55,7 +55,7 @@ class AdminPickModal extends React.Component {
     return (
       <Modal
         className="admin-pick-modal"
-        title={ `Week ${this.props.selectedPick.week} Pick (${this.props.selectedPlayer.name})` }
+        title={ `Week ${ this.props.selectedPick.week } Pick (${ this.props.selectedPlayer.name })` }
         visible={ true }
         maskClosable={ false }
         onCancel={ this.closeModal }
@@ -116,7 +116,7 @@ class AdminPickModal extends React.Component {
         </Form.Item>
 
         { tieBreakerGame &&
-        <Form.Item label={ `${tieBreakerGame.awayTeam} Score (Tie Breaker)` }>
+        <Form.Item label={ `${ tieBreakerGame.awayTeam } Score (Tie Breaker)` }>
           { getFieldDecorator('tieBreakerAwayTeamPoints', { initialValue: existingPick.tieBreakerAwayTeamPoints || undefined })(
             <Input type="number" />
           ) }
@@ -124,7 +124,7 @@ class AdminPickModal extends React.Component {
         }
 
         { tieBreakerGame &&
-        <Form.Item label={ `${tieBreakerGame.homeTeam} Score (Tie Breaker)` }>
+        <Form.Item label={ `${ tieBreakerGame.homeTeam } Score (Tie Breaker)` }>
           { getFieldDecorator('tieBreakerHomeTeamPoints', { initialValue: existingPick.tieBreakerHomeTeamPoints || undefined })(
             <Input type="number" />
           ) }

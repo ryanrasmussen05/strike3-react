@@ -14,7 +14,7 @@ class WeekTable extends React.Component {
     let classes = 'pick-row';
 
     if (row.pick.status !== 'open') {
-      classes = `${classes} ${row.pick.status}`;
+      classes = `${ classes } ${ row.pick.status }`;
     }
 
     return classes;
@@ -53,7 +53,7 @@ class WeekTable extends React.Component {
         <div className="tie-breaker-section">
           <div className="tie-breaker-container">
             <span className="tie-breaker-label">
-              { `Tie Breaker ${this.props.tieBreaker.homeTeamPoints ? 'Final:' : 'Game:'}` }
+              { `Tie Breaker ${ this.props.tieBreaker.homeTeamPoints ? 'Final:' : 'Game:' }` }
             </span>
 
             { this.props.tieBreaker.awayTeamPoints &&

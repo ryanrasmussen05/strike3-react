@@ -78,9 +78,9 @@ class ResetPasswordModal extends React.Component {
     return (
       <Form colon={ false } layout="vertical" onSubmit={ this.handleSubmit }>
         <Form.Item label="Email">
-          {getFieldDecorator('email', { rules: [{ required: true, message: 'Email is required' }, { type: 'email', message: 'Email not valid' }] })(
+          { getFieldDecorator('email', { rules: [{ required: true, message: 'Email is required' }, { type: 'email', message: 'Email not valid' }] })(
             <Input placeholder="Email" />
-          )}
+          ) }
         </Form.Item>
 
         <Button className="submit-button" type="primary" htmlType="submit" disabled={ this.hasErrors(getFieldsError()) } block loading={ this.props.loading }>Reset Password</Button>

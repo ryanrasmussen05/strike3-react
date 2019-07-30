@@ -7,8 +7,8 @@ exports.handler = async(tieBreakerPick, context, database) => {
 
   const loggedInUserId = context.auth ? context.auth.uid : null;
 
-  const pickPath = `picks/${userId}/${week}`;
-  const tieBreakerGamePath = `tieBreakers/${week}`;
+  const pickPath = `picks/${ userId }/${ week }`;
+  const tieBreakerGamePath = `tieBreakers/${ week }`;
 
   // verify minimum information to set pick
   if (!tieBreakerHomeTeamPoints || !tieBreakerAwayTeamPoints || !week || !userId) {

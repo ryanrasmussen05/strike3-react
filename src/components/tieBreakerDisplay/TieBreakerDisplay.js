@@ -45,7 +45,7 @@ class TieBreakerDisplay extends React.Component {
   renderTieBreakerHeader() {
     return (
       <div className="tie-breaker-header">
-        { this.props.pick && this.props.pick.tieBreakerHomeTeamPoints ? 'Your Tie Breaker Pick' : `Week ${this.props.currentWeek} Tie Breaker` }
+        { this.props.pick && this.props.pick.tieBreakerHomeTeamPoints ? 'Your Tie Breaker Pick' : `Week ${ this.props.currentWeek } Tie Breaker` }
       </div>
     );
   }
@@ -58,12 +58,12 @@ class TieBreakerDisplay extends React.Component {
         }
 
         { getSvgForTeam(this.props.tieBreaker.awayTeam) }
-        <div className="team-label">{this.props.tieBreaker.awayTeam}</div>
+        <div className="team-label">{ this.props.tieBreaker.awayTeam }</div>
 
         <span className="tie-breaker-vs">vs.</span>
 
         { getSvgForTeam(this.props.tieBreaker.homeTeam) }
-        <div className="team-label">{this.props.tieBreaker.homeTeam}</div>
+        <div className="team-label">{ this.props.tieBreaker.homeTeam }</div>
 
         { this.props.pick && this.props.pick.tieBreakerHomeTeamPoints &&
         <div className="tie-breaker-home-points">{ this.props.pick.tieBreakerHomeTeamPoints }</div>
@@ -87,7 +87,7 @@ class TieBreakerDisplay extends React.Component {
       return (
         <div>
           Tie Breaker Final:
-          <span className="tie-breaker-final">{ `${this.props.tieBreaker.awayTeamPoints} - ${this.props.tieBreaker.homeTeamPoints}` }</span>
+          <span className="tie-breaker-final">{ `${ this.props.tieBreaker.awayTeamPoints } - ${ this.props.tieBreaker.homeTeamPoints }` }</span>
         </div>
       );
     }

@@ -23,7 +23,7 @@ class WeekSelector extends React.Component {
           <Icon type="left" />
         </Button>
         <span className="week-title">
-          {`Week ${this.props.selectedWeek}`}
+          { `Week ${ this.props.selectedWeek }` }
         </span>
         <Button type="default" shape="circle" onClick={ this.incrementWeek } disabled={ this.props.selectedWeek >= this.props.currentWeek }>
           <Icon type="right" />

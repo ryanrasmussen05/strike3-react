@@ -31,13 +31,13 @@ class WeekDisplay extends React.Component {
     return (
       <React.Fragment>
         { this.props.pick.status === 'eliminated' &&
-          this.renderEliminated()
+        this.renderEliminated()
         }
         { this.props.pick.status !== 'eliminated' && this.props.pick.team === null &&
-          this.renderPickNotMade()
+        this.renderPickNotMade()
         }
         { this.props.pick.status !== 'eliminated' && this.props.pick.team !== null &&
-          this.renderPickMade()
+        this.renderPickMade()
         }
       </React.Fragment>
     );
@@ -46,7 +46,7 @@ class WeekDisplay extends React.Component {
   renderPickNotMade() {
     return (
       <Button type="primary" onClick={ this.showPickModal }>
-        { `Make Your Week ${this.props.pick.week} Pick` }
+        { `Make Your Week ${ this.props.pick.week } Pick` }
       </Button>
     );
   }
@@ -58,7 +58,7 @@ class WeekDisplay extends React.Component {
           <span className="your-pick-label">Your Pick:</span>
 
           { this.props.pick.team === 'NP' &&
-            <span className="no-pick">NO PICK</span>
+          <span className="no-pick">NO PICK</span>
           }
           { this.props.pick.team !== 'NP' &&
           <React.Fragment>
@@ -69,15 +69,15 @@ class WeekDisplay extends React.Component {
         </div>
 
         { this.props.pick.status !== 'open' &&
-          <span className="pick-status">
-            { this.props.pick.status === 'win' && <span className="win">WIN</span>}
-            { this.props.pick.status === 'loss' && <span className="loss">LOSS</span>}
-            { this.props.pick.status === 'tie' && <span className="tie">TIE</span>}
-          </span>
+        <span className="pick-status">
+          { this.props.pick.status === 'win' && <span className="win">WIN</span> }
+          { this.props.pick.status === 'loss' && <span className="loss">LOSS</span> }
+          { this.props.pick.status === 'tie' && <span className="tie">TIE</span> }
+        </span>
         }
 
         { !this.props.pick.locked &&
-          <Button type="primary" onClick={ this.showPickModal } className="change-pick-button">Change Pick</Button>
+        <Button type="primary" onClick={ this.showPickModal } className="change-pick-button">Change Pick</Button>
         }
       </div>
     );

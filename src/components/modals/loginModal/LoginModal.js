@@ -102,15 +102,15 @@ class LoginModal extends React.Component {
     return (
       <Form colon={ false } layout="vertical" onSubmit={ this.handleSubmit }>
         <Form.Item label="Email">
-          {getFieldDecorator('email', { rules: [{ required: true, message: 'Email is required' }, { type: 'email', message: 'Email not valid' }] })(
+          { getFieldDecorator('email', { rules: [{ required: true, message: 'Email is required' }, { type: 'email', message: 'Email not valid' }] })(
             <Input placeholder="Email" />
-          )}
+          ) }
         </Form.Item>
 
         <Form.Item label="Password">
-          {getFieldDecorator('password', { rules: [{ required: true, message: 'Password is required' }] })(
+          { getFieldDecorator('password', { rules: [{ required: true, message: 'Password is required' }] })(
             <Input type="password" placeholder="Password" />
-          )}
+          ) }
         </Form.Item>
 
         <Button className="submit-button" type="primary" size="large" htmlType="submit" disabled={ this.hasErrors(getFieldsError()) } block loading={ this.props.loading }>

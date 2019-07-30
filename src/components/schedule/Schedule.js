@@ -20,13 +20,13 @@ class Schedule extends React.Component {
   render() {
     return (
       <div className="schedule">
-        {!this.props.schedulePreview &&
+        { !this.props.schedulePreview &&
         <Button onClick={ this.props.fetchSchedule }>
           Fetch Schedule
         </Button>
         }
 
-        {!!this.props.schedulePreview &&
+        { !!this.props.schedulePreview &&
         <React.Fragment>
           <Button onClick={ () => this.props.postSchedule(this.props.schedulePreview) }>
             Post Schedule
@@ -40,11 +40,6 @@ class Schedule extends React.Component {
       </div>
     );
   }
-
-  renderButton() {
-
-  }
-
 }
 
 Schedule.propTypes = {

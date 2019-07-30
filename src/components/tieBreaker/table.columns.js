@@ -24,25 +24,25 @@ export const createColumns = updateClickHandler => {
 
         return (
           <div className="tie-breaker-table-game">
-            <span className={ `tie-breaker-table-team ${awayTeamClass}` }>
+            <span className={ `tie-breaker-table-team ${ awayTeamClass }` }>
               { record.awayTeam }
             </span>
 
             { record.awayTeamPoints &&
-              <span className={ awayTeamClass }>
-                { `(${record.awayTeamPoints})` }
-              </span>
+            <span className={ awayTeamClass }>
+              { `(${ record.awayTeamPoints })` }
+            </span>
             }
 
             <span className="tie-breaker-table-vs">vs.</span>
 
-            <span className={ `tie-breaker-table-team ${homeTeamClass}` }>
+            <span className={ `tie-breaker-table-team ${ homeTeamClass }` }>
               { record.homeTeam }
             </span>
 
             { record.homeTeamPoints &&
             <span className={ homeTeamClass }>
-              { `(${record.homeTeamPoints})` }
+              { `(${ record.homeTeamPoints })` }
             </span>
             }
 

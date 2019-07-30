@@ -32,5 +32,6 @@ module.exports = {
     "react/jsx-closing-bracket-location": 0,
     "max-len": ['error', 200, 2],
     "no-confusing-arrow": 0,
+    "template-curly-spacing": 0,
   }
 };

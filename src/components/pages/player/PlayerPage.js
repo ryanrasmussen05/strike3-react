@@ -9,7 +9,7 @@ import {
   selectCurrentWeek,
   selectGameData,
   selectGameError, selectPickForCurrentWeek,
-  selectTieBreakerForCurrentWeek
+  selectTieBreakerForCurrentWeek,
 } from '../../../redux/selectors/game.selectors';
 import { GAME_ERROR_TYPES } from '../../../redux/reducers/game.reducer';
 import { Alert, Divider, Radio } from 'antd';
@@ -76,7 +76,7 @@ class PlayerPage extends React.Component {
         { this.props.loggedInUser &&
         <div className="player-page-header">
           <div className="active-week-container">
-            { `Week ${this.props.currentWeek}` }
+            { `Week ${ this.props.currentWeek }` }
           </div>
 
           { this.props.loggedInUser &&

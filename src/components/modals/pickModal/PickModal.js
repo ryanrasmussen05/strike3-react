@@ -52,7 +52,7 @@ class PickModal extends React.Component {
     return (
       <Modal
         className="pick-modal"
-        title={ `Week ${this.props.selectedWeek} Pick` }
+        title={ `Week ${ this.props.selectedWeek } Pick` }
         visible={ true }
         maskClosable={ false }
         onCancel={ this.closeModal }

@@ -59,7 +59,7 @@ exports.buildPlayerModel = async(dbPlayer, database, loggedInUserId, schedule, t
     player.email = dbPlayer.email;
   }
 
-  const dbPlayerPicksSnapshot = await database.ref(`${picksPath}/${dbPlayer.id}`).once('value');
+  const dbPlayerPicksSnapshot = await database.ref(`${ picksPath }/${ dbPlayer.id }`).once('value');
   const dbPlayerPicks = dbPlayerPicksSnapshot.val();
 
   let totalStrikes = 0;
@@ -117,7 +117,7 @@ exports.buildPlayerModel = async(dbPlayer, database, loggedInUserId, schedule, t
         eliminationWeek = i;
       }
 
-    // if pick for this week does not exists in DB
+      // if pick for this week does not exists in DB
     } else {
 
       // can edit if user is admin, or user owns pick

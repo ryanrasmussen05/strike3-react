@@ -53,7 +53,7 @@ class AdminTieBreakerModal extends React.Component {
 
     for (let i = 1; i <= 17; i++) {
       if (!gameData.tieBreakers || !gameData.tieBreakers[i]) {
-        options.push(<Select.Option key={ i } value={ i }>{ `Week ${i}` }</Select.Option>);
+        options.push(<Select.Option key={ i } value={ i }>{ `Week ${ i }` }</Select.Option>);
       }
     }
 
@@ -70,7 +70,7 @@ class AdminTieBreakerModal extends React.Component {
     }
 
     gameData.schedule[selectedWeek].forEach(game => {
-      const gameString = `${game.awayTeam} vs. ${game.homeTeam}`;
+      const gameString = `${ game.awayTeam } vs. ${ game.homeTeam }`;
       options.push(<Select.Option key={ gameString } value={ gameString }>{ gameString }</Select.Option>);
     });
 

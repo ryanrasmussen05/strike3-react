@@ -44,7 +44,7 @@ class TieBreakerPickModal extends React.Component {
     return (
       <Modal
         className="tie-breaker-pick-modal"
-        title={ `Week ${this.props.selectedWeek} Tie Breaker` }
+        title={ `Week ${ this.props.selectedWeek } Tie Breaker` }
         visible={ true }
         maskClosable={ false }
         onCancel={ this.closeModal }
@@ -95,7 +95,7 @@ class TieBreakerPickModal extends React.Component {
           <div className="team-name">{ this.props.tieBreaker.awayTeam }</div>
           <Form.Item>
             { getFieldDecorator('awayTeamPoints', { rules: [{ required: true, message: 'Score is required' }], initialValue: initialAwayPoints })(
-              <Input type="number" placeholder={ `${this.props.tieBreaker.awayTeam} Score` } />
+              <Input type="number" placeholder={ `${ this.props.tieBreaker.awayTeam } Score` } />
             ) }
           </Form.Item>
         </div>
@@ -104,7 +104,7 @@ class TieBreakerPickModal extends React.Component {
           <div className="team-name">{ this.props.tieBreaker.homeTeam }</div>
           <Form.Item>
             { getFieldDecorator('homeTeamPoints', { rules: [{ required: true, message: 'Score is required' }], initialValue: initialHomePoints })(
-              <Input type="number" placeholder={ `${this.props.tieBreaker.homeTeam} Score` } />
+              <Input type="number" placeholder={ `${ this.props.tieBreaker.homeTeam } Score` } />
             ) }
           </Form.Item>
         </div>

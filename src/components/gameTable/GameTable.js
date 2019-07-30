@@ -29,11 +29,11 @@ class GameTable extends React.Component {
     let classes = 'pick';
 
     if (!pick.locked) {
-      classes = `${classes} editable`;
+      classes = `${ classes } editable`;
     }
 
     if (pick.status !== 'open') {
-      classes = `${classes} ${pick.status}`;
+      classes = `${ classes } ${ pick.status }`;
     }
 
     return classes;
@@ -52,13 +52,13 @@ class GameTable extends React.Component {
 
             { [...Array(17)].map((e, i) => (
               <div className="week-title" key={ i }>{ i + 1 }</div>)
-            )}
+            ) }
           </div>
 
           <div className="game-table-data">
             { gameData.players.map(player => (
               this.renderPlayer(player)
-            ))}
+            )) }
           </div>
         </div>
       );
@@ -78,7 +78,7 @@ class GameTable extends React.Component {
           <div key={ pick.week } className={ this.getClassNameForPick(pick) } onClick={ () => this.handlePickSelected(player, pick) }>
             { pick.team }
           </div>
-        ))}
+        )) }
       </div>
     );
   }

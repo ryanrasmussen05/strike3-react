@@ -22,7 +22,7 @@ exports.handler = async emailData => {
     from: { name: 'Strike 3', address: gmailEmail },
     to: recipients,
     subject,
-    html: `<p style="white-space: pre-wrap">${emailBody}</p><p><a href="https://denisonstrike3.com">www.denisonstrike3.com</a></p>`,
+    html: `<p style="white-space: pre-wrap">${ emailBody }</p><p><a href="https://denisonstrike3.com">www.denisonstrike3.com</a></p>`,
   };
 
   await mailTransport.sendMail(mailOption);

@@ -12,8 +12,8 @@ exports.handler = async(pick, context, database) => {
     throw new functions.https.HttpsError('permission-denied', 'only admin can call this function');
   }
 
-  const pickPath = `picks/${userId}/${week}`;
-  const allPicksPath = `picks/${userId}`;
+  const pickPath = `picks/${ userId }/${ week }`;
+  const allPicksPath = `picks/${ userId }`;
 
   // verify minimum information to set pick
   if (!team || !week || !userId || !status) {

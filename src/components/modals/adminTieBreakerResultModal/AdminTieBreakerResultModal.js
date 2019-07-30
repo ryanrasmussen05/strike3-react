@@ -56,7 +56,7 @@ class AdminTieBreakerResultModal extends React.Component {
     return (
       <Modal
         className="admin-tie-breaker-result-modal"
-        title={ `Week ${tieBreaker.week} - ${tieBreaker.awayTeam} vs. ${tieBreaker.homeTeam}` }
+        title={ `Week ${ tieBreaker.week } - ${ tieBreaker.awayTeam } vs. ${ tieBreaker.homeTeam }` }
         visible={ true }
         maskClosable={ false }
         onCancel={ this.closeModal }
@@ -92,7 +92,7 @@ class AdminTieBreakerResultModal extends React.Component {
           <div className="team-name">{ this.props.tieBreaker.awayTeam }</div>
           <Form.Item>
             { getFieldDecorator('awayTeamPoints', { rules: [{ required: true, message: 'Score is required' }], initialValue: this.props.tieBreaker.awayTeamPoints })(
-              <Input placeholder={ `${this.props.tieBreaker.awayTeam} Score` } />
+              <Input placeholder={ `${ this.props.tieBreaker.awayTeam } Score` } />
             ) }
           </Form.Item>
         </div>
@@ -101,7 +101,7 @@ class AdminTieBreakerResultModal extends React.Component {
           <div className="team-name">{ this.props.tieBreaker.homeTeam }</div>
           <Form.Item>
             { getFieldDecorator('homeTeamPoints', { rules: [{ required: true, message: 'Score is required' }], initialValue: this.props.tieBreaker.homeTeamPoints })(
-              <Input placeholder={ `${this.props.tieBreaker.homeTeam} Score` } />
+              <Input placeholder={ `${ this.props.tieBreaker.homeTeam } Score` } />
             ) }
           </Form.Item>
         </div>

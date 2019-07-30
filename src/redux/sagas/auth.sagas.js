@@ -77,7 +77,7 @@ function* createAccountSaga(action) {
 
     const capitalizedFirstName = action.payload.firstName.charAt(0).toUpperCase() + action.payload.firstName.slice(1);
     const capitalizedLastName = action.payload.lastName.charAt(0).toUpperCase() + action.payload.lastName.slice(1);
-    const userDisplayName = `${capitalizedFirstName} ${capitalizedLastName}`;
+    const userDisplayName = `${ capitalizedFirstName } ${ capitalizedLastName }`;
 
     // set user display name
     yield call([user, user.updateProfile], { displayName: userDisplayName });

@@ -49,7 +49,7 @@ class Header extends React.Component {
       return (
         <Dropdown overlay={ menu } trigger={ ['click'] }>
           <div className="user-dropdown">
-            <span>{this.props.loggedInUser.displayName}</span>
+            <span>{ this.props.loggedInUser.displayName }</span>
             <Icon type="down" style={ { fontSize: 16 } } />
           </div>
         </Dropdown>

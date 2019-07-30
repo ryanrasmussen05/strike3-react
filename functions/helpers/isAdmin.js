@@ -7,7 +7,7 @@ exports.isAdmin = async(context, database) => {
     return false;
   }
 
-  const playerPath = `players/${loggedInUserId}`;
+  const playerPath = `players/${ loggedInUserId }`;
 
   const playerSnapshot = await database.ref(playerPath).once('value');
   const player = playerSnapshot.val();

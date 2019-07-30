@@ -89,19 +89,19 @@ class AdminPage extends React.Component {
         }
 
         { this.state.view === 'tiebreakers' &&
-          <TieBreaker />
+        <TieBreaker />
         }
 
         { this.state.view === 'email' &&
-          <Email />
+        <Email />
         }
 
         { this.state.view === 'roster' &&
-          <RosterTable />
+        <RosterTable />
         }
 
         { this.state.view === 'schedule' &&
-          <Schedule />
+        <Schedule />
         }
       </div>
     );

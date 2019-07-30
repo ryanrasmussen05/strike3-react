@@ -5,7 +5,7 @@ const nflScheduleUrl = 'https://api.mysportsfeeds.com/v1.1/pull/nfl/2019-2020-re
 const nflApiAuth = 'rlras05:strike3';
 
 const headers = new Headers({
-  Authorization: `Basic ${btoa(nflApiAuth)}`,
+  Authorization: `Basic ${ btoa(nflApiAuth) }`,
   'Content-Type': 'application/json',
 });
 
@@ -33,7 +33,7 @@ export const parseNflSchedule = rawNflSchedule => {
     const awayTeam = getTeamAbbreviation(rawNflGame.awayTeam.Abbreviation);
 
     const timeString = moment(rawNflGame.time, ['h:mm A']).format('HH:mm');
-    const dateTimeString = `${rawNflGame.date} ${timeString}`;
+    const dateTimeString = `${ rawNflGame.date } ${ timeString }`;
     const gameMoment = moment.tz(dateTimeString, 'America/New_York');
 
     const game = {

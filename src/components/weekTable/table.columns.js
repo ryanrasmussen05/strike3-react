@@ -22,10 +22,10 @@ export const columns = [
 
         <div className="team-logo">
           { player.pick.team &&
-            getSvgForTeam(player.pick.team)
+          getSvgForTeam(player.pick.team)
           }
           { (!player.pick.team || player.pick.team === 'NP') && player.pick.status !== 'eliminated' &&
-            getSvgForTeam('unknown')
+          getSvgForTeam('unknown')
           }
         </div>
 
@@ -43,13 +43,13 @@ export const columns = [
           </div>
 
           { player.pick.team === 'NP' &&
-            <div className="player-pick">NO PICK</div>
+          <div className="player-pick">NO PICK</div>
           }
           { player.pick.status === 'eliminated' &&
-            <div className="player-pick">OUT</div>
+          <div className="player-pick">OUT</div>
           }
           { player.pick.status !== 'eliminated' && player.pick.team !== 'NP' &&
-            <div className="player-pick">{ player.pick.team }</div>
+          <div className="player-pick">{ player.pick.team }</div>
           }
         </div>
 

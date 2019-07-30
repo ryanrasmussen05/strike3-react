@@ -73,7 +73,7 @@ class Email extends React.Component {
             { getFieldDecorator('recipients', { initialValue: recipientOptions.ALL })(
               <Select className="recipients-select" onChange={ this.handleRecipientListChange }>
                 <Select.Option value={ recipientOptions.ALL }>All Players</Select.Option>
-                <Select.Option value={ recipientOptions.MISSING_PICK }>{ `Players missing pick for Week ${this.props.currentWeek}` }</Select.Option>
+                <Select.Option value={ recipientOptions.MISSING_PICK }>{ `Players missing pick for Week ${ this.props.currentWeek }` }</Select.Option>
               </Select>
             ) }
           </Form.Item>
@@ -81,7 +81,7 @@ class Email extends React.Component {
           <div className="recipients-list">
             { recipients.map(recipient => (
               <div className="recipient" key={ recipient.email }>{ recipient.name }</div>
-            ))}
+            )) }
           </div>
 
           <Form.Item label="Subject" className="subject-input">

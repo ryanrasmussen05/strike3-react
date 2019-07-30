@@ -73,39 +73,73 @@ export const AllTeamsAdmin = [{ name: 'No Pick', abbreviation: 'NP' }].concat(Al
 // eslint-disable-next-line complexity
 export const getSvgForTeam = team => {
   switch (team) {
-    case 'ARI': return <AriSvg />;
-    case 'ATL': return <AtlSvg />;
-    case 'BAL': return <BalSvg />;
-    case 'BUF': return <BufSvg />;
-    case 'CAR': return <CarSvg />;
-    case 'CHI': return <ChiSvg />;
-    case 'CIN': return <CinSvg />;
-    case 'CLE': return <CleSvg />;
-    case 'DAL': return <DalSvg />;
-    case 'DEN': return <DenSvg />;
-    case 'DET': return <DetSvg />;
-    case 'GB': return <GbSvg />;
-    case 'HOU': return <HouSvg />;
-    case 'IND': return <IndSvg />;
-    case 'JAX': return <JaxSvg />;
-    case 'KC': return <KcSvg />;
-    case 'LAC': return <LacSvg />;
-    case 'LAR': return <LarSvg />;
-    case 'MIA': return <MiaSvg />;
-    case 'MIN': return <MinSvg />;
-    case 'NE': return <NeSvg />;
-    case 'NO': return <NoSvg />;
-    case 'NYG': return <NygSvg />;
-    case 'NYJ': return <NyjSvg />;
-    case 'OAK': return <OakSvg />;
-    case 'PHI': return <PhiSvg />;
-    case 'PIT': return <PitSvg />;
-    case 'SF': return <SfSvg />;
-    case 'SEA': return <SeaSvg />;
-    case 'TB': return <TbSvg />;
-    case 'TEN': return <TenSvg />;
-    case 'WAS': return <WasSvg />;
-    case 'unknown': return <UnknownSvg />;
-    default: return null;
+    case 'ARI':
+      return <AriSvg />;
+    case 'ATL':
+      return <AtlSvg />;
+    case 'BAL':
+      return <BalSvg />;
+    case 'BUF':
+      return <BufSvg />;
+    case 'CAR':
+      return <CarSvg />;
+    case 'CHI':
+      return <ChiSvg />;
+    case 'CIN':
+      return <CinSvg />;
+    case 'CLE':
+      return <CleSvg />;
+    case 'DAL':
+      return <DalSvg />;
+    case 'DEN':
+      return <DenSvg />;
+    case 'DET':
+      return <DetSvg />;
+    case 'GB':
+      return <GbSvg />;
+    case 'HOU':
+      return <HouSvg />;
+    case 'IND':
+      return <IndSvg />;
+    case 'JAX':
+      return <JaxSvg />;
+    case 'KC':
+      return <KcSvg />;
+    case 'LAC':
+      return <LacSvg />;
+    case 'LAR':
+      return <LarSvg />;
+    case 'MIA':
+      return <MiaSvg />;
+    case 'MIN':
+      return <MinSvg />;
+    case 'NE':
+      return <NeSvg />;
+    case 'NO':
+      return <NoSvg />;
+    case 'NYG':
+      return <NygSvg />;
+    case 'NYJ':
+      return <NyjSvg />;
+    case 'OAK':
+      return <OakSvg />;
+    case 'PHI':
+      return <PhiSvg />;
+    case 'PIT':
+      return <PitSvg />;
+    case 'SF':
+      return <SfSvg />;
+    case 'SEA':
+      return <SeaSvg />;
+    case 'TB':
+      return <TbSvg />;
+    case 'TEN':
+      return <TenSvg />;
+    case 'WAS':
+      return <WasSvg />;
+    case 'unknown':
+      return <UnknownSvg />;
+    default:
+      return null;
   }
 };

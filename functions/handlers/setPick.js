@@ -1,3 +1,4 @@
+/* eslint-disable complexity,max-statements */
 const functions = require('firebase-functions');
 const getGameDataFunction = require('./getGameData').handler;
 const getGameTime = require('../helpers/getGameTime').getGameTime;
@@ -7,8 +8,8 @@ exports.handler = async(pick, context, database) => {
 
   const loggedInUserId = context.auth ? context.auth.uid : null;
 
-  const pickPath = `picks/${userId}/${week}`;
-  const allPicksPath = `picks/${userId}`;
+  const pickPath = `picks/${ userId }/${ week }`;
+  const allPicksPath = `picks/${ userId }`;
 
   // verify minimum information to set pick
   if (!team || !week || !userId) {
