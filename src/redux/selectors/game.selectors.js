@@ -125,3 +125,23 @@ export const selectPlayersForSelectedWeek = createSelector(
     return [];
   }
 );
+
+// return a list of teams that are NOT on a bye week for selected week
+export const selectTeamsPlayeringForSelectedWeek = createSelector(
+  [selectSelectedWeek, selectGameData],
+  (week, gameData) => {
+    if (!week || !gameData || !gameData.schedule) {
+      return [];
+    }
+
+    const teams = [];
+    const games = gameData.schedule[week];
+
+    games.forEach(game => {
+      teams.push(game.homeTeam);
+      teams.push(game.awayTeam);
+    });
+
+    return teams;
+  }
+);

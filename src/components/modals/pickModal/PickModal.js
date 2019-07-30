@@ -9,6 +9,7 @@ import {
   selectIsSubmitting,
   selectPickForSelectedWeek,
   selectSelectedWeek,
+  selectTeamsPlayeringForSelectedWeek,
 } from '../../../redux/selectors/game.selectors';
 import { showPickModalAction } from '../../../redux/actions/modal.actions';
 import { gameErrorAction, resetSelectedWeekAction, submitPickAction } from '../../../redux/actions/game.actions';
@@ -43,7 +44,11 @@ class PickModal extends React.Component {
   getAvailableTeams = () => {
     const { allPicks, existingPick } = this.props;
 
-    return AllTeams.filter(team => {
+    const availableTeams = AllTeams.filter(team => {
+      return this.props.availableTeams.some(availableTeam => availableTeam === team.abbreviation);
+    });
+
+    return availableTeams.filter(team => {
       return !allPicks.some(currentPick => currentPick.team === team.abbreviation) || team.abbreviation === existingPick.team;
     });
   };
@@ -151,6 +156,7 @@ PickModal.propTypes = {
   selectedWeek: PropTypes.number,
   existingPick: PropTypes.object,
   allPicks: PropTypes.array,
+  availableTeams: PropTypes.array,
   loading: PropTypes.bool,
   error: PropTypes.string,
   closeModal: PropTypes.func,
@@ -163,6 +169,7 @@ const mapStateToProps = state => ({
   selectedWeek: selectSelectedWeek(state),
   existingPick: selectPickForSelectedWeek(state),
   allPicks: selectAllPicksForPlayer(state),
+  availableTeams: selectTeamsPlayeringForSelectedWeek(state),
   loading: selectIsSubmitting(state),
   error: selectGameError(state),
 });
