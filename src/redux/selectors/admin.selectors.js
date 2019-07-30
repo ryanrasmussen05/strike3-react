@@ -133,7 +133,7 @@ export const selectPlayerMissingPickForCurrentWeek = createSelector(
     }
 
     const currentWeek = gameData.week;
-    const isTieBreaker = !!gameData.tieBreakers[currentWeek];
+    const isTieBreaker = gameData.tieBreakers ? !!gameData.tieBreakers[currentWeek] : false;
 
     const playersMissingPick = gameData.players.filter(player => {
       const playerPick = player.picks[currentWeek - 1];
