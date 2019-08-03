@@ -10,11 +10,11 @@ import 'firebase/auth';
 import 'firebase/functions';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyD3fT66JeuHYLygHt_51iecX85bDPGLkwI',
-  authDomain: 'strike3-dev.firebaseapp.com',
-  databaseURL: 'https://strike3-dev.firebaseio.com',
-  projectId: 'strike3-dev',
-  storageBucket: 'strike3-dev.appspot.com',
+  apiKey: 'AIzaSyAJG85EJA1lBmYS31zcOqjSECZ2YSpWHxo',
+  authDomain: 'strike3-31769.firebaseapp.com',
+  databaseURL: 'https://strike3-31769.firebaseio.com',
+  projectId: 'strike3-31769',
+  storageBucket: 'strike3-31769.appspot.com',
 };
 
 firebase.initializeApp(firebaseConfig);
