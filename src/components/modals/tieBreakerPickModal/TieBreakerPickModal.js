@@ -80,6 +80,18 @@ class TieBreakerPickModal extends React.Component {
         </div>
       );
     }
+
+    if (this.props.error === GAME_ERROR_TYPES.DEADLINE_PASSED) {
+      return (
+        <div className="error-message">
+          <Alert
+            message="Deadline Passed"
+            description="The deadline for this week has passed, email denisongl@yahoo.com for questions"
+            type="error"
+          />
+        </div>
+      );
+    }
   };
 
   renderTieBreakerPickForm = () => {
@@ -110,7 +122,7 @@ class TieBreakerPickModal extends React.Component {
         </div>
 
         <div className="note">
-          *You can change your pick until the tie breaker game starts
+          *You can change your pick until the tie breaker game starts or 12:00PM on Sunday (whichever comes first)
         </div>
 
         <Button className="submit-button" type="primary" htmlType="submit" disabled={ this.hasErrors(getFieldsError()) } block loading={ this.props.loading }>

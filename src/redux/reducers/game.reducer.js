@@ -8,6 +8,7 @@ export const GAME_ERROR_TYPES = {
   EXISTING_PICK_STARTED: 'game_existing_pick_started',
   NEW_PICK_STARTED: 'new_pick_started',
   TIE_BREAKER_STARTED: 'tie_breaker_started',
+  DEADLINE_PASSED: 'deadline_passed',
 };
 
 const INITIAL_STATE = {

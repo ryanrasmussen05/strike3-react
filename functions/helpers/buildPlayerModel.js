@@ -1,11 +1,17 @@
 /* eslint-disable complexity,max-params,max-statements */
 const getGameTime = require('./getGameTime').getGameTime;
+const getPickDeadlineForWeek = require('./getPickDeadlineForWeek').getPickDeadlineForWeek;
 
 // determine if the tie breaker game is locked for current week, return false if tie breaker doesn't exist
-const isTieBreakerLocked = (week, tieBreakers, schedule) => {
+const isTieBreakerLocked = (week, tieBreakers, schedule, weekDeadline) => {
   const tieBreakerGame = tieBreakers ? tieBreakers[week] : null;
 
   if (tieBreakerGame) {
+    // tie breaker selection is locked if past noon on sunday
+    if (Date.now() > weekDeadline) {
+      return true;
+    }
+
     const tieBreakerGameTime = getGameTime(schedule, week, tieBreakerGame.awayTeam);
     return Date.now() > tieBreakerGameTime;
   }
@@ -66,6 +72,8 @@ exports.buildPlayerModel = async(dbPlayer, database, loggedInUserId, schedule, t
   let eliminationWeek = 100;
 
   for (let i = 1; i <= 17; i++) {
+    const weekDeadline = getPickDeadlineForWeek(i, schedule);
+
     // if pick for this week exists in DB
     if (dbPlayerPicks && dbPlayerPicks[i]) {
 
@@ -79,8 +87,13 @@ exports.buildPlayerModel = async(dbPlayer, database, loggedInUserId, schedule, t
         isEditable = Date.now() < gameStartTime;
       }
 
+      // cannot edit pick if not admin and past 12 on Sunday
+      if (isEditable && !isAdmin) {
+        isEditable = Date.now() < weekDeadline;
+      }
+
       const isPickVisible = isPickViewable(dbPlayerPicks[i], dbPlayer, i, loggedInUserId, schedule, isAdmin);
-      const isTieBreakerPickVisible = isTieBreakerPickViewable(dbPlayer, loggedInUserId, isAdmin, isTieBreakerLocked(i, tieBreakers, schedule));
+      const isTieBreakerPickVisible = isTieBreakerPickViewable(dbPlayer, loggedInUserId, isAdmin, isTieBreakerLocked(i, tieBreakers, schedule, weekDeadline));
 
       // if the user is allowed to view this pick, return all information, else return blank placeholder pick
       if (isPickVisible) {
@@ -91,7 +104,7 @@ exports.buildPlayerModel = async(dbPlayer, database, loggedInUserId, schedule, t
           status: dbPlayerPicks[i].status,
           tieBreakerAwayTeamPoints: isTieBreakerPickVisible ? dbPlayerPicks[i].tieBreakerAwayTeamPoints : undefined,
           tieBreakerHomeTeamPoints: isTieBreakerPickVisible ? dbPlayerPicks[i].tieBreakerHomeTeamPoints : undefined,
-          tieBreakerLocked: isTieBreakerLocked(i, tieBreakers, schedule),
+          tieBreakerLocked: isTieBreakerLocked(i, tieBreakers, schedule, weekDeadline),
         });
       } else {
         player.picks.push({
@@ -101,7 +114,7 @@ exports.buildPlayerModel = async(dbPlayer, database, loggedInUserId, schedule, t
           status: totalStrikes >= 3 ? 'eliminated' : 'open',
           tieBreakerAwayTeamPoints: isTieBreakerPickVisible ? dbPlayerPicks[i].tieBreakerAwayTeamPoints : undefined,
           tieBreakerHomeTeamPoints: isTieBreakerPickVisible ? dbPlayerPicks[i].tieBreakerHomeTeamPoints : undefined,
-          tieBreakerLocked: isTieBreakerLocked(i, tieBreakers, schedule),
+          tieBreakerLocked: isTieBreakerLocked(i, tieBreakers, schedule, weekDeadline),
         });
       }
 
@@ -122,14 +135,18 @@ exports.buildPlayerModel = async(dbPlayer, database, loggedInUserId, schedule, t
 
       // can edit if user is admin, or user owns pick
       let isEditable = isAdmin;
-      isEditable = isEditable || (dbPlayer.id === loggedInUserId);
+
+      // can edit if user owns pick and deadline hasn't passed
+      if (dbPlayer.id === loggedInUserId) {
+        isEditable = isEditable || Date.now() < weekDeadline;
+      }
 
       player.picks.push({
         week: i,
         locked: totalStrikes >= 3 ? true : !isEditable,
         team: null,
         status: totalStrikes >= 3 ? 'eliminated' : 'open',
-        tieBreakerLocked: isTieBreakerLocked(i, tieBreakers, schedule),
+        tieBreakerLocked: isTieBreakerLocked(i, tieBreakers, schedule, weekDeadline),
       });
     }
   }

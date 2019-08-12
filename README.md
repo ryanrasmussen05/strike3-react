@@ -12,11 +12,11 @@ NFL picking application.  Choose a different NFL team to win every week, you can
     * Cloud Functions
 
 ## Development server
-* `npm start`
+* `npm run start:dev` | `npm run start:prod`
     * dev server at `http://localhost:3000/`
 
 ## Build
-* `npm run build`
+* `npm run build:dev` | `npm run build:prod`
     * build production ready code in the `build` directory
     
 ## Lint
@@ -24,6 +24,10 @@ NFL picking application.  Choose a different NFL team to win every week, you can
     * check for lint error
 
 ## Deployment
+* Select Firebase Project to target
+    * `firebase list` to see projects
+    * `firebase use [project ID]` to target project
+    
 * `npm run deploy` from project directory
     * deploys build direction to firebase hosting (shortcut for `firebase deploy --only hosting` command)
     

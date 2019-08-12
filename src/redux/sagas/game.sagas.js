@@ -63,6 +63,8 @@ function* submitPickSaga(action) {
       yield put(gameErrorAction(GAME_ERROR_TYPES.NEW_PICK_STARTED));
     } else if (error.message === 'existing pick game started') {
       yield put(gameErrorAction(GAME_ERROR_TYPES.EXISTING_PICK_STARTED));
+    } else if (error.message === 'deadline for week has past') {
+      yield put(gameErrorAction(GAME_ERROR_TYPES.DEADLINE_PASSED));
     } else {
       yield put(gameErrorAction(GAME_ERROR_TYPES.SUBMIT));
     }
@@ -98,6 +100,8 @@ function* submitTieBreakerPickSaga(action) {
 
     if (error.code === 'out-of-range') {
       yield put(gameErrorAction(GAME_ERROR_TYPES.TIE_BREAKER_STARTED));
+    } else if (error.message === 'deadline for week has past') {
+      yield put(gameErrorAction(GAME_ERROR_TYPES.DEADLINE_PASSED));
     } else {
       yield put(gameErrorAction(GAME_ERROR_TYPES.SUBMIT));
     }

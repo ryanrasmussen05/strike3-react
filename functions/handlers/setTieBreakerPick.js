@@ -1,6 +1,7 @@
 const functions = require('firebase-functions');
 const getGameDataFunction = require('./getGameData').handler;
 const getGameTime = require('../helpers/getGameTime').getGameTime;
+const getPickDeadlineForWeek = require('../helpers/getPickDeadlineForWeek').getPickDeadlineForWeek;
 
 exports.handler = async(tieBreakerPick, context, database) => {
   const { week, userId, tieBreakerHomeTeamPoints, tieBreakerAwayTeamPoints } = tieBreakerPick;
@@ -27,6 +28,12 @@ exports.handler = async(tieBreakerPick, context, database) => {
   // get schedule
   const scheduleSnapshot = await database.ref('schedule').once('value');
   const schedule = scheduleSnapshot.val();
+
+  // if past deadline (Sunday at noon) throw an error
+  const weekDeadline = getPickDeadlineForWeek(week, schedule);
+  if (Date.now() > weekDeadline) {
+    throw new functions.https.HttpsError('permission-denied', 'deadline for week has past');
+  }
 
   // verify tie breaker game hasn't started yet
   const tieBreakerGameTime = getGameTime(schedule, week, tieBreakerGame.awayTeam);
