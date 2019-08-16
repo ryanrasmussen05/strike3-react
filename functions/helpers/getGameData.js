@@ -7,6 +7,7 @@ const weekPath = `week`;
 const playersPath = `players`;
 const schedulePath = `schedule`;
 const tieBreakersPath = `tieBreakers`;
+const picksPath = `picks`;
 
 exports.getGameData = async(context, database, adminVersion) => {
 
@@ -32,13 +33,16 @@ exports.getGameData = async(context, database, adminVersion) => {
   const scheduleSnapshot = await database.ref(schedulePath).once('value');
   const schedule = scheduleSnapshot.val();
 
+  const allPicksSnapshot = await database.ref(picksPath).once('value');
+  const allPicks = allPicksSnapshot.val();
+
   let players = [];
 
   if (dbPlayers) {
     const results = [];
 
     Object.keys(dbPlayers).forEach(async playerId => {
-      results.push(buildPlayerModel(dbPlayers[playerId], database, loggedInUserId, schedule, tieBreakers, adminVersion));
+      results.push(buildPlayerModel(dbPlayers[playerId], database, loggedInUserId, schedule, tieBreakers, allPicks, adminVersion));
     });
 
     players = await Promise.all(results);

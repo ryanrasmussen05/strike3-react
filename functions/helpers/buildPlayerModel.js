@@ -1,6 +1,32 @@
-/* eslint-disable complexity,max-params,max-statements */
+/* eslint-disable complexity,max-params,max-statements,curly */
 const getGameTime = require('./getGameTime').getGameTime;
 const getPickDeadlineForWeek = require('./getPickDeadlineForWeek').getPickDeadlineForWeek;
+
+// given player picks and week, determine if player is eliminated for given week
+const isPlayerEliminated = (week, playerPicks) => {
+  let strikes = 0;
+
+  for (let i = 1; i < week; i++) {
+    const pick = playerPicks[i];
+    if (pick && pick.status === 'loss') strikes = strikes + 1;
+    if (pick && pick.status === 'tie') strikes = strikes + 0.5;
+  }
+
+  return strikes >= 3;
+};
+
+// determine if logged in player has made pick for given week (returns true if player is eliminated)
+const loggedInPlayerHasMadePickForWeek = (week, loggedInUserId, allPicks) => {
+  if (loggedInUserId) {
+    const loggedInUserPicks = allPicks[loggedInUserId];
+
+    if (loggedInUserPicks) {
+      return !!loggedInUserPicks[week] || isPlayerEliminated(loggedInUserPicks);
+    }
+  }
+
+  return false;
+};
 
 // determine if the tie breaker game is locked for current week, return false if tie breaker doesn't exist
 const isTieBreakerLocked = (week, tieBreakers, schedule, weekDeadline) => {
@@ -20,38 +46,29 @@ const isTieBreakerLocked = (week, tieBreakers, schedule, weekDeadline) => {
 };
 
 // determine if the details of given pick should be return as viewable
-const isPickViewable = (dbPick, dbPlayer, week, loggedInUserId, schedule, isAdmin) => {
+const isPickViewable = (dbPick, dbPlayer, week, loggedInUserId, schedule, allPicks, weekDeadline, isAdmin) => {
   // admin version
   let isViewable = isAdmin;
 
   // logged in player owns pick
   isViewable = isViewable || dbPlayer.id === loggedInUserId;
 
-  // pick has a result set
-  isViewable = isViewable || dbPick.status !== 'open';
+  const deadlinePassed = Date.now() > weekDeadline;
 
-  // game has begun
-  isViewable = isViewable || Date.now() > getGameTime(schedule, week, dbPick.team);
-
-  return isViewable;
-};
-
-// determine if the associated tie breaker pick should be returned as viewable
-const isTieBreakerPickViewable = (dbPlayer, loggedInUserId, isAdmin, tieBreakerLocked) => {
-  // admin version
-  let isViewable = isAdmin;
-
-  // logged in player owns pick
-  isViewable = isViewable || dbPlayer.id === loggedInUserId;
-
-  // tie breaker is locked (the game has started)
-  isViewable = isViewable || tieBreakerLocked;
+  if (loggedInUserId) {
+    // player is logged in, week deadline has passed, and player has made a pick for week
+    const playerHasMadePick = loggedInPlayerHasMadePickForWeek(week, loggedInUserId, allPicks);
+    isViewable = isViewable || (deadlinePassed && playerHasMadePick);
+  } else {
+    // player is not logged in, week deadline has passed, and the pick result is set
+    isViewable = isViewable || (deadlinePassed && dbPick.status !== 'open');
+  }
 
   return isViewable;
 };
 
 // build front-end player model given dbPlayer
-exports.buildPlayerModel = async(dbPlayer, database, loggedInUserId, schedule, tieBreakers, isAdmin) => {
+exports.buildPlayerModel = async(dbPlayer, database, loggedInUserId, schedule, tieBreakers, allPicks, isAdmin) => {
   const picksPath = `picks`;
 
   const player = {};
@@ -92,8 +109,7 @@ exports.buildPlayerModel = async(dbPlayer, database, loggedInUserId, schedule, t
         isEditable = Date.now() < weekDeadline;
       }
 
-      const isPickVisible = isPickViewable(dbPlayerPicks[i], dbPlayer, i, loggedInUserId, schedule, isAdmin);
-      const isTieBreakerPickVisible = isTieBreakerPickViewable(dbPlayer, loggedInUserId, isAdmin, isTieBreakerLocked(i, tieBreakers, schedule, weekDeadline));
+      const isPickVisible = isPickViewable(dbPlayerPicks[i], dbPlayer, i, loggedInUserId, schedule, allPicks, weekDeadline, isAdmin);
 
       // if the user is allowed to view this pick, return all information, else return blank placeholder pick
       if (isPickVisible) {
@@ -102,8 +118,8 @@ exports.buildPlayerModel = async(dbPlayer, database, loggedInUserId, schedule, t
           locked: !isEditable,
           team: dbPlayerPicks[i].team,
           status: dbPlayerPicks[i].status,
-          tieBreakerAwayTeamPoints: isTieBreakerPickVisible ? dbPlayerPicks[i].tieBreakerAwayTeamPoints : undefined,
-          tieBreakerHomeTeamPoints: isTieBreakerPickVisible ? dbPlayerPicks[i].tieBreakerHomeTeamPoints : undefined,
+          tieBreakerAwayTeamPoints: dbPlayerPicks[i].tieBreakerAwayTeamPoints,
+          tieBreakerHomeTeamPoints: dbPlayerPicks[i].tieBreakerHomeTeamPoints,
           tieBreakerLocked: isTieBreakerLocked(i, tieBreakers, schedule, weekDeadline),
         });
       } else {
@@ -112,8 +128,8 @@ exports.buildPlayerModel = async(dbPlayer, database, loggedInUserId, schedule, t
           locked: totalStrikes >= 3 ? true : !isEditable,
           team: null,
           status: totalStrikes >= 3 ? 'eliminated' : 'open',
-          tieBreakerAwayTeamPoints: isTieBreakerPickVisible ? dbPlayerPicks[i].tieBreakerAwayTeamPoints : undefined,
-          tieBreakerHomeTeamPoints: isTieBreakerPickVisible ? dbPlayerPicks[i].tieBreakerHomeTeamPoints : undefined,
+          tieBreakerAwayTeamPoints: undefined,
+          tieBreakerHomeTeamPoints: undefined,
           tieBreakerLocked: isTieBreakerLocked(i, tieBreakers, schedule, weekDeadline),
         });
       }
