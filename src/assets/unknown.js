@@ -3,7 +3,7 @@ import React from 'react';
 /* eslint-disable max-len */
 export const UnknownSvg = () => (
   <svg
-    width="1em" height="1em" viewBox="0 0 1240 1240" xmlns="http://www.w3.org/2000/svg" opacity="0.15"
+    width="1em" height="1em" viewBox="0 0 1240 1240" xmlns="http://www.w3.org/2000/svg" opacity="0.1"
     shapeRendering="geometricPrecision" textRendering="geometricPrecision" imageRendering="optimizeQuality" fillRule="evenodd" clipRule="evenodd">
     <path
       fillRule="nonzero"
