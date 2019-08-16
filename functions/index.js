@@ -9,6 +9,7 @@ const updateTieBreakerFunction = require('./handlers/updateTieBreaker');
 const deleteTieBreakerFunction = require('./handlers/deleteTieBreaker');
 const setScheduleFunction = require('./handlers/setSchedule');
 const sendEmailFunction = require('./handlers/sendEmail');
+const sendReminderEmailFunction = require('./handlers/pickReminderEmail');
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 
@@ -58,4 +59,8 @@ exports.setSchedule = functions.https.onCall(async(data, context) => {
 
 exports.sendEmail = functions.https.onCall(async data => {
   return sendEmailFunction.handler(data);
+});
+
+exports.sendReminderEmail = functions.pubsub.schedule('0 12 * * *').timeZone('America/Chicago').onRun(() => {
+  return sendReminderEmailFunction.handler();
 });
