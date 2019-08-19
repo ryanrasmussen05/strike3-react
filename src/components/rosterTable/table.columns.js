@@ -7,7 +7,7 @@ export const columns = [
     dataIndex: 'name',
     key: 'name',
     align: 'left',
-    render: name => <div>{ name }</div>,
+    render: name => <div><b>{ name }</b></div>,
   },
   {
     title: 'Email',
