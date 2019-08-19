@@ -62,5 +62,5 @@ exports.sendEmail = functions.https.onCall(async data => {
 });
 
 exports.sendReminderEmail = functions.pubsub.schedule('0 12 * * *').timeZone('America/Chicago').onRun(() => {
-  return sendReminderEmailFunction.handler();
+  return sendReminderEmailFunction.handler(database);
 });

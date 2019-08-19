@@ -9,12 +9,12 @@ const schedulePath = `schedule`;
 const tieBreakersPath = `tieBreakers`;
 const picksPath = `picks`;
 
-exports.getGameData = async(context, database, adminVersion) => {
+exports.getGameData = async(context, database, adminVersion, overrideAdmin) => {
 
   if (adminVersion) {
     const isUserAdmin = await isAdmin(context, database);
 
-    if (!isUserAdmin) {
+    if (!isUserAdmin && !overrideAdmin) {
       throw new functions.https.HttpsError('permission-denied', 'only admin can call this function');
     }
   }
