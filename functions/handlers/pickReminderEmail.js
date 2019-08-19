@@ -35,7 +35,8 @@ exports.handler = async database => {
 
   const emails = await getEmailsForMissingPicks(database);
 
-  const recipients = []; // TODO add users missing pick
+  // TODO this should just be result of above function
+  const recipients = [];
   recipients.push(gmailEmail);
   recipients.push('ryanrasmussen05@gmail.com');
 
