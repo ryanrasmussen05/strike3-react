@@ -123,7 +123,7 @@ class PickModal extends React.Component {
         <div className="error-message">
           <Alert
             message="Deadline Passed"
-            description="The deadline for this week has passed, email denisongl@yahoo.com for questions"
+            description="The deadline for this week has passed, email gden1923@gmail.com for questions"
             type="error"
           />
         </div>

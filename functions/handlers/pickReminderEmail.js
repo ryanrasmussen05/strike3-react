@@ -33,12 +33,12 @@ exports.handler = async database => {
     },
   });
 
-  const emails = await getEmailsForMissingPicks(database);
-
-  // TODO this should just be result of above function
-  const recipients = [];
+  const recipients = await getEmailsForMissingPicks(database);
   recipients.push(gmailEmail);
-  recipients.push('ryanrasmussen05@gmail.com');
+
+  if (!recipients.includes('ryanrasmussen05@gmail.com')) {
+    recipients.push('ryanrasmussen05@gmail.com');
+  }
 
   const mailOption = {
     from: { name: 'Strike 3', address: gmailEmail },
@@ -47,9 +47,6 @@ exports.handler = async database => {
     html: `
       <p>You are receiving this email because you haven't yet made your pick this week</p>
       <p>You have until Sunday at noon (Central Time) to get in your pick, or it will be counted as a strike.  NO EXCEPTIONS</p>
-      <p>
-        ${ emails }
-      </p>
       <p>
         <a href="https://denisonstrike3.com">www.denisonstrike3.com</a>
       </p>`,
