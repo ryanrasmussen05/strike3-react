@@ -22,16 +22,23 @@ const recipientOptions = {
 class Email extends React.Component {
 
   state = {
-    recipients: recipientOptions.ALL,
+    recipientsOption: recipientOptions.ALL,
+    emailList: [...this.props.allPlayers],
     editorState: EditorState.createEmpty(),
   };
 
-  handleRecipientListChange = recipients => {
-    this.setState({ recipients });
+  handleRecipientsOptionChange = recipientsOption => {
+    const emailList = recipientsOption === recipientOptions.ALL ? [...this.props.allPlayers] : [...this.props.playersMissingPick];
+    this.setState({ recipientsOption, emailList });
   };
 
   handleEditorStateChange = editorState => {
     this.setState({ editorState });
+  };
+
+  removeRecipient = recipient => {
+    const newEmailList = [...this.state.emailList].filter(existingRecipient => existingRecipient.email !== recipient.email);
+    this.setState({ emailList: newEmailList });
   };
 
   handleSubmit = event => {
@@ -39,8 +46,7 @@ class Email extends React.Component {
 
     this.props.form.validateFields((errors, values) => {
       if (!errors) {
-        const recipientList = this.state.recipients === recipientOptions.ALL ? this.props.allPlayers : this.props.playersMissingPick;
-        const recipients = recipientList.map(recipient => recipient.email);
+        const recipients = this.state.emailList.map(recipient => recipient.email);
 
         const emailData = {
           recipients,
@@ -57,21 +63,22 @@ class Email extends React.Component {
     this.props.form.resetFields();
     this.setState({
       editorState: EditorState.createEmpty(),
-      recipients: recipientOptions.ALL,
+      recipientsOption: recipientOptions.ALL,
+      emailList: [...this.props.allPlayers],
     });
   };
 
   render() {
     const { getFieldDecorator } = this.props.form;
 
-    const recipients = this.state.recipients === recipientOptions.ALL ? this.props.allPlayers : this.props.playersMissingPick;
+    const recipients = this.state.emailList;
 
     return (
       <div className="email">
         <Form colon={ false } layout="vertical" onSubmit={ this.handleSubmit }>
           <Form.Item label="Recipients">
-            { getFieldDecorator('recipients', { initialValue: recipientOptions.ALL })(
-              <Select className="recipients-select" onChange={ this.handleRecipientListChange }>
+            { getFieldDecorator('recipients', { initialValue: this.state.recipientsOption })(
+              <Select className="recipients-select" onChange={ this.handleRecipientsOptionChange }>
                 <Select.Option value={ recipientOptions.ALL }>All Players</Select.Option>
                 <Select.Option value={ recipientOptions.MISSING_PICK }>{ `Players missing pick for Week ${ this.props.currentWeek }` }</Select.Option>
               </Select>
@@ -80,7 +87,10 @@ class Email extends React.Component {
 
           <div className="recipients-list">
             { recipients.map(recipient => (
-              <div className="recipient" key={ recipient.email }>{ recipient.name }</div>
+              <div className="recipient" key={ recipient.email }>
+                <span className="name">{ recipient.name }</span>
+                <Button type="link" shape="circle" icon="close" size="small" onClick={ () => this.removeRecipient(recipient) } />
+              </div>
             )) }
           </div>
 
