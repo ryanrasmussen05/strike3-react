@@ -21,7 +21,7 @@ const loggedInPlayerHasMadePickForWeek = (week, loggedInUserId, allPicks) => {
     const loggedInUserPicks = allPicks[loggedInUserId];
 
     if (loggedInUserPicks) {
-      return !!loggedInUserPicks[week] || isPlayerEliminated(loggedInUserPicks);
+      return !!loggedInUserPicks[week] || isPlayerEliminated(week, loggedInUserPicks);
     }
   }
 
