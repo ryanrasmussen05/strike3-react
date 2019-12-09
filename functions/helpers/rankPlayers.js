@@ -1,7 +1,9 @@
 /* eslint-disable curly,one-var,complexity */
 
 const weekHasTieBreaker = (weekNumber, tieBreakers) => {
-  return tieBreakers ? !!tieBreakers[weekNumber] : false;
+  const tieBreaker = tieBreakers[weekNumber];
+  const isTieBreakerValid = !!tieBreaker && typeof tieBreaker.awayTeamPoints !== 'undefined';
+  return isTieBreakerValid
 };
 
 const sortPlayersByTieBreaker = (playerA, playerB, eliminationWeek, tieBreakers) => {
@@ -33,16 +35,27 @@ const sortPlayersByTieBreaker = (playerA, playerB, eliminationWeek, tieBreakers)
   if (playerBHomeTeamPoints > playerBAwayTeamPoints) playerBWinningTeam = game.homeTeam;
   if (playerBHomeTeamPoints < playerBAwayTeamPoints) playerBWinningTeam = game.awayTeam;
 
-  // if one player got winning team right and other player didn't
+  // if one player got winning team right and other player didn't (Phase 1)
   if (playerAWinningTeam === winningTeam && playerBWinningTeam !== winningTeam) return -1;
   if (playerAWinningTeam !== winningTeam && playerBWinningTeam === winningTeam) return 1;
 
   const playerAScore = Math.abs(playerAHomeTeamPoints - homeTeamPoints) + Math.abs(playerAAwayTeamPoints - awayTeamPoints);
   const playerBScore = Math.abs(playerBHomeTeamPoints - homeTeamPoints) + Math.abs(playerBAwayTeamPoints - awayTeamPoints);
 
-  // compare score offsets, lower wins
+  // compare total score offsets, lower wins (Phase 2)
   if (playerAScore < playerBScore) return -1;
   if (playerAScore > playerBScore) return 1;
+
+  // compare score offsets from winning team (Phase 3)
+  const winningSidePoints = homeTeamPoints > awayTeamPoints ? 'tieBreakerHomeTeamPoints' : 'tieBreakerAwayTeamPoints';
+  const playerAWinningTeamPoints = parseInt(playerAPick[winningSidePoints], 10);
+  const playerBWinningTeamPoints = parseInt(playerBPick(winningSidePoints), 10);
+  const actualWinningTeamPoints = homeTeamPoints > awayTeamPoints ? homeTeamPoints : awayTeamPoints;
+  const playerADifference = Math.abs(playerAWinningTeamPoints - actualWinningTeamPoints);
+  const playerBDifference = Math.abs(playerBWinningTeamPoints - actualWinningTeamPoints);
+  if (playerADifference < playerBDifference) return -1;
+  if (playerBDifference < playerADifference) return 1;
+
   return 0;
 };
 

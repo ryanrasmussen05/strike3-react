@@ -13,8 +13,9 @@ const getEmailsForMissingPicks = async database => {
 
   for (const player of gameData.players) {
     const playerPick = player.picks[currentWeek - 1];
+    const isPlayerEliminated = playerPick.status === 'eliminated';
     const isMissingPick = (playerPick.status === 'open' && !playerPick.team) || (isTieBreakerWeek && !playerPick.tieBreakerAwayTeamPoints);
-    if (isMissingPick) {
+    if (isMissingPick && !isPlayerEliminated) {
       emails.push(player.email);
     }
   }
