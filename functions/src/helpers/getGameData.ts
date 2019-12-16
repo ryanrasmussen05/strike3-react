@@ -1,7 +1,8 @@
-const functions = require('firebase-functions');
-const isAdmin = require('../helpers/isAdmin').isAdmin;
-const buildPlayerModel = require('../helpers/buildPlayerModel').buildPlayerModel;
-const rankPlayers = require('../helpers/rankPlayers').rankPlayers;
+import * as functions from 'firebase-functions';
+import { isAdmin } from './isAdmin';
+import { buildPlayerModel } from './buildPlayerModel';
+import { rankPlayers } from './rankPlayers';
+import { GameData, GameDataPlayer } from '../../../types/GameData';
 
 const weekPath = `week`;
 const playersPath = `players`;
@@ -9,7 +10,7 @@ const schedulePath = `schedule`;
 const tieBreakersPath = `tieBreakers`;
 const picksPath = `picks`;
 
-exports.getGameData = async(context, database, adminVersion, overrideAdmin) => {
+export const getGameData = async(context: any, database: any, adminVersion: boolean, overrideAdmin?: boolean): Promise<GameData> => {
 
   if (adminVersion) {
     const isUserAdmin = await isAdmin(context, database);
@@ -36,10 +37,10 @@ exports.getGameData = async(context, database, adminVersion, overrideAdmin) => {
   const allPicksSnapshot = await database.ref(picksPath).once('value');
   const allPicks = allPicksSnapshot.val();
 
-  let players = [];
+  let players: Array<GameDataPlayer> = [];
 
   if (dbPlayers) {
-    const results = [];
+    const results: Array<Promise<GameDataPlayer>> = [];
 
     Object.keys(dbPlayers).forEach(async playerId => {
       results.push(buildPlayerModel(dbPlayers[playerId], database, loggedInUserId, schedule, tieBreakers, allPicks, adminVersion));
@@ -50,7 +51,7 @@ exports.getGameData = async(context, database, adminVersion, overrideAdmin) => {
 
   await rankPlayers(players, tieBreakers, week);
 
-  const returnVal = { week, players, tieBreakers, schedule };
+  const returnVal: GameData = { week, players, tieBreakers, schedule };
 
   return returnVal;
 };

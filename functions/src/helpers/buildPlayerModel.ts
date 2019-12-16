@@ -1,9 +1,14 @@
-/* eslint-disable complexity,max-params,max-statements,curly */
-const getGameTime = require('./getGameTime').getGameTime;
-const getPickDeadlineForWeek = require('./getPickDeadlineForWeek').getPickDeadlineForWeek;
+/* eslint-disable complexity,max-params,max-statements,curly,max-len */
+import { getGameTime } from './getGameTime';
+import { getPickDeadlineForWeek } from './getPickDeadlineForWeek';
+import { Pick, Picks, PlayerPicks } from '../../../types/Pick';
+import { TieBreakers } from '../../../types/TieBreaker';
+import { Schedule } from '../../../types/Schedule';
+import { Player } from '../../../types/Player';
+import { GameDataPlayer } from '../../../types/GameData';
 
 // given player picks and week, determine if player is eliminated for given week
-const isPlayerEliminated = (week, playerPicks) => {
+const isPlayerEliminated = (week: number, playerPicks: PlayerPicks): boolean => {
   let strikes = 0;
 
   for (let i = 1; i < week; i++) {
@@ -16,7 +21,7 @@ const isPlayerEliminated = (week, playerPicks) => {
 };
 
 // determine if logged in player has made pick for given week (returns true if player is eliminated)
-const loggedInPlayerHasMadePickForWeek = (week, loggedInUserId, allPicks) => {
+const loggedInPlayerHasMadePickForWeek = (week: number, loggedInUserId: string, allPicks: Picks): boolean => {
   if (loggedInUserId) {
     const loggedInUserPicks = allPicks[loggedInUserId];
 
@@ -29,7 +34,7 @@ const loggedInPlayerHasMadePickForWeek = (week, loggedInUserId, allPicks) => {
 };
 
 // determine if the tie breaker game is locked for current week, return false if tie breaker doesn't exist
-const isTieBreakerLocked = (week, tieBreakers, schedule, weekDeadline) => {
+const isTieBreakerLocked = (week: number, tieBreakers: TieBreakers, schedule: Schedule, weekDeadline: number): boolean => {
   const tieBreakerGame = tieBreakers ? tieBreakers[week] : null;
 
   if (tieBreakerGame) {
@@ -46,7 +51,7 @@ const isTieBreakerLocked = (week, tieBreakers, schedule, weekDeadline) => {
 };
 
 // determine if the details of given pick should be return as viewable
-const isPickViewable = (dbPick, dbPlayer, week, loggedInUserId, schedule, allPicks, weekDeadline, isAdmin) => {
+const isPickViewable = (dbPick: Pick, dbPlayer: Player, week: number, loggedInUserId: string, allPicks: Picks, weekDeadline: number, isAdmin: boolean): boolean => {
   // admin version
   let isViewable = isAdmin;
 
@@ -68,15 +73,18 @@ const isPickViewable = (dbPick, dbPlayer, week, loggedInUserId, schedule, allPic
 };
 
 // build front-end player model given dbPlayer
-exports.buildPlayerModel = async(dbPlayer, database, loggedInUserId, schedule, tieBreakers, allPicks, isAdmin) => {
+export const buildPlayerModel = async(dbPlayer: Player, database: any, loggedInUserId: string, schedule: Schedule, tieBreakers: TieBreakers, allPicks: Picks, isAdmin: boolean): Promise<GameDataPlayer> => {
   const picksPath = `picks`;
 
-  const player = {};
-  player.id = dbPlayer.id;
-  player.name = dbPlayer.name;
-  player.admin = dbPlayer.admin || false;
-  player.superuser = dbPlayer.superuser || false;
-  player.picks = [];
+  const player: GameDataPlayer = {
+    id: dbPlayer.id,
+    name: dbPlayer.name,
+    admin: dbPlayer.admin || false,
+    superuser: dbPlayer.superuser || false,
+    picks: [],
+    strikes: 0,
+    eliminationWeek: 100,
+  };
 
   if (isAdmin) {
     player.email = dbPlayer.email;
@@ -109,7 +117,7 @@ exports.buildPlayerModel = async(dbPlayer, database, loggedInUserId, schedule, t
         isEditable = Date.now() < weekDeadline;
       }
 
-      const isPickVisible = isPickViewable(dbPlayerPicks[i], dbPlayer, i, loggedInUserId, schedule, allPicks, weekDeadline, isAdmin);
+      const isPickVisible = isPickViewable(dbPlayerPicks[i], dbPlayer, i, loggedInUserId, allPicks, weekDeadline, isAdmin);
 
       // if the user is allowed to view this pick, return all information, else return blank placeholder pick
       if (isPickVisible) {
@@ -126,7 +134,7 @@ exports.buildPlayerModel = async(dbPlayer, database, loggedInUserId, schedule, t
         player.picks.push({
           week: i,
           locked: totalStrikes >= 3 ? true : !isEditable,
-          team: null,
+          team: undefined,
           status: totalStrikes >= 3 ? 'eliminated' : 'open',
           tieBreakerAwayTeamPoints: undefined,
           tieBreakerHomeTeamPoints: undefined,
@@ -160,7 +168,7 @@ exports.buildPlayerModel = async(dbPlayer, database, loggedInUserId, schedule, t
       player.picks.push({
         week: i,
         locked: totalStrikes >= 3 ? true : !isEditable,
-        team: null,
+        team: undefined,
         status: totalStrikes >= 3 ? 'eliminated' : 'open',
         tieBreakerLocked: isTieBreakerLocked(i, tieBreakers, schedule, weekDeadline),
       });

@@ -1,10 +1,10 @@
-const nodemailer = require('nodemailer');
-const getGameData = require('../helpers/getGameData').getGameData;
+import * as nodemailer from 'nodemailer';
+import { getGameData } from '../helpers/getGameData';
 
 const gmailEmail = 'denisonstrike3@gmail.com';
 const gmailPassword = 'strike3_2018';
 
-const getEmailsForMissingPicks = async database => {
+const getEmailsForMissingPicks = async(database: any): Promise<Array<string>> => {
   const emails = [];
 
   const gameData = await getGameData({}, database, true, true);
@@ -23,7 +23,7 @@ const getEmailsForMissingPicks = async database => {
   return emails;
 };
 
-exports.handler = async database => {
+export const sendReminderEmailHandler = async(database: any) => {
   const subject = 'Strike 3 Reminder';
 
   const mailTransport = nodemailer.createTransport({

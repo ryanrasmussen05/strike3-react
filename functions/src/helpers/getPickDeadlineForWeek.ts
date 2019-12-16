@@ -1,8 +1,9 @@
-const moment = require('moment');
-require('moment-timezone');
+import * as moment from 'moment';
+import 'moment-timezone';
+import { Schedule } from '../../../types/Schedule';
 
 // return the Sunday @ Noon epoch for given week
-exports.getPickDeadlineForWeek = (week, schedule) => {
+export const getPickDeadlineForWeek = (week: number, schedule: Schedule): number => {
   const scheduleWeek = schedule[week];
 
   const deadlineGame = scheduleWeek.find(game => {

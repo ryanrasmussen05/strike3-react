@@ -1,12 +1,14 @@
-/* eslint-disable curly,one-var,complexity */
+/* eslint-disable curly,one-var,complexity,max-statements */
+import { TieBreakers } from '../../../types/TieBreaker';
+import { GameDataPlayer } from '../../../types/GameData';
 
-const weekHasTieBreaker = (weekNumber, tieBreakers) => {
+const weekHasTieBreaker = (weekNumber: number, tieBreakers: TieBreakers): boolean => {
   const tieBreaker = tieBreakers[weekNumber];
   const isTieBreakerValid = !!tieBreaker && typeof tieBreaker.awayTeamPoints !== 'undefined';
-  return isTieBreakerValid
+  return isTieBreakerValid;
 };
 
-const sortPlayersByTieBreaker = (playerA, playerB, eliminationWeek, tieBreakers) => {
+const sortPlayersByTieBreaker = (playerA: GameDataPlayer, playerB: GameDataPlayer, eliminationWeek: number, tieBreakers: TieBreakers) => {
   const game = tieBreakers[eliminationWeek];
   const awayTeamPoints = parseInt(game.awayTeamPoints, 10);
   const homeTeamPoints = parseInt(game.homeTeamPoints, 10);
@@ -23,44 +25,48 @@ const sortPlayersByTieBreaker = (playerA, playerB, eliminationWeek, tieBreakers)
   if (!playerAPick.tieBreakerHomeTeamPoints && !!playerBPick.tieBreakerHomeTeamPoints) return 1;
   if (!playerAPick.tieBreakerHomeTeamPoints && !playerBPick.tieBreakerHomeTeamPoints) return 0;
 
-  const playerAAwayTeamPoints = parseInt(playerAPick.tieBreakerAwayTeamPoints, 10);
-  const playerAHomeTeamPoints = parseInt(playerAPick.tieBreakerHomeTeamPoints, 10);
-  let playerAWinningTeam;
-  if (playerAHomeTeamPoints > playerAAwayTeamPoints) playerAWinningTeam = game.homeTeam;
-  if (playerAHomeTeamPoints < playerAAwayTeamPoints) playerAWinningTeam = game.awayTeam;
+  if (playerAPick.tieBreakerAwayTeamPoints && playerAPick.tieBreakerHomeTeamPoints && playerBPick.tieBreakerHomeTeamPoints && playerBPick.tieBreakerAwayTeamPoints) {
+    const playerAAwayTeamPoints = parseInt(playerAPick.tieBreakerAwayTeamPoints, 10);
+    const playerAHomeTeamPoints = parseInt(playerAPick.tieBreakerHomeTeamPoints, 10);
+    let playerAWinningTeam;
+    if (playerAHomeTeamPoints > playerAAwayTeamPoints) playerAWinningTeam = game.homeTeam;
+    if (playerAHomeTeamPoints < playerAAwayTeamPoints) playerAWinningTeam = game.awayTeam;
 
-  const playerBAwayTeamPoints = parseInt(playerBPick.tieBreakerAwayTeamPoints, 10);
-  const playerBHomeTeamPoints = parseInt(playerBPick.tieBreakerHomeTeamPoints, 10);
-  let playerBWinningTeam;
-  if (playerBHomeTeamPoints > playerBAwayTeamPoints) playerBWinningTeam = game.homeTeam;
-  if (playerBHomeTeamPoints < playerBAwayTeamPoints) playerBWinningTeam = game.awayTeam;
+    const playerBAwayTeamPoints = parseInt(playerBPick.tieBreakerAwayTeamPoints, 10);
+    const playerBHomeTeamPoints = parseInt(playerBPick.tieBreakerHomeTeamPoints, 10);
+    let playerBWinningTeam;
+    if (playerBHomeTeamPoints > playerBAwayTeamPoints) playerBWinningTeam = game.homeTeam;
+    if (playerBHomeTeamPoints < playerBAwayTeamPoints) playerBWinningTeam = game.awayTeam;
 
-  // if one player got winning team right and other player didn't (Phase 1)
-  if (playerAWinningTeam === winningTeam && playerBWinningTeam !== winningTeam) return -1;
-  if (playerAWinningTeam !== winningTeam && playerBWinningTeam === winningTeam) return 1;
+    // if one player got winning team right and other player didn't (Phase 1)
+    if (playerAWinningTeam === winningTeam && playerBWinningTeam !== winningTeam) return -1;
+    if (playerAWinningTeam !== winningTeam && playerBWinningTeam === winningTeam) return 1;
 
-  const playerAScore = Math.abs(playerAHomeTeamPoints - homeTeamPoints) + Math.abs(playerAAwayTeamPoints - awayTeamPoints);
-  const playerBScore = Math.abs(playerBHomeTeamPoints - homeTeamPoints) + Math.abs(playerBAwayTeamPoints - awayTeamPoints);
+    const playerAScore = Math.abs(playerAHomeTeamPoints - homeTeamPoints) + Math.abs(playerAAwayTeamPoints - awayTeamPoints);
+    const playerBScore = Math.abs(playerBHomeTeamPoints - homeTeamPoints) + Math.abs(playerBAwayTeamPoints - awayTeamPoints);
 
-  // compare total score offsets, lower wins (Phase 2)
-  if (playerAScore < playerBScore) return -1;
-  if (playerAScore > playerBScore) return 1;
+    // compare total score offsets, lower wins (Phase 2)
+    if (playerAScore < playerBScore) return -1;
+    if (playerAScore > playerBScore) return 1;
 
-  // compare score offsets from winning team (Phase 3)
-  const winningSidePoints = homeTeamPoints > awayTeamPoints ? 'tieBreakerHomeTeamPoints' : 'tieBreakerAwayTeamPoints';
-  const playerAWinningTeamPoints = parseInt(playerAPick[winningSidePoints], 10);
-  const playerBWinningTeamPoints = parseInt(playerBPick(winningSidePoints), 10);
-  const actualWinningTeamPoints = homeTeamPoints > awayTeamPoints ? homeTeamPoints : awayTeamPoints;
-  const playerADifference = Math.abs(playerAWinningTeamPoints - actualWinningTeamPoints);
-  const playerBDifference = Math.abs(playerBWinningTeamPoints - actualWinningTeamPoints);
-  if (playerADifference < playerBDifference) return -1;
-  if (playerBDifference < playerADifference) return 1;
+    // compare score offsets from winning team (Phase 3)
+    const winningSidePoints = homeTeamPoints > awayTeamPoints ? 'tieBreakerHomeTeamPoints' : 'tieBreakerAwayTeamPoints';
+    const optA = playerAPick[winningSidePoints] || '';
+    const optB = playerBPick[winningSidePoints] || '';
+    const playerAWinningTeamPoints = parseInt(optA, 10);
+    const playerBWinningTeamPoints = parseInt(optB, 10);
+    const actualWinningTeamPoints = homeTeamPoints > awayTeamPoints ? homeTeamPoints : awayTeamPoints;
+    const playerADifference = Math.abs(playerAWinningTeamPoints - actualWinningTeamPoints);
+    const playerBDifference = Math.abs(playerBWinningTeamPoints - actualWinningTeamPoints);
+    if (playerADifference < playerBDifference) return -1;
+    if (playerBDifference < playerADifference) return 1;
+  }
 
   return 0;
 };
 
 // determine all player ranks and sort by rank
-exports.rankPlayers = async(players, tieBreakers, week) => {
+export const rankPlayers = async(players: Array<GameDataPlayer>, tieBreakers: TieBreakers, week: number) => {
 
   // first sort player
   players.sort((a, b) => {

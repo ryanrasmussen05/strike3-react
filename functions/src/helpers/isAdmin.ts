@@ -1,5 +1,5 @@
 // check if logged in player is admin
-exports.isAdmin = async(context, database) => {
+export const isAdmin = async(context: any, database: any): Promise<boolean> => {
 
   const loggedInUserId = context.auth ? context.auth.uid : null;
 

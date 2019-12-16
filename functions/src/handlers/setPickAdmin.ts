@@ -1,9 +1,11 @@
 /* eslint-disable complexity */
-const functions = require('firebase-functions');
-const isAdmin = require('../helpers/isAdmin').isAdmin;
-const updateCurrentWeek = require('../helpers/updateCurrentWeek').updateCurrentWeek;
+import * as functions from 'firebase-functions';
+import { isAdmin } from '../helpers/isAdmin';
+import { updateCurrentWeek } from '../helpers/updateCurrentWeek';
+import { Pick, PickSubmitPayload } from '../../../types/Pick';
+import { GameData } from '../../../types/GameData';
 
-exports.handler = async(pick, context, database) => {
+export const setPickAdminHandler = async(pick: PickSubmitPayload, context: any, database: any): Promise<GameData> => {
   const { team, week, status, userId, tieBreakerHomeTeamPoints, tieBreakerAwayTeamPoints } = pick;
 
   const isUserAdmin = await isAdmin(context, database);
@@ -22,12 +24,12 @@ exports.handler = async(pick, context, database) => {
 
   // check if user has already picked this team
   const allExistingPickSnapshot = await database.ref(allPicksPath).once('value');
-  const allExistingPicks = allExistingPickSnapshot.val();
+  const allExistingPicks: Array<Pick> = allExistingPickSnapshot.val();
 
   if (!!allExistingPicks) {
     delete allExistingPicks[week]; // so a player can resubmit the same pick
 
-    let isAlreadyPicked = Object.values(allExistingPicks).some(oldPick => oldPick.team === team);
+    let isAlreadyPicked = Object.values(allExistingPicks).some((oldPick: Pick) => oldPick.team === team);
 
     // allow NP to be picked multiple times
     if (team === 'NP') {
@@ -39,7 +41,7 @@ exports.handler = async(pick, context, database) => {
     }
   }
 
-  const validatedPick = { team, status };
+  const validatedPick: Pick = { team, status };
 
   if (tieBreakerHomeTeamPoints || tieBreakerAwayTeamPoints) {
     validatedPick.tieBreakerHomeTeamPoints = tieBreakerHomeTeamPoints;

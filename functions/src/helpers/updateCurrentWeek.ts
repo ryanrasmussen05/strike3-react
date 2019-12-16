@@ -1,7 +1,8 @@
-const getGameData = require('./getGameData').getGameData;
+import { getGameData } from './getGameData';
+import { GameData } from '../../../types/GameData';
 
 // returns the first week number that has an open pick status
-const getActiveWeek = gameData => {
+const getActiveWeek = (gameData: GameData): number => {
   if (!gameData.players || gameData.players.length === 0) {
     return 1;
   }
@@ -20,7 +21,7 @@ const getActiveWeek = gameData => {
 };
 
 // if all results are set for current week, increment the week
-exports.updateCurrentWeek = async(context, database) => {
+export const updateCurrentWeek = async(context: any, database: any): Promise<GameData> => {
   const gameData = await getGameData(context, database, true);
 
   const currentWeek = gameData.week;

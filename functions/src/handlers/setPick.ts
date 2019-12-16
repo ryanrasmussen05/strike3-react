@@ -1,10 +1,12 @@
 /* eslint-disable complexity,max-statements */
-const functions = require('firebase-functions');
-const getGameDataFunction = require('./getGameData').handler;
-const getGameTime = require('../helpers/getGameTime').getGameTime;
-const getPickDeadlineForWeek = require('../helpers/getPickDeadlineForWeek').getPickDeadlineForWeek;
+import * as functions from 'firebase-functions';
+import { getGameDataHandler } from './getGameData';
+import { getGameTime } from '../helpers/getGameTime';
+import { getPickDeadlineForWeek } from '../helpers/getPickDeadlineForWeek';
+import { Pick, PickSubmitPayload } from '../../../types/Pick';
+import { GameData } from '../../../types/GameData';
 
-exports.handler = async(pick, context, database) => {
+export const setPickHandler = async(pick: PickSubmitPayload, context: any, database: any): Promise<GameData> => {
   const { team, week, userId } = pick;
 
   const loggedInUserId = context.auth ? context.auth.uid : null;
@@ -50,7 +52,7 @@ exports.handler = async(pick, context, database) => {
 
   // check if user has already picked this team
   const allExistingPickSnapshot = await database.ref(allPicksPath).once('value');
-  const allExistingPicks = allExistingPickSnapshot.val();
+  const allExistingPicks: Array<Pick> = allExistingPickSnapshot.val();
 
   if (!!allExistingPicks) {
     delete allExistingPicks[week]; // so a player can resubmit the same pick
@@ -73,7 +75,7 @@ exports.handler = async(pick, context, database) => {
   await database.ref(pickPath).update({ team, status: 'open' });
 
   // refresh gameData
-  const gameData = await getGameDataFunction(context, database);
+  const gameData = await getGameDataHandler(context, database);
 
   return gameData;
 };

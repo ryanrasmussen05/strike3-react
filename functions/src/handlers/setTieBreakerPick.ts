@@ -1,9 +1,11 @@
-const functions = require('firebase-functions');
-const getGameDataFunction = require('./getGameData').handler;
-const getGameTime = require('../helpers/getGameTime').getGameTime;
-const getPickDeadlineForWeek = require('../helpers/getPickDeadlineForWeek').getPickDeadlineForWeek;
+import * as functions from 'firebase-functions';
+import { getGameDataHandler } from './getGameData';
+import { getGameTime } from '../helpers/getGameTime';
+import { getPickDeadlineForWeek } from '../helpers/getPickDeadlineForWeek';
+import { GameData } from '../../../types/GameData';
+import { TieBreakerSubmitPayload } from '../../../types/TieBreaker';
 
-exports.handler = async(tieBreakerPick, context, database) => {
+export const setTieBreakerPickHandler = async(tieBreakerPick: TieBreakerSubmitPayload, context: any, database: any): Promise<GameData> => {
   const { week, userId, tieBreakerHomeTeamPoints, tieBreakerAwayTeamPoints } = tieBreakerPick;
 
   const loggedInUserId = context.auth ? context.auth.uid : null;
@@ -46,7 +48,7 @@ exports.handler = async(tieBreakerPick, context, database) => {
   await database.ref(pickPath).update({ tieBreakerHomeTeamPoints, tieBreakerAwayTeamPoints });
 
   // refresh gameData
-  const gameData = await getGameDataFunction(context, database);
+  const gameData = await getGameDataHandler(context, database);
 
   return gameData;
 };

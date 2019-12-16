@@ -1,11 +1,11 @@
-const nodemailer = require('nodemailer');
-const getGameData = require('../helpers/getGameData').getGameData;
+import * as nodemailer from 'nodemailer';
+import { getGameData } from '../helpers/getGameData';
 
 const gmailEmail = 'denisonstrike3@gmail.com';
 const gmailPassword = 'strike3_2018';
 
 // TODO this will need tie breaker added
-const getPicksTableString = async database => {
+const getPicksTableString = async(database: any) => {
   const gameData = await getGameData({}, database, true, true);
   const currentWeek = gameData.week;
 
@@ -42,17 +42,17 @@ const getPicksTableString = async database => {
   return tableString;
 };
 
-const getPlayerEmails = async database => {
+const getPlayerEmails = async(database: any) => {
   const gameData = await getGameData({}, database, true, true);
   return gameData.players.map(player => player.email);
 };
 
-const getCurrentWeek = async database => {
+const getCurrentWeek = async(database: any) => {
   const gameData = await getGameData({}, database, true, true);
   return gameData.week;
 };
 
-exports.handler = async database => {
+export const sendPicksLockedEmailHandler = async(database: any) => {
   const mailTransport = nodemailer.createTransport({
     service: 'gmail',
     auth: {

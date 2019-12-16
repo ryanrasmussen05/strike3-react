@@ -1,9 +1,10 @@
-const nodemailer = require('nodemailer');
+import * as nodemailer from 'nodemailer';
+import { Email } from '../../../types/Email';
 
 const gmailEmail = 'denisonstrike3@gmail.com';
 const gmailPassword = 'strike3_2018';
 
-exports.handler = async emailData => {
+export const sendEmailHandler = async(emailData: Email) => {
   const mailTransport = nodemailer.createTransport({
     service: 'gmail',
     auth: {
