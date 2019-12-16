@@ -84,6 +84,7 @@ export const buildPlayerModel = async(dbPlayer: Player, database: any, loggedInU
     picks: [],
     strikes: 0,
     eliminationWeek: 100,
+    email: '',
   };
 
   if (isAdmin) {

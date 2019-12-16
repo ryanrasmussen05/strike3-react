@@ -16,5 +16,5 @@ export const getPickDeadlineForWeek = (week: number, schedule: Schedule): number
     return isSunday && isNoon;
   });
 
-  return deadlineGame.time;
+  return deadlineGame ? deadlineGame.time : Date.now();
 };
