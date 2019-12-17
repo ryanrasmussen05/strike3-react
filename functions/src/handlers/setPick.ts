@@ -39,15 +39,13 @@ export const setPickHandler = async(pick: PickSubmitPayload, context: any, datab
   const existingPick = existingPickSnapshot.val();
 
   // if the user has an existing pick, and that game has started, throw an error
-  if (existingPick && existingPick.team !== 'NP') {
+  if (existingPick && existingPick.team && existingPick.team !== 'NP') {
     const currentTime = Date.now();
     const existingPickTime = getGameTime(schedule, week, existingPick.team);
 
     if (currentTime > existingPickTime) {
       throw new functions.https.HttpsError('out-of-range', 'existing pick game started');
     }
-
-    console.log(schedule);
   }
 
   // check if user has already picked this team
