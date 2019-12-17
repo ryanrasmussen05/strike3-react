@@ -29,7 +29,7 @@ export const getGameData = async(context: any, database: any, adminVersion: bool
   const dbPlayers = playersSnapshot.val();
 
   const tieBreakersSnapshot = await database.ref(tieBreakersPath).once('value');
-  const tieBreakers = tieBreakersSnapshot.val();
+  const tieBreakers = tieBreakersSnapshot.val() || [];
 
   const scheduleSnapshot = await database.ref(schedulePath).once('value');
   const schedule = scheduleSnapshot.val();
