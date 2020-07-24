@@ -11,7 +11,7 @@ export const columns = [
     dataIndex: 'rank',
     key: 'rank',
     align: 'center',
-    width: 20,
+    width: 60,
     render: rank => <div className="rank">{ rank }</div>,
   },
   {

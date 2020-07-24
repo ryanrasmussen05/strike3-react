@@ -4,6 +4,10 @@ import { Schedule } from '../../../types/Schedule';
 
 // return the Sunday @ Noon epoch for given week
 export const getPickDeadlineForWeek = (week: number, schedule: Schedule): number => {
+  if (!schedule) {
+    return Date.now() + 999999999999;
+  }
+
   const scheduleWeek = schedule[week];
 
   const deadlineGame = scheduleWeek.find(game => {

@@ -65,7 +65,7 @@ export const AllTeams = [
   { name: 'Seattle Seahawks', abbreviation: 'SEA' },
   { name: 'Tampa Bay Buccaneers', abbreviation: 'TB' },
   { name: 'Tennessee Titans', abbreviation: 'TEN' },
-  { name: 'Washington Redskins', abbreviation: 'WAS' },
+  { name: 'Washington Football Team', abbreviation: 'WAS' },
 ];
 
 export const AllTeamsAdmin = [{ name: 'No Pick', abbreviation: 'NP' }].concat(AllTeams);

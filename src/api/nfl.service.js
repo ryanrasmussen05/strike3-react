@@ -1,7 +1,7 @@
 import moment from 'moment';
 import 'moment-timezone';
 
-const nflScheduleUrl = 'https://api.mysportsfeeds.com/v1.1/pull/nfl/2019-2020-regular/full_game_schedule.json';
+const nflScheduleUrl = 'https://api.mysportsfeeds.com/v1.1/pull/nfl/2020-2021-regular/full_game_schedule.json';
 const nflApiAuth = 'rlras05:strike3';
 
 const headers = new Headers({

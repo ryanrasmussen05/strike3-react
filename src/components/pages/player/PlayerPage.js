@@ -68,7 +68,7 @@ class PlayerPage extends React.Component {
 
         { !this.props.loggedInUser &&
         <div className="welcome-message">
-          <div className="welcome-header">Welcome to Strike 3 2019</div>
+          <div className="welcome-header">Welcome to Strike 3 2020</div>
           <div className="welcome-text">Click the <span className="bold">Sign In</span> button to sign in or create an account</div>
         </div>
         }
